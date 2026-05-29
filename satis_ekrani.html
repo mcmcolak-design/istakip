@@ -205,10 +205,10 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <!-- Satır tablosu -->
         <div id="satir-tablosu"></div>
         <!-- Alt butonlar -->
-        <div style="display:flex;gap:6px;margin-top:4px">
-          <button class="sr-ekle" style="flex:1" onclick="srEkle()"><i class="ti ti-plus"></i> Satır Ekle</button>
-          <button class="sr-ekle" style="flex:1;border-color:#7c3aed;color:#7c3aed" onclick="sutunEkle()"><i class="ti ti-columns"></i> Sütun Ekle</button>
-          <button class="sr-ekle" style="flex:1;border-color:#2e7d52;color:#2e7d52" onclick="sablonKaydet()"><i class="ti ti-device-floppy"></i> Kaydet</button>
+        <div style="display:flex;gap:6px;margin-top:4px;align-items:center">
+          <button class="sr-ekle" style="flex:1" onclick="srEkle()"><i class="ti ti-plus"></i> Satır</button>
+          <button class="sr-ekle" style="flex:1;border-color:#7c3aed;color:#7c3aed" onclick="sutunEkle()"><i class="ti ti-columns"></i> Sütun</button>
+          <button id="sablon-kaydet-btn" onclick="sablonKaydet()" style="background:none;border:1.5px solid #2e7d52;border-radius:7px;padding:5px 8px;color:#2e7d52;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;display:flex;align-items:center;gap:3px"><i class="ti ti-device-floppy" style="font-size:13px"></i></button>
         </div>
       </div>
     </div>
@@ -217,7 +217,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
     <div class="card oz-item" id="oz-tutar" style="position:relative;overflow:visible">
       <div class="ttr-wrap">
         <span class="ttr-pre">₺</span>
-        <input class="ttr-inp" type="number" id="ttr" placeholder="Toplam Tutar" style="pointer-events:auto" oninput="ozGunc()">
+        <input class="ttr-inp" type="number" id="ttr" placeholder="Toplam Tutar" readonly style="cursor:default;background:#f0fff4" oninput="ozGunc()">
       </div>
     </div>
 
@@ -385,7 +385,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
     <!-- Kategori Gider -->
     <div class="card oz-item-g" id="ozg-kategori" style="position:relative">
       <div class="kat-grid" id="kat-grid-g">
-        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Stok Alışı')" data-oz-kat-g="Stok_Alisi"><div class="kat-ico kc2">📦</div><span class="kat-lbl">Stok Alışı</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Stok Alışı')" data-oz-kat-g="Stok_Alisi" style="position:relative"><div class="kat-ico kc2">📦</div><span class="kat-lbl">Stok Alışı</span></div>
         <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Hizmet Alımı')" data-oz-kat-g="Hizmet_Alimi"><div class="kat-ico kc3">🔧</div><span class="kat-lbl">Hizmet Alımı</span></div>
         <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Kira')" data-oz-kat-g="Kira"><div class="kat-ico kc4">🏠</div><span class="kat-lbl">Kira</span></div>
         <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Fatura / Aidat')" data-oz-kat-g="Fatura_Aidat"><div class="kat-ico kc6">📄</div><span class="kat-lbl">Fatura / Aidat</span></div>
@@ -1016,8 +1016,8 @@ function katSecG(el,ad){
   }
 
   SEL_KAT_G=ad;
-  // Her seçimde taze başla
-  delete KAT_DURUM_G[ad];
+  // Her seçimde TAMAMEN taze başla - sablon yükleme
+  KAT_DURUM_G[ad]={ekSutunlar:[{ad:''}],satirSayisi:2,degerler:[{c0:'',ek:[],tutar:''},{c0:'',ek:[],tutar:''}]};
   document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){
     k.classList.remove('on');
     k.style.display=(k===el)?'':'none';
