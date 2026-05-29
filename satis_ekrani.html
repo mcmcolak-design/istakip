@@ -217,7 +217,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
     <div class="card oz-item" id="oz-tutar" style="position:relative;overflow:visible">
       <div class="ttr-wrap">
         <span class="ttr-pre">₺</span>
-        <input class="ttr-inp" type="number" id="ttr" placeholder="Toplam Tutar" oninput="ozGunc()">
+        <input class="ttr-inp" type="number" id="ttr" placeholder="Toplam Tutar" style="pointer-events:auto" oninput="ozGunc()">
       </div>
     </div>
 
@@ -401,7 +401,8 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <div style="display:flex;gap:6px;margin-top:4px">
           <button class="sr-ekle" style="flex:1" onclick="srEkleG()"><i class="ti ti-plus"></i> Satır Ekle</button>
           <button class="sr-ekle" style="flex:1;border-color:#7c3aed;color:#7c3aed" onclick="sutunEkleG()"><i class="ti ti-columns"></i> Sütun Ekle</button>
-          <button class="sr-ekle" style="flex:1;border-color:#2e7d52;color:#2e7d52" onclick="sablonKaydetG()"><i class="ti ti-device-floppy"></i> Kaydet</button>
+          <button class="sr-ekle" style="flex:1;border-color:#2e7d52;color:#2e7d52" onclick="sablonKaydetG()"><i class="ti ti-device-floppy"></i></button>
+        <button class="sr-ekle" style="flex:1;border-color:#7c3aed;color:#7c3aed" onclick="stokGorModal()"><i class="ti ti-list-search"></i> Kayıtlar</button><i class="ti ti-device-floppy"></i> Kaydet</button>
         </div>
       </div>
     </div>
@@ -873,43 +874,40 @@ function srSil(b){ b.closest('.sr').remove(); }
 var KAT_LABELS={};
 function katSec(el,ad){
   if(DUZ) return;
-  var satirlarDiv = document.getElementById('satirlar');
-  var ttrEl = document.getElementById('ttr');
+  var sarDiv=document.getElementById('satirlar');
+  var ttrEl=document.getElementById('ttr');
 
-  // Tekrar tıklanınca iptal
   if(SEL_KAT===ad){
     SEL_KAT=null; el.classList.remove('on');
-    document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){k.style.display='';});
-    satirlarDiv.classList.remove('ac');
+    document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){k.style.display='';k.classList.remove('on');});
+    sarDiv.classList.remove('ac');
     var sa0=document.getElementById('stok-sec-alan'); if(sa0) sa0.style.display='none';
-    ttrEl.readOnly=false; ttrEl.style.color='#2e7d52'; ttrEl.style.background=''; ttrEl.value=''; if(typeof SEPET!=='undefined') SEPET=[];
+    ttrEl.readOnly=false; ttrEl.style.color='#2e7d52'; ttrEl.style.background=''; ttrEl.value='';
+    if(typeof SEPET!=='undefined') SEPET=[];
     return;
   }
 
   SEL_KAT=ad;
-  delete KAT_DURUM[ad];
-  // Diğer kategorileri gizle, sadece seçileni göster
   document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){
     k.classList.remove('on');
-    k.style.display = (k === el) ? '' : 'none';
+    k.style.display=(k===el)?'':'none';
   });
   el.classList.add('on');
 
+  var sa=document.getElementById('stok-sec-alan');
+
   if(ad==='Stoklu Satış'){
-    satirlarDiv.classList.remove('ac');
-    var sa=document.getElementById('stok-sec-alan');if(sa){sa.style.display='flex';stokAc();}
-    ttrEl.readOnly=false;ttrEl.style.color='#2e7d52';ttrEl.style.background='';
+    sarDiv.classList.remove('ac');
+    if(sa){sa.style.display='flex'; stokAc();}
+    ttrEl.readOnly=false; ttrEl.style.color='#2e7d52'; ttrEl.style.background='';
     return;
   }
-  var sa2=document.getElementById('stok-sec-alan');if(sa2)sa2.style.display='none';
-  else{
-    satirlarDiv.classList.add('ac');
-    ttrEl.readOnly = true;
-    ttrEl.style.color = '#888';
-    ttrEl.style.background = '#f5f5f5';
-    tablo(ad);
-    satirTopla();
-  }
+
+  if(sa) sa.style.display='none';
+  sarDiv.classList.add('ac');
+  ttrEl.readOnly=true; ttrEl.style.color='#888'; ttrEl.style.background='#f5f5f5';
+  tablo(ad);
+  satirTopla();
 }
 
 function safeId(s){ return s.replace(/[^a-zA-Z0-9À-ɏ]/g,'_'); }
@@ -1008,26 +1006,40 @@ function katSecG(el,ad){
   if(DUZ_G) return;
   var sarDiv=document.getElementById('satirlar-g');
   var ttrEl=document.getElementById('ttr-g');
+
   if(SEL_KAT_G===ad){
     SEL_KAT_G=null; el.classList.remove('on');
-    document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.style.display='';});
-    sarDiv.classList.remove('ac'); ttrEl.readOnly=false; ttrEl.style.color='#c0392b'; ttrEl.style.background=''; ttrEl.value='';
+    document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.style.display='';k.classList.remove('on');});
+    sarDiv.classList.remove('ac');
+    ttrEl.readOnly=false; ttrEl.style.color='#c0392b'; ttrEl.style.background=''; ttrEl.value='';
     return;
   }
+
   SEL_KAT_G=ad;
+  // Her seçimde taze başla
   delete KAT_DURUM_G[ad];
-  document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.classList.remove('on');k.style.display=(k===el)?'':'none';});
+  document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){
+    k.classList.remove('on');
+    k.style.display=(k===el)?'':'none';
+  });
   el.classList.add('on');
   sarDiv.classList.add('ac');
   ttrEl.readOnly=true; ttrEl.style.color='#888'; ttrEl.style.background='#f5f5f5';
-  tabloG(ad); satirToplaG();
+  tabloG(ad);
+  satirToplaG();
 }
 
 function satirToplaG(){
   if(!SEL_KAT_G) return;
   var top=0;
-  document.querySelectorAll('#satir-tablosu-g .sr input[type="number"]').forEach(function(inp){top+=parseFloat(inp.value||0);});
-  var el=document.getElementById('ttr-g'); el.value=top>0?top.toFixed(2):'';
+  document.querySelectorAll('#satir-tablosu-g .sr').forEach(function(row){
+    var inp=row.querySelector('input[type="number"]'); if(inp) top+=parseFloat(inp.value||0);
+  });
+  var el=document.getElementById('ttr-g');
+  el.value=top>0?top.toFixed(2):'';
+  el.readOnly=true;
+  el.style.color='#888';
+  el.style.background='#f5f5f5';
   ozGuncG();
 }
 
@@ -1218,6 +1230,17 @@ function stokSepetGunc(){
   var ttr=document.getElementById('ttr');if(ttr){ttr.value=top>0?top.toFixed(2):'';if(typeof ozGunc==='function')ozGunc();}
 }
 function stokTemizle(){if(!confirm('Tüm stok kayıtları silinsin mi?'))return;localStorage.removeItem('KAYITLAR_GIDER');var m=document.getElementById('stok-modal');if(m)m.style.display='none';stokListeGunc('');alert('Temizlendi!');}
+
+
+function stokGorModal(){
+  // Stok modal'ı aç ama sadece Stok Alışları göster
+  var m=document.getElementById('stok-modal');
+  if(!m) return;
+  m.style.display='flex';
+  stokListeGunc('');
+  var a=document.getElementById('stok-ara');
+  if(a){a.value='';a.focus();}
+}
 
 </script>
 
