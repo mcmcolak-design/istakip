@@ -74,6 +74,7 @@ tbody td.sep{border-right:2px solid #e0e0e0}
   <span class="hdr-t">📋 Kayıtlar</span>
   <i class="ti ti-file-export" onclick="disaAktar()" title="CSV"></i>
   <i class="ti ti-trash" onclick="tumunuSil()" title="Sil"></i>
+  <button onclick="stokTemizle()" style="background:rgba(255,255,255,.2);border:none;border-radius:6px;padding:4px 8px;color:#fff;font-size:10px;font-weight:700;cursor:pointer">🗑 Stok Sıfırla</button>
   <button id="duz-btn" onclick="togDuz()" style="background:#4a6274;border:none;border-radius:7px;padding:5px 10px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">⚙️ Sütunları Özelleştir</button>
 </div>
 <div class="tabs">
@@ -501,5 +502,13 @@ function sutunBtnEkle(){
 function togKol(ad,btn){ var a=kolAyar(); a[ad]=a[ad]==='1'?'0':'1'; localStorage.setItem(COL_KEY,JSON.stringify(a)); kolUygula(); btn.className='oz-btn'+(a[ad]==='1'?' goster':''); btn.textContent=a[ad]==='1'?'👁 Göster':'✕ Gizle'; }
 window.addEventListener('load',function(){ kolUygula(); tabUygula(); });
 
+
+function stokTemizle(){
+  if(!confirm("Tüm stok ve gider kayıtları silinsin mi?")) return;
+  localStorage.removeItem('KAYITLAR_GIDER');
+  localStorage.removeItem('KAYITLAR_SATIS');
+  alert("Temizlendi!");
+  listele();
+}
 </script>
 </body></html>
