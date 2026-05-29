@@ -23,9 +23,9 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 .ozel-inp{flex:1;border:1.5px solid #e0e0e0;border-radius:6px;padding:4px 6px;font-size:10px;color:#333;outline:none;min-width:0}
 .kayit-pill{display:inline-flex;align-items:center;gap:4px;background:#f90;border:none;border-radius:16px;padding:5px 9px;color:#fff;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap}
 .scrl{overflow-y:auto;max-height:540px;padding:7px 9px 18px;display:flex;flex-direction:column;gap:6px;align-items:stretch}
-.card{background:#fff;border-radius:10px;padding:8px 10px;border:.5px solid #e0e0e0;align-self:stretch}
+.card{background:#fff;border-radius:10px;padding:8px 10px;border:1.5px solid #c8d0d8;align-self:stretch}
 .pill-wrap{position:relative}
-.pill-btn{width:100%;background:#fafafa;border:1.5px solid #e0e0e0;border-radius:8px;padding:7px 9px;font-size:12px;color:#555;cursor:pointer;display:flex;align-items:center;justify-content:space-between;text-align:left}
+.pill-btn{width:100%;background:#fafafa;border:1.5px solid #e0e0e0;border-radius:8px;padding:7px 9px;font-size:12px;color:#555;cursor:pointer;display:flex;align-items:center;justify-content:space-between;text-align:left;font-weight:700}
 .pill-btn.ac{border-color:#4a7c8e}
 .pdrop{display:none;position:absolute;top:calc(100%+3px);left:0;right:0;background:#fff;border-radius:9px;box-shadow:0 5px 16px rgba(0,0,0,.12);z-index:50;overflow:hidden;max-height:190px;overflow-y:auto}
 .pdrop.ac{display:block}
@@ -36,7 +36,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 .popt.new{color:#4a7c8e;font-weight:700}.popt.sel{background:#edf4f7;color:#4a7c8e}
 .yform{display:none;flex-direction:column;gap:5px;margin-top:6px;padding-top:6px;border-top:.5px solid #f0f0f0}
 .yform.ac{display:flex}
-.inp{width:100%;border:1.5px solid #e0e0e0;border-radius:8px;padding:6px 9px;font-size:12px;outline:none;background:#fafafa;color:#333}
+.inp{width:100%;border:1.5px solid #e0e0e0;border-radius:8px;padding:6px 9px;font-size:12px;outline:none;background:#fafafa;color:#333;font-weight:600}
 .inp:focus{border-color:#4a7c8e}
 .frow{display:flex;gap:5px}
 .frow .inp{flex:1}
@@ -69,7 +69,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 .op{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:8px;background:#fafafa;border:1.5px solid #ebebeb;margin-bottom:4px;cursor:pointer}
 .op.on{border-color:#4a7c8e;background:#edf4f7}
 .op-ico{font-size:13px;flex-shrink:0}
-.op-lbl{font-size:11px;font-weight:600;color:#555;flex:1}
+.op-lbl{font-size:11px;font-weight:700;color:#555;flex:1}
 .op.on .op-lbl{color:#2c3e50}
 .od-det{display:none;padding:4px 1px 2px}
 .od-det.ac{display:block}
@@ -170,8 +170,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <div class="kat-item" onclick="katSec(this,'Tamir / Bakım')" data-oz-kat="Tamir_Bakım"><div class="kat-ico kc8">⚙️</div><span class="kat-lbl">Tamir / Bakım</span></div>
         <div class="kat-item" id="kat-ekle-btn" onclick="if(!DUZ)katEkleModal()"><div class="kat-ico kc-add" style="font-size:22px;color:#f90">+</div><span class="kat-lbl" style="color:#c07000">Ekle</span></div>
       </div>
-      <div class="satirlar" id="satirlar">
-        <!-- Stoklu Satış -->
+            <!-- Stoklu Satış -->
       <div id="stok-sec-alan" style="display:none;flex-direction:column;gap:6px;margin-top:8px">
         <button class="pill-btn" onclick="togStokModal()">
           <span>📦 Stok Seç</span>
@@ -198,18 +197,14 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
           <button onclick="stokTemizle()" style="margin-top:8px;background:none;border:none;color:#e74c3c;font-size:11px;font-weight:600;cursor:pointer">🗑 Tüm Stok Kayıtlarını Sil</button>
         </div>
       </div>
-      <!-- Sütun başlıkları -->
+<div class="satirlar" id="satirlar">
+        <!-- Sütun başlıkları -->
         <div id="sutun-basliklar" style="display:flex;gap:5px;align-items:center;margin-bottom:4px;padding:0 26px 0 0">
           <!-- dinamik -->
         </div>
         <!-- Satır tablosu -->
         <div id="satir-tablosu"></div>
         <!-- Alt butonlar -->
-        <div style="display:flex;gap:6px;margin-top:4px;align-items:center">
-          <button class="sr-ekle" style="flex:1" onclick="srEkle()"><i class="ti ti-plus"></i> Satır</button>
-          <button class="sr-ekle" style="flex:1;border-color:#7c3aed;color:#7c3aed" onclick="sutunEkle()"><i class="ti ti-columns"></i> Sütun</button>
-          <button id="sablon-kaydet-btn" onclick="sablonKaydet()" style="background:none;border:1.5px solid #2e7d52;border-radius:7px;padding:5px 8px;color:#2e7d52;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;display:flex;align-items:center;gap:3px"><i class="ti ti-device-floppy" style="font-size:13px"></i></button>
-        </div>
       </div>
     </div>
 
@@ -235,7 +230,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         </button>
         <div class="pdrop" id="ms-drop">
           <div class="psrch"><input placeholder="🔍 Ara..." id="ms-ara" oninput="filtre('ms')"></div>
-          <div class="popt new" onclick="togYF('ms')"><i class="ti ti-plus"></i> Yeni Müşteri Ekle</div>
+          <div class="popt new" onclick="togYF('ms')">Yeni Müşteri Ekle</div>
           <div id="ms-liste">
             <div class="popt" onclick="pSec('ms',this,'Online / Platform')">🌐 Online / Platform</div>
           </div>
@@ -269,14 +264,13 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 
     <!-- Fatura -->
     <div class="card oz-item" id="oz-fatura" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:6px">🧾 Fatura Bilgisi <span style="font-style:italic">(isteğe bağlı)</span></div>
-      <div class="frow" style="margin-bottom:6px">
+            <div class="frow" style="margin-bottom:6px">
         <input class="inp" placeholder="🧾 Fatura No (isteğe bağlı)" style="flex:1">
         <input class="inp" type="date" style="flex:1">
       </div>
       <div class="dosya-ekle">
-        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'fatura-gelir-dosya')"><i class="ti ti-photo" style="font-size:14px"></i> Fotoğraf</label>
-        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx,.jpg,.png" multiple onchange="dosyaEkle(this,'fatura-gelir-dosya')"><i class="ti ti-file" style="font-size:14px"></i> Belge</label>
+        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'fatura-gelir-dosya')">Fotoğraf</label>
+        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx,.jpg,.png" multiple onchange="dosyaEkle(this,'fatura-gelir-dosya')">Belge</label>
       </div>
       <div class="dosya-onizleme" id="fatura-gelir-dosya"></div>
       
@@ -292,7 +286,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         </button>
         <div class="pdrop" id="kg-drop">
           <div class="psrch"><input placeholder="🔍 Ara..." id="kg-ara" oninput="filtre('kg')"></div>
-          <div class="popt new" onclick="togYF('kg')"><i class="ti ti-plus"></i> Yeni Firma Ekle</div>
+          <div class="popt new" onclick="togYF('kg')">Yeni Firma Ekle</div>
           <div id="kg-liste">
             <div class="popt" onclick="pSec('kg',this,'Yurtiçi Kargo')">🚚 Yurtiçi Kargo</div>
             <div class="popt" onclick="pSec('kg',this,'MNG Kargo')">🚚 MNG Kargo</div>
@@ -311,8 +305,8 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <input class="inp" placeholder="Takip No" id="kg-takip" style="flex:1.5">
       </div>
       <div class="dosya-ekle">
-        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'kg-d')"><i class="ti ti-photo" style="font-size:13px"></i> Fotoğraf</label>
-        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'kg-d')"><i class="ti ti-file" style="font-size:13px"></i> Belge</label>
+        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'kg-d')">Fotoğraf</label>
+        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'kg-d')">Belge</label>
       </div>
       <div class="dosya-onizleme" id="kg-d"></div>
       
@@ -396,10 +390,11 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
       </div>
       <!-- Satır/Sütun Tablosu -->
       <div class="satirlar" id="satirlar-g">
-        <div id="sutun-basliklar-g" style="display:flex;gap:5px;align-items:center;margin-bottom:4px;padding:0 26px 0 0"></div>
+        <button id="stok-gor-btn" onclick="stokGorModal()" style="display:none;align-items:center;gap:5px;background:#f5f0ff;border:1.5px solid #7c3aed;border-radius:8px;padding:6px 10px;color:#7c3aed;font-size:11px;font-weight:700;cursor:pointer;margin-bottom:6px;width:100%"><i class="ti ti-list-search" style="font-size:13px"></i> Kayıtlı Stokları Görüntüle</button>
+      <div id="sutun-basliklar-g" style="display:flex;gap:5px;align-items:center;margin-bottom:4px;padding:0 26px 0 0"></div>
         <div id="satir-tablosu-g"></div>
         <div style="display:flex;gap:6px;margin-top:4px">
-          <button class="sr-ekle" style="flex:1" onclick="srEkleG()"><i class="ti ti-plus"></i> Satır Ekle</button>
+          <button class="sr-ekle" style="flex:1" onclick="srEkleG()">Satır Ekle</button>
           <button class="sr-ekle" style="flex:1;border-color:#7c3aed;color:#7c3aed" onclick="sutunEkleG()"><i class="ti ti-columns"></i> Sütun Ekle</button>
           <button class="sr-ekle" style="flex:1;border-color:#2e7d52;color:#2e7d52" onclick="sablonKaydetG()"><i class="ti ti-device-floppy"></i></button>
         <button class="sr-ekle" style="flex:1;border-color:#7c3aed;color:#7c3aed" onclick="stokGorModal()"><i class="ti ti-list-search"></i> Kayıtlar</button><i class="ti ti-device-floppy"></i> Kaydet</button>
@@ -431,7 +426,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         </button>
         <div class="pdrop" id="td-drop">
           <div class="psrch"><input placeholder="🔍 Ara..." id="td-ara" oninput="filtreG('td')"></div>
-          <div class="popt new" onclick="togYFG('td')"><i class="ti ti-plus"></i> Yeni Tedarikçi Ekle</div>
+          <div class="popt new" onclick="togYFG('td')">Yeni Tedarikçi Ekle</div>
           <div id="td-liste">
             <div class="popt" onclick="pSecG('td',this,'Online Sipariş')">🌐 Online Sipariş</div>
           </div>
@@ -454,8 +449,8 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <input class="inp" type="date" style="flex:1">
       </div>
       <div class="dosya-ekle">
-        <label class="dosya-btn"><input type="file" accept="image/*" onchange="dosyaEkle(this,'fatura-dosya')"><i class="ti ti-photo" style="font-size:14px"></i> Fotoğraf</label>
-        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx,.jpg,.png" onchange="dosyaEkle(this,'fatura-dosya')"><i class="ti ti-file" style="font-size:14px"></i> Belge</label>
+        <label class="dosya-btn"><input type="file" accept="image/*" onchange="dosyaEkle(this,'fatura-dosya')">Fotoğraf</label>
+        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx,.jpg,.png" onchange="dosyaEkle(this,'fatura-dosya')">Belge</label>
       </div>
       <div class="dosya-onizleme" id="fatura-dosya"></div>
       
@@ -471,7 +466,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         </button>
         <div class="pdrop" id="kg2-drop">
           <div class="psrch"><input placeholder="🔍 Ara..." id="kg2-ara" oninput="filtreG('kg2')"></div>
-          <div class="popt new" onclick="togYFG('kg2')"><i class="ti ti-plus"></i> Yeni Firma Ekle</div>
+          <div class="popt new" onclick="togYFG('kg2')">Yeni Firma Ekle</div>
           <div id="kg2-liste">
             <div class="popt" onclick="pSecG('kg2',this,'Yurtiçi Kargo')">🚚 Yurtiçi Kargo</div>
             <div class="popt" onclick="pSecG('kg2',this,'MNG Kargo')">🚚 MNG Kargo</div>
@@ -489,8 +484,8 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <input class="inp" placeholder="Takip No" style="flex:1.5">
       </div>
       <div class="dosya-ekle">
-        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'kg2-d')"><i class="ti ti-photo" style="font-size:13px"></i> Fotoğraf</label>
-        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'kg2-d')"><i class="ti ti-file" style="font-size:13px"></i> Belge</label>
+        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'kg2-d')">Fotoğraf</label>
+        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'kg2-d')">Belge</label>
       </div>
       <div class="dosya-onizleme" id="kg2-d"></div>
       
@@ -1008,6 +1003,7 @@ function katSecG(el,ad){
   var ttrEl=document.getElementById('ttr-g');
 
   if(SEL_KAT_G===ad){
+    var skBtn0=document.getElementById('stok-gor-btn');if(skBtn0)skBtn0.style.display='none';
     SEL_KAT_G=null; el.classList.remove('on');
     document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.style.display='';k.classList.remove('on');});
     sarDiv.classList.remove('ac');
@@ -1024,6 +1020,9 @@ function katSecG(el,ad){
   });
   el.classList.add('on');
   sarDiv.classList.add('ac');
+  // Stok Alışı ise kayıtlı stok butonu göster
+  var skBtn=document.getElementById('stok-gor-btn');
+  if(skBtn) skBtn.style.display=(ad==='Stok Alışı')?'flex':'none';
   ttrEl.readOnly=true; ttrEl.style.color='#888'; ttrEl.style.background='#f5f5f5';
   tabloG(ad);
   satirToplaG();
