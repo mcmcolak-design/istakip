@@ -1225,56 +1225,79 @@ function stokSepetGunc(){
   if(!SEPET.length){sep.style.display='none';return;}
   sep.style.display='flex'; liste.innerHTML='';
   var top=0;
+
   SEPET.forEach(function(s,i){
     top+=s.satisF||0;
     var satir=s.satir||{};
-    var ekler=(satir.ek||[]).filter(Boolean);
-    // Satır kartı
+    var kayit=s.kayit||{};
+    // Sütun başlıklarını stok alışından al
+    var ekSutunlar=(kayit.degerler&&kayit.degerler[0])?
+      (KAT_DURUM_G&&KAT_DURUM_G['Stok Alışı']?KAT_DURUM_G['Stok Alışı'].ekSutunlar:[{ad:''}]):
+      [{ad:''}];
+    var ekler=(satir.ek||[]);
+
     var card=document.createElement('div');
-    card.style.cssText='background:#fff;border:1.5px solid #c8d0d8;border-radius:9px;padding:8px 10px;display:flex;flex-direction:column;gap:6px';
-    // Üst satır: ürün adı + sil
-    var top_row=document.createElement('div');
-    top_row.style.cssText='display:flex;align-items:center;gap:6px';
-    var lbl=document.createElement('div');
-    lbl.style.cssText='flex:1;font-size:12px;font-weight:700;color:#333';
-    lbl.textContent=satir.c0||s.ad;
-    var x=document.createElement('button');
-    x.textContent='✕'; x.style.cssText='background:none;border:none;cursor:pointer;color:#ccc;font-size:14px';
-    (function(idx){x.onclick=function(){SEPET.splice(idx,1);stokSepetGunc();stokFiltre();};})(i);
-    top_row.appendChild(lbl); top_row.appendChild(x);
-    card.appendChild(top_row);
-    // Ek sütunlar (alış fiyatı hariç)
-    if(ekler.length){
-      var ekRow=document.createElement('div');
-      ekRow.style.cssText='display:flex;flex-wrap:wrap;gap:5px';
-      ekler.forEach(function(ek){
-        var chip=document.createElement('span');
-        chip.style.cssText='background:#f0f2f5;border-radius:5px;padding:2px 8px;font-size:11px;color:#555;font-weight:600';
-        chip.textContent=ek;
-        ekRow.appendChild(chip);
-      });
-      card.appendChild(ekRow);
-    }
-    // Satış fiyatı
-    var fiyatRow=document.createElement('div');
-    fiyatRow.style.cssText='display:flex;align-items:center;gap:6px';
-    var fiyatLbl=document.createElement('span');
-    fiyatLbl.style.cssText='font-size:11px;color:#888;font-weight:600';
-    fiyatLbl.textContent='Satış ₺';
-    var inp=document.createElement('input');
-    inp.type='number'; inp.placeholder='0.00';
-    inp.value=s.satisF||'';
-    inp.style.cssText='flex:1;border:1.5px solid #ddd;border-radius:7px;padding:5px 8px;font-size:13px;font-weight:700;text-align:right;outline:none';
-    (function(idx){inp.oninput=function(){
+    card.style.cssText='background:#fff;border:1.5px solid #c8d0d8;border-radius:9px;padding:8px 10px;display:flex;flex-direction:column;gap:5px';
+
+    // Satır başlıkları (c0 + ek sütunlar başlıkları)
+    var hdr=document.createElement('div');
+    hdr.style.cssText='display:flex;gap:4px;align-items:center';
+    var h0=document.createElement('div');
+    h0.style.cssText='flex:2;font-size:9px;font-weight:700;color:#4a7c8e;padding:0 2px';
+    h0.textContent='Ürün';
+    hdr.appendChild(h0);
+    ekSutunlar.forEach(function(ek,ei){
+      var hx=document.createElement('div');
+      hx.style.cssText='flex:2;font-size:9px;font-weight:700;color:#4a7c8e;padding:0 2px';
+      hx.textContent=ek.ad||('Sütun '+(ei+2));
+      hdr.appendChild(hx);
+    });
+    var ht=document.createElement('div');
+    ht.style.cssText='flex:1;font-size:9px;font-weight:700;color:#2e7d52;text-align:right;padding:0 2px';
+    ht.textContent='Satış ₺';
+    hdr.appendChild(ht);
+    card.appendChild(hdr);
+
+    // Satır verileri
+    var dataRow=document.createElement('div');
+    dataRow.style.cssText='display:flex;gap:4px;align-items:center';
+
+    // c0 input
+    var inp0=document.createElement('input');
+    inp0.className='inp'; inp0.style.cssText='flex:2;font-size:12px;font-weight:700;color:#333';
+    inp0.value=satir.c0||s.ad||''; inp0.placeholder='Ürün adı';
+    dataRow.appendChild(inp0);
+
+    // ek sütun inputları
+    ekSutunlar.forEach(function(ek,ei){
+      var inpx=document.createElement('input');
+      inpx.className='inp'; inpx.style.cssText='flex:2;font-size:12px;color:#333';
+      inpx.value=(ekler[ei]||''); inpx.placeholder=ek.ad||('Sütun '+(ei+2));
+      dataRow.appendChild(inpx);
+    });
+
+    // Satış fiyatı input
+    var inpF=document.createElement('input');
+    inpF.type='number'; inpF.placeholder='0';
+    inpF.value=s.satisF||'';
+    inpF.style.cssText='flex:1;border:1.5px solid #ddd;border-radius:7px;padding:5px 6px;font-size:12px;font-weight:700;text-align:right;outline:none';
+    (function(idx){inpF.oninput=function(){
       SEPET[idx].satisF=parseFloat(this.value||0);
       var t2=0;SEPET.forEach(function(ss){t2+=ss.satisF||0;});
       var tt=document.getElementById('stok-toplam');if(tt)tt.textContent='₺'+t2.toLocaleString('tr-TR',{minimumFractionDigits:2});
       var ttr=document.getElementById('ttr');if(ttr){ttr.value=t2>0?t2.toFixed(2):'';if(typeof ozGunc==='function')ozGunc();}
     };})(i);
-    fiyatRow.appendChild(fiyatLbl); fiyatRow.appendChild(inp);
-    card.appendChild(fiyatRow);
+
+    // Sil butonu
+    var xBtn=document.createElement('button');
+    xBtn.textContent='✕'; xBtn.style.cssText='background:none;border:none;cursor:pointer;color:#ccc;font-size:13px;flex-shrink:0;padding:2px';
+    (function(idx){xBtn.onclick=function(){SEPET.splice(idx,1);stokSepetGunc();stokFiltre();};})(i);
+
+    dataRow.appendChild(inpF); dataRow.appendChild(xBtn);
+    card.appendChild(dataRow);
     liste.appendChild(card);
   });
+
   var tt=document.getElementById('stok-toplam');
   if(tt)tt.textContent='₺'+top.toLocaleString('tr-TR',{minimumFractionDigits:2});
   var ttr=document.getElementById('ttr');
