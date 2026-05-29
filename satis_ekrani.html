@@ -209,6 +209,23 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <div class="kat-item" onclick="katSec(this,'Tamir / Bakım')" data-oz-kat="Tamir_Bakım"><div class="kat-ico kc8">⚙️</div><span class="kat-lbl">Tamir / Bakım</span></div>
         <div class="kat-item" id="kat-ekle-btn" onclick="katEkleModal()"><div class="kat-ico kc-add" style="font-size:22px;color:#f90">+</div><span class="kat-lbl" style="color:#c07000">Ekle</span></div>
       </div>
+      <!-- Stoklu Satış Seçim -->
+      <div id="stok-sec-alan" style="display:none;margin-top:8px">
+        <div class="pill-wrap">
+          <button class="pill-btn" id="stok-btn" onclick="togStok()">
+            <span id="stok-txt">📦 Stok Seç</span>
+            <i class="ti ti-chevron-down" id="stok-chev" style="font-size:14px;transition:transform .2s"></i>
+          </button>
+          <div class="pdrop" id="stok-drop">
+            <div class="psrch"><input placeholder="🔍 Ürün ara..." id="stok-ara" oninput="stokFiltre()"></div>
+            <div id="stok-liste"></div>
+          </div>
+        </div>
+        <div id="stok-secilen" style="display:none;margin-top:6px;background:#edf4f7;border-radius:8px;padding:7px 10px">
+          <div style="font-size:11px;font-weight:700;color:#4a7c8e" id="stok-secilen-ad"></div>
+          <div style="font-size:10px;color:#888;margin-top:2px" id="stok-secilen-detay"></div>
+        </div>
+      </div>
       <div class="satirlar" id="satirlar">
         <!-- Sütun başlıkları -->
         <div id="sutun-basliklar" style="display:flex;gap:5px;align-items:center;margin-bottom:4px;padding:0 26px 0 0">
