@@ -224,20 +224,6 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
     <button class="sav-btn" onclick="kaydet()"><i class="ti ti-device-floppy" style="font-size:18px"></i> Kaydet</button>
 
 
-    <!-- Fatura -->
-    <div class="card oz-item" id="oz-fatura" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:6px">🧾 Fatura Bilgisi <span style="font-style:italic">(isteğe bağlı)</span></div>
-      <div class="frow" style="margin-bottom:6px">
-        <input class="inp" placeholder="Fatura No" style="flex:1">
-        <input class="inp" type="date" style="flex:1">
-      </div>
-      <div class="dosya-ekle">
-        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'fatura-g-dosya')"><i class="ti ti-photo" style="font-size:13px"></i> Fotoğraf</label>
-        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'fatura-g-dosya')"><i class="ti ti-file" style="font-size:13px"></i> Belge</label>
-      </div>
-      <div class="dosya-onizleme" id="fatura-g-dosya"></div>
-    </div>
-
     <!-- Müşteri -->
     <div class="card oz-item" id="oz-musteri" style="position:relative">
       <div class="pill-wrap">
@@ -280,6 +266,20 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
       </div>
       <div class="not-link" onclick="togNot('ms-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
       <div class="not-alan" id="ms-not"><textarea class="inp" rows="2" placeholder="Müşteri notu..." style="resize:none;margin-top:4px"></textarea></div>
+    </div>
+
+    <!-- Fatura -->
+    <div class="card oz-item" id="oz-fatura" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:6px">🧾 Fatura Bilgisi <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <div class="frow" style="margin-bottom:6px">
+        <input class="inp" placeholder="Fatura No" style="flex:1">
+        <input class="inp" type="date" style="flex:1">
+      </div>
+      <div class="dosya-ekle">
+        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'fatura-g-dosya')"><i class="ti ti-photo" style="font-size:13px"></i> Fotoğraf</label>
+        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'fatura-g-dosya')"><i class="ti ti-file" style="font-size:13px"></i> Belge</label>
+      </div>
+      <div class="dosya-onizleme" id="fatura-g-dosya"></div>
     </div>
 
     <!-- Kargo -->
@@ -365,174 +365,9 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
       </div>
     </div>
 
-    <!-- Kaydet -->
-    <button class="sav-btn" onclick="kaydet()"><i class="ti ti-device-floppy" style="font-size:18px"></i> Kaydet</button>
-  </div>
-
-  
-
-  </div>
-
-  <div id="icerik-gider" style="display:none;flex-direction:column;gap:8px;width:100%">
-
-    <!-- Özelleştir -->
-    <button class="oz-ust" id="duz-btn-g" onclick="togDuzG()">
-      <i class="ti ti-adjustments-horizontal" style="font-size:15px"></i>
-      <span>Arayüzü Özelleştir</span>
-      <span id="duz-lbl-g" style="margin-left:auto;font-size:10px;font-weight:400;color:#888">gizle / göster</span>
-    </button>
-
-    <!-- Kategori Gider -->
-    <div class="card oz-item-g" id="ozg-kategori" style="position:relative">
-      <div class="kat-grid" id="kat-grid-g">
-        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Stok Alışı')" data-oz-kat-g="Stok_Alisi"><div class="kat-ico kc2">📦</div><span class="kat-lbl">Stok Alışı</span></div>
-        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Hizmet Alımı')" data-oz-kat-g="Hizmet_Alimi"><div class="kat-ico kc3">🔧</div><span class="kat-lbl">Hizmet Alımı</span></div>
-        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Kira')" data-oz-kat-g="Kira"><div class="kat-ico kc4">🏠</div><span class="kat-lbl">Kira</span></div>
-        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Fatura / Aidat')" data-oz-kat-g="Fatura_Aidat"><div class="kat-ico kc6">📄</div><span class="kat-lbl">Fatura / Aidat</span></div>
-        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Personel')" data-oz-kat-g="Personel"><div class="kat-ico kc5">👤</div><span class="kat-lbl">Personel</span></div>
-        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Tamir / Bakım')" data-oz-kat-g="Tamir_Bakim"><div class="kat-ico kc8">⚙️</div><span class="kat-lbl">Tamir / Bakım</span></div>
-        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Diğer')" data-oz-kat-g="Diger"><div class="kat-ico kc1">📋</div><span class="kat-lbl">Diğer</span></div>
-        <div class="kat-item" onclick="if(!DUZ_G)katEkleModalG()"><div class="kat-ico kc-add" style="font-size:22px;color:#f90">+</div><span class="kat-lbl" style="color:#c07000">Ekle</span></div>
-      </div>
-      <!-- Satır/Sütun Tablosu -->
-      <div class="satirlar" id="satirlar-g">
-        <div id="sutun-basliklar-g" style="display:flex;gap:5px;align-items:center;margin-bottom:4px;padding:0 26px 0 0"></div>
-        <div id="satir-tablosu-g"></div>
-        <div style="display:flex;gap:6px;margin-top:4px">
-          <button class="sr-ekle" style="flex:1" onclick="srEkleG()"><i class="ti ti-plus"></i> Satır Ekle</button>
-          <button class="sr-ekle" style="flex:1;border-color:#7c3aed;color:#7c3aed" onclick="sutunEkleG()"><i class="ti ti-columns"></i> Sütun Ekle</button>
-          <button class="sr-ekle" style="flex:1;border-color:#2e7d52;color:#2e7d52" onclick="sablonKaydetG()"><i class="ti ti-device-floppy"></i> Kaydet</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Toplam Tutar -->
-    <div class="card oz-item-g" id="ozg-tutar" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:4px">Toplam Tutar</div>
-      <div class="ttr-wrap" style="border-color:#c0392b">
-        <span class="ttr-pre" style="background:#c0392b">₺</span>
-        <input class="ttr-inp" type="number" id="ttr-g" placeholder="0.00" oninput="ozGuncG()" style="color:#c0392b">
-      </div>
-    </div>
-
-
-
-    <!-- Kaydet -->
-    <button class="sav-btn" style="background:#c0392b;box-shadow:0 3px 10px rgba(192,57,43,.3)" onclick="kaydetG()">
-      <i class="ti ti-device-floppy" style="font-size:18px"></i> Kaydet
-    </button>
-
-
-    <!-- Tedarikçi Seç -->
-    <div class="card oz-item-g" id="ozg-tedarikci" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:4px">🏭 Tedarikçi / Alış Kanalı <span style="font-style:italic">(isteğe bağlı)</span></div>
-      <div class="pill-wrap">
-        <button class="pill-btn" id="td-btn" onclick="if(!DUZ_G)togPG('td')">
-          <span id="td-txt">🏭 Tedarikçi Seç</span>
-          <i class="ti ti-chevron-down" id="td-chev" style="font-size:14px;transition:transform .2s"></i>
-        </button>
-        <div class="pdrop" id="td-drop">
-          <div class="psrch"><input placeholder="🔍 Ara..." id="td-ara" oninput="filtreG('td')"></div>
-          <div class="popt new" onclick="togYFG('td')"><i class="ti ti-plus"></i> Yeni Tedarikçi Ekle</div>
-          <div id="td-liste">
-            <div class="popt" onclick="pSecG('td',this,'Online Sipariş')">🌐 Online Sipariş</div>
-          </div>
-        </div>
-      </div>
-      <div class="yform" id="yf-td">
-        <div class="frow"><select class="fsel"><option>Tedarikçi</option><option>Toptancı</option><option>Merkez</option></select></div>
-        <input class="inp" placeholder="Firma Unvanı / Ad">
-        <div class="frow"><input class="inp" placeholder="Yetkili"><input class="inp" placeholder="GSM"></div>
-        <div class="frow"><input class="inp" placeholder="Vergi Dairesi"><input class="inp" placeholder="Vergi No"></div>
-        <div class="frow"><input class="inp" placeholder="İl"><input class="inp" placeholder="İlçe"></div>
-        <button class="mini-btn" onclick="tdKaydet()">💾 Kaydet</button>
-      </div>
-      <div class="not-link" onclick="if(!DUZ_G)togNot('td-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
-      <div class="not-alan" id="td-not"><textarea class="inp" rows="2" placeholder="Tedarikçi notu..." style="resize:none;margin-top:4px"></textarea></div>
-    </div>
-
-    <!-- Fatura -->
-    <div class="card oz-item-g" id="ozg-fatura" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:6px">🧾 Fatura Bilgisi <span style="font-style:italic">(isteğe bağlı)</span></div>
-      <div class="frow" style="margin-bottom:6px">
-        <input class="inp" placeholder="Fatura No" style="flex:1">
-        <input class="inp" type="date" style="flex:1">
-      </div>
-      <div class="dosya-ekle">
-        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'fatura-gider-dosya')"><i class="ti ti-photo" style="font-size:13px"></i> Fotoğraf</label>
-        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'fatura-gider-dosya')"><i class="ti ti-file" style="font-size:13px"></i> Belge</label>
-      </div>
-      <div class="dosya-onizleme" id="fatura-gider-dosya"></div>
-    </div>
-
-    <!-- Kargo -->
-    <div class="card oz-item-g" id="ozg-kargo" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:4px">🚚 Kargo <span style="font-style:italic">(isteğe bağlı)</span></div>
-      <div class="pill-wrap">
-        <button class="pill-btn" id="kg2-btn" onclick="if(!DUZ_G)togPG('kg2')">
-          <span id="kg2-txt">🚚 Kargo Firması Seç</span>
-          <i class="ti ti-chevron-down" id="kg2-chev" style="font-size:14px;transition:transform .2s"></i>
-        </button>
-        <div class="pdrop" id="kg2-drop">
-          <div class="psrch"><input placeholder="🔍 Ara..." id="kg2-ara" oninput="filtreG('kg2')"></div>
-          <div class="popt new" onclick="togYFG('kg2')"><i class="ti ti-plus"></i> Yeni Firma Ekle</div>
-          <div id="kg2-liste">
-            <div class="popt" onclick="pSecG('kg2',this,'Yurtiçi Kargo')">🚚 Yurtiçi Kargo</div>
-            <div class="popt" onclick="pSecG('kg2',this,'MNG Kargo')">🚚 MNG Kargo</div>
-            <div class="popt" onclick="pSecG('kg2',this,'PTT Kargo')">🚚 PTT Kargo</div>
-            <div class="popt" onclick="pSecG('kg2',this,'Aras Kargo')">🚚 Aras Kargo</div>
-          </div>
-        </div>
-      </div>
-      <div class="yform" id="yf-kg2">
-        <input class="inp" id="kg2-yeni" placeholder="Kargo firması adı...">
-        <button class="mini-btn" onclick="kg2Kaydet()">💾 Kaydet</button>
-      </div>
-      <div style="display:flex;gap:7px;margin-top:7px">
-        <input class="inp" type="number" placeholder="Kargo tutarı ₺" style="flex:1">
-        <input class="inp" placeholder="Takip No" style="flex:1.5">
-      </div>
-      <div class="not-link" onclick="if(!DUZ_G)togNot('kg2-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
-      <div class="not-alan" id="kg2-not"><textarea class="inp" rows="2" placeholder="Kargo notu..." style="resize:none;margin-top:4px"></textarea></div>
-    </div>
-
-    <!-- Ödeme -->
-    <div class="card oz-item-g" id="ozg-odeme" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:6px">💳 Ödeme Şekli <span style="font-style:italic">(isteğe bağlı)</span></div>
-      <div class="od-grp-lbl">💵 Anlık Ödeme</div>
-      <div class="op oz-item-g" id="ozg-nakit" onclick="if(!DUZ_G)togOpG(this,'nakit-g')"><span class="op-ico">💵</span><span class="op-lbl">Nakit</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
-      <div class="od-det" id="od-nakit-g"><input class="od-i" id="oi-nakit-g" type="number" placeholder="Nakit tutar ₺" oninput="ozGuncG()"></div>
-      <div class="op oz-item-g" id="ozg-kart" onclick="if(!DUZ_G)togOpG(this,'kart-g')"><span class="op-ico">💳</span><span class="op-lbl">POS / Kart</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
-      <div class="od-det" id="od-kart-g">
-        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" id="oi-kart-g" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGuncG()"></div>
-      </div>
-      <div class="op oz-item-g" id="ozg-havale" onclick="if(!DUZ_G)togOpG(this,'havale-g')"><span class="op-ico">🏦</span><span class="op-lbl">Havale / EFT</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
-      <div class="od-det" id="od-havale-g">
-        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" id="oi-havale-g" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGuncG()"></div>
-      </div>
-      <div class="od-grp-lbl" style="margin-top:4px">📋 Borç Olarak Kaydedilecek</div>
-      <div class="op oz-item-g" id="ozg-acik" onclick="if(!DUZ_G)togOpG(this,'acik-g')"><span class="op-ico">📋</span><span class="op-lbl">Açık Hesap</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
-      <div class="od-det" id="od-acik-g">
-        <input class="od-i" id="oi-acik-g" type="number" placeholder="Açık hesap tutarı ₺" oninput="ozGuncG()">
-        <div class="od-row"><input class="od-i" type="number" placeholder="Taksit" style="flex:1"><input class="od-i" type="number" placeholder="Vade (gün)" style="flex:1"></div>
-      </div>
-      <div class="op oz-item-g" id="ozg-cek" onclick="if(!DUZ_G)togOpG(this,'cek-g')"><span class="op-ico">📄</span><span class="op-lbl">Çek / Senet</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
-      <div class="od-det" id="od-cek-g">
-        <div class="od-row"><select class="od-sel"><option>Çek</option><option>Senet</option></select><input class="od-i" id="oi-cek-g" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGuncG()"></div>
-        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" placeholder="No" style="flex:1"></div>
-        <input class="od-i" type="date">
-      </div>
-      <div id="ozet-box-g" style="display:none" class="ozet-box">
-        <div class="oz-row"><span class="oz-lbl">Anlık Ödeme</span><span class="oz-val r" id="oz-anlik-g">₺0</span></div>
-        <div class="oz-row"><span class="oz-lbl">Borç</span><span class="oz-val r" id="oz-borc-g">₺0</span></div>
-        <div class="oz-row oz-tot"><span class="oz-lbl" style="color:#c0392b;font-weight:700">Toplam</span><span class="oz-val r" id="oz-top-g">₺0</span></div>
-      </div>
-    </div>
 
 
   </div>
-
-</div>
 
   <!-- Gider İçeriği -->ad><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
@@ -1284,14 +1119,12 @@ function katSec(el,ad){
 
   // Tekrar tıklanınca iptal
   if(SEL_KAT === ad){
-    SEL_KAT = null;
-    el.classList.remove('on');
-    document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){ k.style.display=''; });
+    SEL_KAT=null; el.classList.remove('on');
+    document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){k.style.display='';});
     satirlarDiv.classList.remove('ac');
-    ttrEl.readOnly = false;
-    ttrEl.style.color = '#2e7d52';
-    ttrEl.style.background = '';
-    ttrEl.value = '';
+    var sa0=document.getElementById('stok-sec-alan'); if(sa0) sa0.style.display='none';
+    ttrEl.readOnly=false; ttrEl.style.color='#2e7d52'; ttrEl.style.background=''; ttrEl.value=''; ttrEl.placeholder='0.00';
+    SEPET=[];
     return;
   }
 
@@ -1306,10 +1139,12 @@ function katSec(el,ad){
 
   if(ad === 'Stoklu Satış'){
     satirlarDiv.classList.remove('ac');
-    ttrEl.readOnly = false;
-    ttrEl.style.color = '#2e7d52';
-    ttrEl.style.background = '';
+    var sa=document.getElementById('stok-sec-alan');
+    if(sa){sa.style.display='flex'; stokAc();}
+    ttrEl.readOnly=false; ttrEl.style.color='#2e7d52'; ttrEl.style.background='';
+    ttrEl.placeholder='Toplam otomatik hesaplanır...';
   } else {
+    var sa2=document.getElementById('stok-sec-alan'); if(sa2) sa2.style.display='none';
     satirlarDiv.classList.add('ac');
     ttrEl.readOnly = true;
     ttrEl.style.color = '#888';
