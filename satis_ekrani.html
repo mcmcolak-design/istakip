@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
+body{background:#e0e4e8;display:flex;justify-content:center;padding:12px 0;min-height:100vh}
+.phone{width:360px;max-width:100vw;background:#f0f2f5;border-radius:24px;box-shadow:0 6px 24px rgba(0,0,0,.15);border:5px solid #222;overflow:hidden}
+.hdr{background:#4a7c8e;padding:9px 12px;display:flex;align-items:center;gap:7px}
+.hdr i{color:#fff;font-size:18px;cursor:pointer}
+.hdr-t{color:#fff;font-size:13px;font-weight:700;flex:1;text-align:center}
+.oline{height:3px;background:#f90}
+.tabs{display:flex;background:#2c3e50;padding:0 10px}
+.tab{flex:1;padding:8px 6px;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);text-align:center;cursor:pointer;border-bottom:2.5px solid transparent}
+.tab.on{color:#fff;border-color:#f90}
+.tarih-wrap{background:linear-gradient(135deg,#2c3e50,#4a7c8e);padding:7px 12px;display:flex;align-items:center;justify-content:space-between}
+.tarih-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.15);border-radius:16px;padding:5px 10px;color:rgba(255,255,255,.9);font-size:10px;font-weight:600;cursor:pointer;position:relative}
+.tarih-drop{display:none;position:absolute;top:calc(100%+4px);left:0;background:#fff;border-radius:10px;box-shadow:0 5px 18px rgba(0,0,0,.16);z-index:100;min-width:155px;overflow:hidden}
+.tarih-drop.ac{display:block}
+.t-opt{padding:8px 12px;font-size:11px;font-weight:600;color:#333;cursor:pointer;border-bottom:.5px solid #f0f0f0;display:block}
+.t-opt:last-child{border:none}.t-opt:hover{background:#f5f8ff}.t-opt.on{color:#4a7c8e}
+.ozel-row{display:none;gap:5px;padding:5px 12px 8px;border-top:.5px solid #f0f0f0}
+.ozel-row.ac{display:flex}
+.ozel-inp{flex:1;border:1.5px solid #e0e0e0;border-radius:6px;padding:4px 6px;font-size:10px;color:#333;outline:none;min-width:0}
+.kayit-pill{display:inline-flex;align-items:center;gap:4px;background:#f90;border:none;border-radius:16px;padding:5px 9px;color:#fff;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap}
+.scrl{overflow-y:auto;max-height:540px;padding:7px 9px 18px;display:flex;flex-direction:column;gap:6px}
+.card{background:#fff;border-radius:10px;padding:8px 10px;border:.5px solid #e0e0e0}
+.pill-wrap{position:relative}
+.pill-btn{width:100%;background:#fafafa;border:1.5px solid #e0e0e0;border-radius:8px;padding:7px 9px;font-size:12px;color:#555;cursor:pointer;display:flex;align-items:center;justify-content:space-between;text-align:left}
+.pill-btn.ac{border-color:#4a7c8e}
+.pdrop{display:none;position:absolute;top:calc(100%+3px);left:0;right:0;background:#fff;border-radius:9px;box-shadow:0 5px 16px rgba(0,0,0,.12);z-index:50;overflow:hidden;max-height:190px;overflow-y:auto}
+.pdrop.ac{display:block}
+.psrch{padding:6px 8px;border-bottom:.5px solid #f0f0f0}
+.psrch input{width:100%;border:1.5px solid #e0e0e0;border-radius:6px;padding:5px 8px;font-size:11px;outline:none}
+.popt{padding:8px 10px;font-size:11px;font-weight:600;color:#333;cursor:pointer;border-bottom:.5px solid #f8f8f8;display:flex;align-items:center;gap:6px}
+.popt:last-child{border:none}.popt:hover{background:#f5f8ff}
+.popt.new{color:#4a7c8e;font-weight:700}.popt.sel{background:#edf4f7;color:#4a7c8e}
+.yform{display:none;flex-direction:column;gap:5px;margin-top:6px;padding-top:6px;border-top:.5px solid #f0f0f0}
+.yform.ac{display:flex}
+.inp{width:100%;border:1.5px solid #e0e0e0;border-radius:8px;padding:6px 9px;font-size:12px;outline:none;background:#fafafa;color:#333}
+.inp:focus{border-color:#4a7c8e}
+.frow{display:flex;gap:5px}
+.frow .inp{flex:1}
+.fsel{flex:1;border:1.5px solid #e0e0e0;border-radius:8px;padding:6px 8px;font-size:11px;outline:none;background:#fafafa;color:#555;cursor:pointer}
+.mini-btn{background:#4a7c8e;border:none;border-radius:7px;padding:6px 10px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;align-self:flex-end}
+.not-link{color:#4a7c8e;font-size:10px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:3px;margin-top:4px}
+.not-alan{display:none;margin-top:4px}
+.not-alan.ac{display:block}
+.kat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.kat-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:transform .1s;padding:3px;position:relative}
+.kat-item:active{transform:scale(.93)}
+.kat-ico{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid transparent}
+.kat-item.on .kat-ico{border-color:#4a7c8e;box-shadow:0 0 0 2px rgba(74,124,142,.2)}
+.kat-lbl{font-size:9px;font-weight:700;color:#333;text-align:center;line-height:1.2}
+.kat-item.on .kat-lbl{color:#4a7c8e}
+.kc1{background:#dbeeff}.kc2{background:#fff0db}.kc3{background:#dbffed}
+.kc4{background:#f5dbff}.kc5{background:#ffdbe0}.kc6{background:#fffadb}
+.kc7{background:#e8f5e9}.kc8{background:#fce4ec}.kc-add{background:#fff;border:2px dashed #f90}
+.satirlar{display:none;flex-direction:column;gap:4px;margin-top:7px;padding-top:7px;border-top:.5px solid #f0f0f0}
+.satirlar.ac{display:flex}
+.sr{display:flex;gap:4px;align-items:center;margin-bottom:2px}
+.sr-sil{background:none;border:none;color:#ccc;cursor:pointer;font-size:12px;flex-shrink:0;padding:1px}
+.sr-sil:hover{color:#e74c3c}
+.sr-ekle{background:none;border:1.5px dashed #c0cfd8;border-radius:7px;padding:5px 4px;color:#4a7c8e;font-size:10px;font-weight:700;cursor:pointer;flex:1;text-align:center}
+.ttr-wrap{display:flex;align-items:center;background:#f0fff4;border:1.5px solid #4a7c8e;border-radius:9px;padding:2px 10px 2px 3px;overflow:hidden}
+.ttr-pre{background:#4a7c8e;color:#fff;font-size:11px;font-weight:700;padding:7px 9px;border-radius:6px;flex-shrink:0}
+.ttr-inp{flex:1;border:none;outline:none;background:transparent;font-size:16px;font-weight:700;color:#2e7d52;text-align:right;padding:5px 0}
+.ttr-inp::placeholder{color:#a0c4a8;font-size:11px;font-weight:400}
+.od-grp-lbl{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;margin:5px 0 3px 1px}
+.op{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:8px;background:#fafafa;border:1.5px solid #ebebeb;margin-bottom:4px;cursor:pointer}
+.op.on{border-color:#4a7c8e;background:#edf4f7}
+.op-ico{font-size:13px;flex-shrink:0}
+.op-lbl{font-size:11px;font-weight:600;color:#555;flex:1}
+.op.on .op-lbl{color:#2c3e50}
+.od-det{display:none;padding:4px 1px 2px}
+.od-det.ac{display:block}
+.od-i{width:100%;border:1.5px solid #e0e0e0;border-radius:7px;padding:5px 8px;font-size:11px;outline:none;background:#fafafa;margin-bottom:4px}
+.od-i:last-child{margin-bottom:0}
+.od-i:focus{border-color:#4a7c8e}
+.od-row{display:flex;gap:5px;margin-bottom:4px}
+.od-row .od-i{margin-bottom:0}
+.od-sel{flex:1;border:1.5px solid #e0e0e0;border-radius:7px;padding:5px 7px;font-size:11px;outline:none;background:#fafafa;cursor:pointer}
+.ozet-box{background:#f0fff4;border:1px solid #b6e2c4;border-radius:8px;padding:6px 10px;margin-top:4px}
+.oz-row{display:flex;justify-content:space-between;font-size:11px;padding:2px 0}
+.oz-lbl{color:#666;font-weight:600}
+.oz-val{font-weight:700;color:#2e7d52}
+.oz-val.r{color:#c0392b}
+.oz-tot{border-top:.5px solid #b6e2c4;margin-top:3px;padding-top:3px}
+.sav-btn{width:100%;background:#2e7d52;border:none;border-radius:10px;padding:11px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 3px 8px rgba(46,125,82,.25)}
+.sav-btn:active{transform:scale(.97)}
+.oz-ust{width:100%;padding:7px 10px;border-radius:9px;border:1.5px solid #c8d8e8;background:#edf4f7;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;color:#4a7c8e}
+.oz-ust.ak{background:#fff3cd;border-color:#f90;color:#c07000}
+.oz-item-btn{position:absolute;border:none;border-radius:4px;padding:2px 6px;font-size:9px;font-weight:700;color:#fff;cursor:pointer}
+</style>
+</head><body>
+<div class="phone">
+
+  <div class="hdr">
+    <i class="ti ti-arrow-left" onclick="window.location.href='isletme_ekrani.html'" style="cursor:pointer"></i>
+    <span class="hdr-t" id="hdr-t">💰 Gelir / Satış</span>
+    <i class="ti ti-adjustments-horizontal" onclick="togDuz()" style="font-size:18px"></i>
+  </div>
+  <div class="oline"></div>
+  <div class="tabs">
+    <div class="tab on" id="tab-gelir" onclick="sekme('gelir')">💰 Gelir / Satış</div>
+    <div class="tab" id="tab-gider" onclick="sekme('gider')">🛒 Gider / Alış</div>
+  </div>
+
+  <!-- Tarih - işletme ekranı gibi -->
+  <div class="tarih-wrap">
+    <div class="tarih-pill" id="tarih-pill" onclick="togTarih(event)">
+      <i class="ti ti-calendar" style="font-size:13px"></i>
+      <span id="tarih-txt">Bugün</span>
+      <i class="ti ti-chevron-down" id="tarih-chev" style="font-size:11px;transition:transform .2s"></i>
+      <div class="tarih-drop" id="tarih-drop" onclick="event.stopPropagation()">
+        <div class="t-opt on" onclick="tarihSec(this,'bugun')">📅 Bugün</div>
+        <div class="t-opt" onclick="tarihSec(this,'dun')">📅 Dün</div>
+        <div class="t-opt" onclick="tarihSec(this,'ozel')">📆 Özel Tarih...</div>
+        <div class="ozel-row" id="ozel-row">
+          <input type="date" class="ozel-inp" id="ozel-tarih" onchange="ozelTarihSec()">
+        </div>
+      </div>
+    </div>
+    <button class="kayit-pill" onclick="window.location.href='kayitlar_ekrani.html'">
+      <i class="ti ti-list-details" style="font-size:13px"></i>
+      Kayıtlı İşlemleri Göster
+    </button>
+  </div>
+
+  <div class="scrl" id="scrl">
+  <div id="icerik-gelir" style="display:flex;flex-direction:column;gap:8px;width:100%">
+
+    <!-- Özelleştir -->
+    <button class="oz-ust" id="duz-btn" onclick="togDuz()">
+      <i class="ti ti-adjustments-horizontal" style="font-size:15px"></i>
+      <span>Arayüzü Özelleştir</span>
+      <span id="duz-lbl" style="margin-left:auto;font-size:10px;font-weight:400;color:#888">gizle / göster</span>
+    </button>
+
+    <!-- Müşteri -->
+    <div class="card oz-item" id="oz-musteri" style="position:relative">
+      <div class="pill-wrap">
+        <div style="font-size:10px;color:#aaa;margin-bottom:4px">👤 Müşteri / Satış Kanalı <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <button class="pill-btn" id="ms-btn" onclick="togP('ms')">
+          <span id="ms-txt">👤 Müşteri Seç</span>
+          <i class="ti ti-chevron-down" id="ms-chev" style="font-size:14px;transition:transform .2s"></i>
+        </button>
+        <div class="pdrop" id="ms-drop">
+          <div class="psrch"><input placeholder="🔍 Ara..." id="ms-ara" oninput="filtre('ms')"></div>
+          <div class="popt new" onclick="togYF('ms')"><i class="ti ti-plus"></i> Yeni Müşteri Ekle</div>
+          <div id="ms-liste">
+            <div class="popt" onclick="pSec('ms',this,'Online / Platform')">🌐 Online / Platform</div>
+          </div>
+        </div>
+      </div>
+      <div class="yform" id="yf-ms">
+        <div class="frow"><select class="fsel"><option>Müşteri</option><option>Firma</option><option>Bayi</option></select></div>
+        <input class="inp" placeholder="Ad Soyad / Firma Unvanı">
+        <div class="frow"><input class="inp" placeholder="Yetkili"><input class="inp" placeholder="GSM"></div>
+        <div class="frow"><input class="inp" placeholder="Vergi Dairesi"><input class="inp" placeholder="Vergi/TC No"></div>
+        <div class="frow"><input class="inp" placeholder="İl"><input class="inp" placeholder="İlçe"></div>
+        <button class="mini-btn" onclick="mKaydet()">💾 Kaydet</button>
+      </div>
+      <!-- Platform -->
+      <div id="plat-alan" style="display:none;margin-top:8px">
+        <div id="plat-list" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px"></div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input class="inp" id="plat-inp" placeholder="Platform adı..." style="flex:1">
+          <button onclick="platKaydet()" style="background:#7c3aed;border:none;border-radius:8px;padding:7px 10px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">+ Ekle</button>
+        </div>
+        <div id="plat-duzenle" style="display:none;margin-top:6px;background:#f5f0ff;border-radius:8px;padding:7px 9px;display:none;flex-direction:column;gap:5px">
+          <input class="inp" id="plat-duzenle-inp" placeholder="Yeni ad...">
+          <div style="display:flex;gap:6px">
+            <button onclick="platGuncelle()" style="flex:1;background:#7c3aed;border:none;border-radius:7px;padding:6px;color:#fff;font-size:11px;font-weight:700;cursor:pointer">✓ Güncelle</button>
+            <button onclick="platSil()" style="flex:1;background:#e74c3c;border:none;border-radius:7px;padding:6px;color:#fff;font-size:11px;font-weight:700;cursor:pointer">🗑 Sil</button>
+            <button onclick="platDuzenleKapat()" style="background:#f0f0f0;border:none;border-radius:7px;padding:6px 10px;color:#666;font-size:11px;cursor:pointer">✕</button>
+          </div>
+        </div>
+      </div>
+      <div class="not-link" onclick="togNot('ms-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
+      <div class="not-alan" id="ms-not"><textarea class="inp" rows="2" placeholder="Müşteri notu..." style="resize:none;margin-top:4px"></textarea></div>
+    </div>
+
+    <!-- Kategori -->
+    <div class="card oz-item" id="oz-kategori" style="position:relative">
+      <div class="kat-grid" id="kat-grid">
+        <div class="kat-item" onclick="katSec(this,'Satış')" data-oz-kat="Satış"><div class="kat-ico kc1">💰</div><span class="kat-lbl">Satış</span></div>
+        <div class="kat-item" onclick="katSec(this,'Stoklu Satış')" data-oz-kat="Stoklu_Satış"><div class="kat-ico kc2">📦</div><span class="kat-lbl">Stoklu Satış</span></div>
+        <div class="kat-item" onclick="katSec(this,'E-Ticaret')" data-oz-kat="E-Ticaret"><div class="kat-ico kc3">🛍️</div><span class="kat-lbl">E-Ticaret</span></div>
+        <div class="kat-item" onclick="katSec(this,'Kiralama')" data-oz-kat="Kiralama"><div class="kat-ico kc7">🏠</div><span class="kat-lbl">Kiralama</span></div>
+        <div class="kat-item" onclick="katSec(this,'Hizmet')" data-oz-kat="Hizmet"><div class="kat-ico kc7">🔧</div><span class="kat-lbl">Hizmet</span></div>
+        <div class="kat-item" onclick="katSec(this,'Danışmanlık')" data-oz-kat="Danışmanlık"><div class="kat-ico kc4">💼</div><span class="kat-lbl">Danışmanlık</span></div>
+        <div class="kat-item" onclick="katSec(this,'Portföy Yön.')" data-oz-kat="Portföy_Yön"><div class="kat-ico kc5">📈</div><span class="kat-lbl">Portföy Yön.</span></div>
+        <div class="kat-item" onclick="katSec(this,'Komisyon')" data-oz-kat="Komisyon"><div class="kat-ico kc6">💹</div><span class="kat-lbl">Komisyon</span></div>
+        <div class="kat-item" onclick="katSec(this,'Tamir / Bakım')" data-oz-kat="Tamir_Bakım"><div class="kat-ico kc8">⚙️</div><span class="kat-lbl">Tamir / Bakım</span></div>
+        <div class="kat-item" id="kat-ekle-btn" onclick="katEkleModal()"><div class="kat-ico kc-add" style="font-size:22px;color:#f90">+</div><span class="kat-lbl" style="color:#c07000">Ekle</span></div>
+      </div>
+      <div class="satirlar" id="satirlar">
+        <!-- Sütun başlıkları -->
+        <div id="sutun-basliklar" style="display:flex;gap:5px;align-items:center;margin-bottom:4px;padding:0 26px 0 0">
+          <!-- dinamik -->
+        </div>
+        <!-- Satır tablosu -->
+        <div id="satir-tablosu"></div>
+        <!-- Alt butonlar -->
+        <div style="display:flex;gap:6px;margin-top:4px">
+          <button class="sr-ekle" style="flex:1" onclick="srEkle()"><i class="ti ti-plus"></i> Satır Ekle</button>
+          <button class="sr-ekle" style="flex:1;border-color:#7c3aed;color:#7c3aed" onclick="sutunEkle()"><i class="ti ti-columns"></i> Sütun Ekle</button>
+          <button class="sr-ekle" style="flex:1;border-color:#2e7d52;color:#2e7d52" onclick="sablonKaydet()"><i class="ti ti-device-floppy"></i> Kaydet</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kargo -->
+    <div class="card oz-item" id="oz-kargo" style="position:relative">
+      <div class="pill-wrap">
+        <div style="font-size:10px;color:#aaa;margin-bottom:4px">🚚 Kargo <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <button class="pill-btn" id="kg-btn" onclick="togP('kg')">
+          <span id="kg-txt">🚚 Kargo Firması Seç</span>
+          <i class="ti ti-chevron-down" id="kg-chev" style="font-size:14px;transition:transform .2s"></i>
+        </button>
+        <div class="pdrop" id="kg-drop">
+          <div class="psrch"><input placeholder="🔍 Ara..." id="kg-ara" oninput="filtre('kg')"></div>
+          <div class="popt new" onclick="togYF('kg')"><i class="ti ti-plus"></i> Yeni Firma Ekle</div>
+          <div id="kg-liste">
+            <div class="popt" onclick="pSec('kg',this,'Yurtiçi Kargo')">🚚 Yurtiçi Kargo</div>
+            <div class="popt" onclick="pSec('kg',this,'MNG Kargo')">🚚 MNG Kargo</div>
+            <div class="popt" onclick="pSec('kg',this,'PTT Kargo')">🚚 PTT Kargo</div>
+            <div class="popt" onclick="pSec('kg',this,'Aras Kargo')">🚚 Aras Kargo</div>
+            <div class="popt" onclick="pSec('kg',this,'Sürat Kargo')">🚚 Sürat Kargo</div>
+          </div>
+        </div>
+      </div>
+      <div class="yform" id="yf-kg">
+        <input class="inp" id="kg-yeni" placeholder="Kargo firması adı...">
+        <button class="mini-btn" onclick="kgKaydet()">💾 Kaydet</button>
+      </div>
+      <div style="display:flex;gap:7px;margin-top:7px">
+        <input class="inp" type="number" placeholder="Kargo tutarı ₺" id="kg-tutar" style="flex:1">
+        <input class="inp" placeholder="Takip No" id="kg-takip" style="flex:1.5">
+      </div>
+      <div class="not-link" onclick="togNot('kg-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
+      <div class="not-alan" id="kg-not"><textarea class="inp" rows="2" placeholder="Kargo notu..." style="resize:none;margin-top:4px"></textarea></div>
+    </div>
+
+    <!-- Tutar -->
+    <div class="card oz-item" id="oz-tutar" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:4px">Toplam Tutar</div>
+      <div class="ttr-wrap">
+        <span class="ttr-pre">₺</span>
+        <input class="ttr-inp" type="number" id="ttr" placeholder="0.00" oninput="ozGunc()" id="ttr">
+      </div>
+    </div>
+
+    <!-- Ödeme -->
+    <div class="card oz-item" id="oz-odeme" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:6px">💳 Ödeme Şekli <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <div class="od-grp-lbl">💵 Anlık Tahsilat</div>
+      <div class="op oz-item" id="oz-nakit" onclick="togOp(this,'nakit')"><span class="op-ico">💵</span><span class="op-lbl">Nakit</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-nakit"><input class="od-i" id="oi-nakit" type="number" placeholder="Nakit tutar ₺" oninput="ozGunc()"></div>
+
+      <div class="op oz-item" id="oz-kart" onclick="togOp(this,'kart')"><span class="op-ico">💳</span><span class="op-lbl">POS / Kart</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-kart">
+        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" id="oi-kart" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGunc()"></div>
+        <input class="od-i" type="number" placeholder="Komisyon % (isteğe bağlı)">
+      </div>
+
+      <div class="op oz-item" id="oz-havale" onclick="togOp(this,'havale')"><span class="op-ico">🏦</span><span class="op-lbl">Havale / EFT</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-havale">
+        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" id="oi-havale" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGunc()"></div>
+      </div>
+
+      <div class="od-grp-lbl" style="margin-top:4px">📋 Alacak Olarak Kaydedilecek</div>
+      <div class="op oz-item" id="oz-acik" onclick="togOp(this,'acik')"><span class="op-ico">📋</span><span class="op-lbl">Açık Hesap</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-acik">
+        <input class="od-i" id="oi-acik" type="number" placeholder="Açık hesap tutarı ₺" oninput="ozGunc()">
+        <div class="od-row"><input class="od-i" type="number" placeholder="Taksit sayısı" style="flex:1"><input class="od-i" type="number" placeholder="Vade (gün)" style="flex:1"></div>
+      </div>
+
+      <div class="op oz-item" id="oz-cek" onclick="togOp(this,'cek')"><span class="op-ico">📄</span><span class="op-lbl">Çek / Senet</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-cek">
+        <div class="od-row"><select class="od-sel"><option>Çek</option><option>Senet</option></select><input class="od-i" id="oi-cek" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGunc()"></div>
+        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" placeholder="No" style="flex:1"></div>
+        <input class="od-i" type="date" placeholder="Vade tarihi">
+      </div>
+
+      <div class="op oz-item" id="oz-yemek" onclick="togOp(this,'yemek')"><span class="op-ico">🍽️</span><span class="op-lbl">Yemek Kartı</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-yemek">
+        <div class="od-row"><select class="od-sel"><option>Multinet</option><option>Sodexo</option><option>Ticket</option><option>Edenred</option></select><input class="od-i" id="oi-yemek" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGunc()"></div>
+        <input class="od-i" type="number" placeholder="Komisyon %">
+      </div>
+
+      <div class="op oz-item" id="oz-online" onclick="togOp(this,'online')"><span class="op-ico">🌐</span><span class="op-lbl">Online Hakediş</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-online">
+        <div class="od-row"><input class="od-i" id="oi-online" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGunc()"><input class="od-i" type="number" placeholder="Komisyon %" style="flex:1"></div>
+        <input class="od-i" type="number" placeholder="Vade (gün)">
+      </div>
+
+      <div id="ozet-box" style="display:none" class="ozet-box">
+        <div class="oz-row"><span class="oz-lbl">Anlık Tahsilat</span><span class="oz-val" id="oz-anlik">₺0</span></div>
+        <div class="oz-row"><span class="oz-lbl">Alacak</span><span class="oz-val r" id="oz-alacak">₺0</span></div>
+        <div class="oz-row oz-tot"><span class="oz-lbl" style="color:#2e7d52;font-weight:700">Toplam</span><span class="oz-val" id="oz-top">₺0</span></div>
+      </div>
+    </div>
+
+    <!-- Kaydet -->
+    <button class="sav-btn" onclick="kaydet()"><i class="ti ti-device-floppy" style="font-size:18px"></i> Kaydet</button>
+  </div>
+
+  <!-- Gider İçeriği -->
+  <div id="icerik-gider" style="display:none;flex-direction:column;gap:8px;width:100%">
+
+    <!-- Özelleştir -->
+    <button class="oz-ust" id="duz-btn-g" onclick="togDuzG()">
+      <i class="ti ti-adjustments-horizontal" style="font-size:15px"></i>
+      <span>Arayüzü Özelleştir</span>
+      <span id="duz-lbl-g" style="margin-left:auto;font-size:10px;font-weight:400;color:#888">gizle / göster</span>
+    </button>
+
+    <!-- Tedarikçi Seç -->
+    <div class="card oz-item-g" id="ozg-tedarikci" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:4px">🏭 Tedarikçi / Alış Kanalı <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <div class="pill-wrap">
+        <button class="pill-btn" id="td-btn" onclick="if(!DUZ_G)togPG('td')">
+          <span id="td-txt">🏭 Tedarikçi Seç</span>
+          <i class="ti ti-chevron-down" id="td-chev" style="font-size:14px;transition:transform .2s"></i>
+        </button>
+        <div class="pdrop" id="td-drop">
+          <div class="psrch"><input placeholder="🔍 Ara..." id="td-ara" oninput="filtreG('td')"></div>
+          <div class="popt new" onclick="togYFG('td')"><i class="ti ti-plus"></i> Yeni Tedarikçi Ekle</div>
+          <div id="td-liste">
+            <div class="popt" onclick="pSecG('td',this,'Online Sipariş')">🌐 Online Sipariş</div>
+          </div>
+        </div>
+      </div>
+      <div class="yform" id="yf-td">
+        <div class="frow"><select class="fsel"><option>Tedarikçi</option><option>Toptancı</option><option>Merkez</option></select></div>
+        <input class="inp" placeholder="Firma Unvanı / Ad">
+        <div class="frow"><input class="inp" placeholder="Yetkili"><input class="inp" placeholder="GSM"></div>
+        <div class="frow"><input class="inp" placeholder="Vergi Dairesi"><input class="inp" placeholder="Vergi No"></div>
+        <div class="frow"><input class="inp" placeholder="İl"><input class="inp" placeholder="İlçe"></div>
+        <button class="mini-btn" onclick="tdKaydet()">💾 Kaydet</button>
+      </div>
+      <div class="not-link" onclick="if(!DUZ_G)togNot('td-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
+      <div class="not-alan" id="td-not"><textarea class="inp" rows="2" placeholder="Tedarikçi notu..." style="resize:none;margin-top:4px"></textarea></div>
+    </div>
+
+    <!-- Fatura -->
+    <div class="card oz-item-g" id="ozg-fatura" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:4px">🧾 Fatura Bilgisi <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <div class="frow">
+        <input class="inp" placeholder="Fatura No" style="flex:1">
+        <input class="inp" type="date" style="flex:1">
+      </div>
+    </div>
+
+    <!-- Kategori Gider -->
+    <div class="card oz-item-g" id="ozg-kategori" style="position:relative">
+      <div class="kat-grid" id="kat-grid-g">
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Stok Alışı')" data-oz-kat-g="Stok_Alisi"><div class="kat-ico kc2">📦</div><span class="kat-lbl">Stok Alışı</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Hizmet Alımı')" data-oz-kat-g="Hizmet_Alimi"><div class="kat-ico kc3">🔧</div><span class="kat-lbl">Hizmet Alımı</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Kira')" data-oz-kat-g="Kira"><div class="kat-ico kc4">🏠</div><span class="kat-lbl">Kira</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Fatura / Aidat')" data-oz-kat-g="Fatura_Aidat"><div class="kat-ico kc6">📄</div><span class="kat-lbl">Fatura / Aidat</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Personel')" data-oz-kat-g="Personel"><div class="kat-ico kc5">👤</div><span class="kat-lbl">Personel</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Tamir / Bakım')" data-oz-kat-g="Tamir_Bakim"><div class="kat-ico kc8">⚙️</div><span class="kat-lbl">Tamir / Bakım</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Diğer')" data-oz-kat-g="Diger"><div class="kat-ico kc1">📋</div><span class="kat-lbl">Diğer</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katEkleModalG()"><div class="kat-ico kc-add" style="font-size:22px;color:#f90">+</div><span class="kat-lbl" style="color:#c07000">Ekle</span></div>
+      </div>
+      <!-- Satır/Sütun Tablosu -->
+      <div class="satirlar" id="satirlar-g">
+        <div id="sutun-basliklar-g" style="display:flex;gap:5px;align-items:center;margin-bottom:4px;padding:0 26px 0 0"></div>
+        <div id="satir-tablosu-g"></div>
+        <div style="display:flex;gap:6px;margin-top:4px">
+          <button class="sr-ekle" style="flex:1" onclick="srEkleG()"><i class="ti ti-plus"></i> Satır Ekle</button>
+          <button class="sr-ekle" style="flex:1;border-color:#7c3aed;color:#7c3aed" onclick="sutunEkleG()"><i class="ti ti-columns"></i> Sütun Ekle</button>
+          <button class="sr-ekle" style="flex:1;border-color:#2e7d52;color:#2e7d52" onclick="sablonKaydetG()"><i class="ti ti-device-floppy"></i> Kaydet</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kargo -->
+    <div class="card oz-item-g" id="ozg-kargo" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:4px">🚚 Kargo <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <div class="pill-wrap">
+        <button class="pill-btn" id="kg2-btn" onclick="if(!DUZ_G)togPG('kg2')">
+          <span id="kg2-txt">🚚 Kargo Firması Seç</span>
+          <i class="ti ti-chevron-down" id="kg2-chev" style="font-size:14px;transition:transform .2s"></i>
+        </button>
+        <div class="pdrop" id="kg2-drop">
+          <div class="psrch"><input placeholder="🔍 Ara..." id="kg2-ara" oninput="filtreG('kg2')"></div>
+          <div class="popt new" onclick="togYFG('kg2')"><i class="ti ti-plus"></i> Yeni Firma Ekle</div>
+          <div id="kg2-liste">
+            <div class="popt" onclick="pSecG('kg2',this,'Yurtiçi Kargo')">🚚 Yurtiçi Kargo</div>
+            <div class="popt" onclick="pSecG('kg2',this,'MNG Kargo')">🚚 MNG Kargo</div>
+            <div class="popt" onclick="pSecG('kg2',this,'PTT Kargo')">🚚 PTT Kargo</div>
+            <div class="popt" onclick="pSecG('kg2',this,'Aras Kargo')">🚚 Aras Kargo</div>
+          </div>
+        </div>
+      </div>
+      <div class="yform" id="yf-kg2">
+        <input class="inp" id="kg2-yeni" placeholder="Kargo firması adı...">
+        <button class="mini-btn" onclick="kg2Kaydet()">💾 Kaydet</button>
+      </div>
+      <div style="display:flex;gap:7px;margin-top:7px">
+        <input class="inp" type="number" placeholder="Kargo tutarı ₺" style="flex:1">
+        <input class="inp" placeholder="Takip No" style="flex:1.5">
+      </div>
+      <div class="not-link" onclick="if(!DUZ_G)togNot('kg2-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
+      <div class="not-alan" id="kg2-not"><textarea class="inp" rows="2" placeholder="Kargo notu..." style="resize:none;margin-top:4px"></textarea></div>
+    </div>
+
+    <!-- Toplam Tutar -->
+    <div class="card oz-item-g" id="ozg-tutar" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:4px">Toplam Tutar</div>
+      <div class="ttr-wrap" style="border-color:#c0392b">
+        <span class="ttr-pre" style="background:#c0392b">₺</span>
+        <input class="ttr-inp" type="number" id="ttr-g" placeholder="0.00" oninput="ozGuncG()" style="color:#c0392b">
+      </div>
+    </div>
+
+    <!-- Ödeme -->
+    <div class="card oz-item-g" id="ozg-odeme" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:6px">💳 Ödeme Şekli <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <div class="od-grp-lbl">💵 Anlık Ödeme</div>
+      <div class="op oz-item-g" id="ozg-nakit" onclick="if(!DUZ_G)togOpG(this,'nakit-g')"><span class="op-ico">💵</span><span class="op-lbl">Nakit</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-nakit-g"><input class="od-i" id="oi-nakit-g" type="number" placeholder="Nakit tutar ₺" oninput="ozGuncG()"></div>
+      <div class="op oz-item-g" id="ozg-kart" onclick="if(!DUZ_G)togOpG(this,'kart-g')"><span class="op-ico">💳</span><span class="op-lbl">POS / Kart</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-kart-g">
+        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" id="oi-kart-g" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGuncG()"></div>
+      </div>
+      <div class="op oz-item-g" id="ozg-havale" onclick="if(!DUZ_G)togOpG(this,'havale-g')"><span class="op-ico">🏦</span><span class="op-lbl">Havale / EFT</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-havale-g">
+        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" id="oi-havale-g" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGuncG()"></div>
+      </div>
+      <div class="od-grp-lbl" style="margin-top:4px">📋 Borç Olarak Kaydedilecek</div>
+      <div class="op oz-item-g" id="ozg-acik" onclick="if(!DUZ_G)togOpG(this,'acik-g')"><span class="op-ico">📋</span><span class="op-lbl">Açık Hesap</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-acik-g">
+        <input class="od-i" id="oi-acik-g" type="number" placeholder="Açık hesap tutarı ₺" oninput="ozGuncG()">
+        <div class="od-row"><input class="od-i" type="number" placeholder="Taksit" style="flex:1"><input class="od-i" type="number" placeholder="Vade (gün)" style="flex:1"></div>
+      </div>
+      <div class="op oz-item-g" id="ozg-cek" onclick="if(!DUZ_G)togOpG(this,'cek-g')"><span class="op-ico">📄</span><span class="op-lbl">Çek / Senet</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-cek-g">
+        <div class="od-row"><select class="od-sel"><option>Çek</option><option>Senet</option></select><input class="od-i" id="oi-cek-g" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGuncG()"></div>
+        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" placeholder="No" style="flex:1"></div>
+        <input class="od-i" type="date">
+      </div>
+      <div id="ozet-box-g" style="display:none" class="ozet-box">
+        <div class="oz-row"><span class="oz-lbl">Anlık Ödeme</span><span class="oz-val r" id="oz-anlik-g">₺0</span></div>
+        <div class="oz-row"><span class="oz-lbl">Borç</span><span class="oz-val r" id="oz-borc-g">₺0</span></div>
+        <div class="oz-row oz-tot"><span class="oz-lbl" style="color:#c0392b;font-weight:700">Toplam</span><span class="oz-val r" id="oz-top-g">₺0</span></div>
+      </div>
+    </div>
+
+    <button class="sav-btn" style="background:#c0392b;box-shadow:0 3px 10px rgba(192,57,43,.3)" onclick="kaydetG()">
+      <i class="ti ti-device-floppy" style="font-size:18px"></i> Kaydet
+    </button>
+
+  </div>
+      </div>
+      <div class="yform" id="yf-td">
+        <div class="frow"><select class="fsel"><option>Tedarikçi</option><option>Toptancı</option><option>Merkez</option></select></div>
+        <input class="inp" placeholder="Firma Unvanı / Ad">
+        <div class="frow"><input class="inp" placeholder="Yetkili"><input class="inp" placeholder="GSM"></div>
+        <div class="frow"><input class="inp" placeholder="Vergi Dairesi"><input class="inp" placeholder="Vergi No"></div>
+        <div class="frow"><input class="inp" placeholder="İl"><input class="inp" placeholder="İlçe"></div>
+        <button class="mini-btn" onclick="tdKaydet()">💾 Kaydet</button>
+      </div>
+      <div class="not-link" onclick="if(!DUZ_G)togNot('td-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
+      <div class="not-alan" id="td-not"><textarea class="inp" rows="2" placeholder="Tedarikçi notu..." style="resize:none;margin-top:4px"></textarea></div>
+    </div>
+
+    <!-- Fatura Bilgisi -->
+    <div class="card oz-item-g" id="ozg-fatura" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:4px">🧾 Fatura Bilgisi <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <div class="frow">
+        <input class="inp" placeholder="Fatura No" style="flex:1">
+        <input class="inp" type="date" style="flex:1">
+      </div>
+    </div>
+
+    <!-- Kategori Gider -->
+    <div class="card oz-item-g" id="ozg-kategori" style="position:relative">
+      <div class="kat-grid" id="kat-grid-g">
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Stok Alışı')" data-oz-kat-g="Stok_Alisi"><div class="kat-ico kc2">📦</div><span class="kat-lbl">Stok Alışı</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Hizmet Alımı')" data-oz-kat-g="Hizmet_Alimi"><div class="kat-ico kc3">🔧</div><span class="kat-lbl">Hizmet Alımı</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Kira')" data-oz-kat-g="Kira"><div class="kat-ico kc4">🏠</div><span class="kat-lbl">Kira</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Fatura / Aidat')" data-oz-kat-g="Fatura_Aidat"><div class="kat-ico kc6">📄</div><span class="kat-lbl">Fatura / Aidat</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Personel')" data-oz-kat-g="Personel"><div class="kat-ico kc5">👤</div><span class="kat-lbl">Personel</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Tamir / Bakım')" data-oz-kat-g="Tamir_Bakim"><div class="kat-ico kc8">⚙️</div><span class="kat-lbl">Tamir / Bakım</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Diğer')" data-oz-kat-g="Diger"><div class="kat-ico kc1">📋</div><span class="kat-lbl">Diğer</span></div>
+        <div class="kat-item" onclick="if(!DUZ_G)katEkleModalG()"><div class="kat-ico kc-add" style="font-size:22px;color:#f90">+</div><span class="kat-lbl" style="color:#c07000">Ekle</span></div>
+      </div>
+      <div class="satirlar" id="satirlar-g">
+        <div class="sr"><input class="inp sr-aciklama-g" placeholder="Detay 1..." style="flex:2"><input class="inp sr-tutar-g" type="number" placeholder="₺" style="flex:1" oninput="satirToplaG()"><button class="sr-sil" onclick="srSilG(this)"><i class="ti ti-x"></i></button></div>
+        <div class="sr"><input class="inp sr-aciklama-g" placeholder="Detay 2..." style="flex:2"><input class="inp sr-tutar-g" type="number" placeholder="₺" style="flex:1" oninput="satirToplaG()"><button class="sr-sil" onclick="srSilG(this)"><i class="ti ti-x"></i></button></div>
+        <div class="sr"><input class="inp sr-aciklama-g" placeholder="Detay 3..." style="flex:2"><input class="inp sr-tutar-g" type="number" placeholder="₺" style="flex:1" oninput="satirToplaG()"><button class="sr-sil" onclick="srSilG(this)"><i class="ti ti-x"></i></button></div>
+        <div class="sr"><input class="inp sr-aciklama-g" placeholder="Detay 4..." style="flex:2"><input class="inp sr-tutar-g" type="number" placeholder="₺" style="flex:1" oninput="satirToplaG()"><button class="sr-sil" onclick="srSilG(this)"><i class="ti ti-x"></i></button></div>
+        <button class="sr-ekle" onclick="srEkleG()"><i class="ti ti-plus"></i> Satır Ekle</button>
+      </div>
+    </div>
+
+    <!-- Kargo Gider -->
+    <div class="card oz-item-g" id="ozg-kargo" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:4px">🚚 Kargo <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <div class="pill-wrap">
+        <button class="pill-btn" id="kg2-btn" onclick="if(DUZ_G)return;togP2('kg2')">
+          <span id="kg2-txt">🚚 Kargo Firması Seç</span>
+          <i class="ti ti-chevron-down" id="kg2-chev" style="font-size:14px;transition:transform .2s"></i>
+        </button>
+        <div class="pdrop" id="kg2-drop">
+          <div class="psrch"><input placeholder="🔍 Ara..." id="kg2-ara" oninput="filtre2('kg2')"></div>
+          <div class="popt new" onclick="togYF2('kg2')"><i class="ti ti-plus"></i> Yeni Firma Ekle</div>
+          <div id="kg2-liste">
+            <div class="popt" onclick="pSec2('kg2',this,'Yurtiçi Kargo')">🚚 Yurtiçi Kargo</div>
+            <div class="popt" onclick="pSec2('kg2',this,'MNG Kargo')">🚚 MNG Kargo</div>
+            <div class="popt" onclick="pSec2('kg2',this,'PTT Kargo')">🚚 PTT Kargo</div>
+          </div>
+        </div>
+      </div>
+      <div class="yform" id="yf-kg2">
+        <input class="inp" id="kg2-yeni" placeholder="Kargo firması adı...">
+        <button class="mini-btn" onclick="kg2Kaydet()">💾 Kaydet</button>
+      </div>
+      <div style="display:flex;gap:7px;margin-top:7px">
+        <input class="inp" type="number" placeholder="Kargo tutarı ₺" style="flex:1">
+        <input class="inp" placeholder="Takip No" style="flex:1.5">
+      </div>
+    </div>
+
+    <!-- Toplam Tutar Gider -->
+    <div class="card oz-item-g" id="ozg-tutar" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:4px">Toplam Tutar</div>
+      <div class="ttr-wrap">
+        <span class="ttr-pre" style="background:#c0392b">₺</span>
+        <input class="ttr-inp" type="number" id="ttr-g" placeholder="0.00" oninput="ozGuncG()" style="color:#c0392b">
+      </div>
+    </div>
+
+    <!-- Ödeme Gider -->
+    <div class="card oz-item-g" id="ozg-odeme" style="position:relative">
+      <div style="font-size:10px;color:#aaa;margin-bottom:6px">💳 Ödeme Şekli <span style="font-style:italic">(isteğe bağlı)</span></div>
+      <div class="od-grp-lbl">💵 Anlık Ödeme</div>
+      <div class="op oz-item-g" id="ozg-nakit" onclick="if(!DUZ_G)togOpG(this,'nakit-g')"><span class="op-ico">💵</span><span class="op-lbl">Nakit</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-nakit-g"><input class="od-i" id="oi-nakit-g" type="number" placeholder="Nakit tutar ₺" oninput="ozGuncG()"></div>
+      <div class="op oz-item-g" id="ozg-kart" onclick="if(!DUZ_G)togOpG(this,'kart-g')"><span class="op-ico">💳</span><span class="op-lbl">POS / Kart</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-kart-g">
+        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" id="oi-kart-g" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGuncG()"></div>
+      </div>
+      <div class="op oz-item-g" id="ozg-havale" onclick="if(!DUZ_G)togOpG(this,'havale-g')"><span class="op-ico">🏦</span><span class="op-lbl">Havale / EFT</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-havale-g">
+        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" id="oi-havale-g" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGuncG()"></div>
+      </div>
+      <div class="od-grp-lbl" style="margin-top:4px">📋 Borç Olarak Kaydedilecek</div>
+      <div class="op oz-item-g" id="ozg-acik" onclick="if(!DUZ_G)togOpG(this,'acik-g')"><span class="op-ico">📋</span><span class="op-lbl">Açık Hesap</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-acik-g">
+        <input class="od-i" id="oi-acik-g" type="number" placeholder="Açık hesap tutarı ₺" oninput="ozGuncG()">
+        <div class="od-row"><input class="od-i" type="number" placeholder="Taksit" style="flex:1"><input class="od-i" type="number" placeholder="Vade (gün)" style="flex:1"></div>
+      </div>
+      <div class="op oz-item-g" id="ozg-cek" onclick="if(!DUZ_G)togOpG(this,'cek-g')"><span class="op-ico">📄</span><span class="op-lbl">Çek / Senet</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
+      <div class="od-det" id="od-cek-g">
+        <div class="od-row"><select class="od-sel"><option>Çek</option><option>Senet</option></select><input class="od-i" id="oi-cek-g" type="number" placeholder="Tutar ₺" style="flex:1" oninput="ozGuncG()"></div>
+        <div class="od-row"><input class="od-i" placeholder="Banka" style="flex:1"><input class="od-i" placeholder="No" style="flex:1"></div>
+        <input class="od-i" type="date">
+      </div>
+      <div id="ozet-box-g" style="display:none" class="ozet-box">
+        <div class="oz-row"><span class="oz-lbl">Anlık Ödeme</span><span class="oz-val r" id="oz-anlik-g">₺0</span></div>
+        <div class="oz-row"><span class="oz-lbl">Borç</span><span class="oz-val r" id="oz-borc-g">₺0</span></div>
+        <div class="oz-row oz-tot"><span class="oz-lbl" style="color:#c0392b;font-weight:700">Toplam</span><span class="oz-val r" id="oz-top-g">₺0</span></div>
+      </div>
+    </div>
+
+    <button class="sav-btn" style="background:#c0392b;box-shadow:0 3px 10px rgba(192,57,43,.3)" onclick="kaydetG()">
+      <i class="ti ti-device-floppy" style="font-size:18px"></i> Kaydet
+    </button>
+  </div>
+</div>
+<script>
+var OZ_KEY='OZ_SATIS_V5'; var DUZ=false;
+
+var OZ_KEY = 'OZ_SATIS_V5';
+var DUZ = false;
+
+var aylar=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+var gunler=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+var fr=function(n){return '₺'+n.toLocaleString('tr-TR',{minimumFractionDigits:2});};
+
+// Tarih pill
+var TARIH = new Date();
+(function(){ var d=TARIH; document.getElementById('tarih-txt').textContent=d.getDate()+' '+aylar[d.getMonth()]+' '+d.getFullYear()+', '+gunler[d.getDay()]; })();
+function togTarih(e){
+  if(DUZ)return;
+  var dr=document.getElementById('tarih-drop'); var ac=!dr.classList.contains('ac');
+  dr.classList.toggle('ac',ac); document.getElementById('tarih-chev').style.transform=ac?'rotate(180deg)':'';
+}
+function tarihSec(el,tip){
+  document.querySelectorAll('.t-opt').forEach(function(b){b.classList.remove('on');}); el.classList.add('on');
+  var d=new Date(), txt='';
+  document.getElementById('ozel-row').classList.remove('ac');
+  if(tip==='bugun'){ txt=d.getDate()+' '+aylar[d.getMonth()]+' '+d.getFullYear()+', '+gunler[d.getDay()]; }
+  else if(tip==='dun'){ d.setDate(d.getDate()-1); txt=d.getDate()+' '+aylar[d.getMonth()]+' '+d.getFullYear(); }
+  else if(tip==='ozel'){ document.getElementById('ozel-row').classList.add('ac'); txt='Özel Tarih'; document.getElementById('ozel-tarih').value=new Date().toISOString().split('T')[0]; }
+  document.getElementById('tarih-txt').textContent=txt;
+  if(tip!=='ozel'){ document.getElementById('tarih-drop').classList.remove('ac'); document.getElementById('tarih-chev').style.transform=''; }
+}
+function ozelTarihSec(){ var v=document.getElementById('ozel-tarih').value; if(!v) return; var d=new Date(v); document.getElementById('tarih-txt').textContent=d.getDate()+' '+aylar[d.getMonth()]+' '+d.getFullYear(); document.getElementById('tarih-drop').classList.remove('ac'); document.getElementById('tarih-chev').style.transform=''; }
+document.addEventListener('click',function(e){ if(!document.getElementById('tarih-pill').contains(e.target)){ document.getElementById('tarih-drop').classList.remove('ac'); document.getElementById('tarih-chev').style.transform=''; } });
+
+// Sekmeler
+function sekme(t){
+  ['gelir','gider'].forEach(function(x){document.getElementById('tab-'+x).classList.toggle('on',x===t);});
+  document.getElementById('hdr-t').textContent=t==='gelir'?'💰 Gelir / Satış':'🛒 Gider / Alış';
+  document.getElementById('icerik-gelir').style.display=t==='gelir'?'flex':'none';
+  document.getElementById('icerik-gider').style.display=t==='gider'?'flex':'none';
+}
+
+// Pill dropdown
+var acP=null;
+function togP(id){
+  if(DUZ)return;
+  var dr=document.getElementById(id+'-drop'); var btn=document.getElementById(id+'-btn'); var chev=document.getElementById(id+'-chev');
+  var ac=!dr.classList.contains('ac');
+  if(acP&&acP!==id){ document.getElementById(acP+'-drop').classList.remove('ac'); document.getElementById(acP+'-btn').classList.remove('ac'); document.getElementById(acP+'-chev').style.transform=''; }
+  dr.classList.toggle('ac',ac); btn.classList.toggle('ac',ac); chev.style.transform=ac?'rotate(180deg)':''; acP=ac?id:null;
+}
+document.addEventListener('click',function(e){
+  ['ms','kg'].forEach(function(id){
+    var btn=document.getElementById(id+'-btn');
+    if(btn&&!btn.contains(e.target)){ document.getElementById(id+'-drop').classList.remove('ac'); btn.classList.remove('ac'); document.getElementById(id+'-chev').style.transform=''; }
+  });
+});
+function filtre(id){ var q=document.getElementById(id+'-ara').value.toLowerCase(); document.querySelectorAll('#'+id+'-liste .popt').forEach(function(o){o.style.display=o.textContent.toLowerCase().includes(q)?'':'none';}); }
+function pSec(id,el,ad){
+  if(DUZ)return;
+  document.querySelectorAll('#'+id+'-liste .popt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  document.getElementById(id+'-txt').textContent=(id==='ms'?'👤 ':'🚚 ')+ad;
+  document.getElementById(id+'-drop').classList.remove('ac'); document.getElementById(id+'-btn').classList.remove('ac'); document.getElementById(id+'-chev').style.transform=''; acP=null;
+  if(id==='ms') document.getElementById('plat-alan').style.display=ad==='Online / Platform'?'block':'none';
+}
+function togYF(id){
+  if(DUZ)return; document.getElementById('yf-'+id).classList.toggle('ac'); }
+
+// Müşteri kaydet
+function mKaydet(){ var inp=document.querySelector('#yf-ms .inp'); var ad=inp?inp.value.trim():''; if(!ad) return; var d=document.createElement('div'); d.className='popt'; d.textContent='👤 '+ad; d.onclick=function(){pSec('ms',d,ad);}; document.getElementById('ms-liste').appendChild(d); pSec('ms',d,ad); document.getElementById('yf-ms').classList.remove('ac'); if(inp)inp.value=''; }
+
+// Platform
+var PLAT=[]; var SELP=null;
+function platKaydet(){
+  if(DUZ)return;
+  var i=document.getElementById('plat-inp'); var a=i.value.trim(); if(!a)return;
+  if(PLAT.indexOf(a)<0) PLAT.push(a);
+  i.value=''; SELP=a; platRender();
+}
+function platRender(){
+  var c=document.getElementById('plat-list'); c.innerHTML='';
+  PLAT.forEach(function(a){
+    var ch=document.createElement('div'); var s=SELP===a;
+    ch.style.cssText='padding:5px 10px;border-radius:14px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid;display:inline-flex;align-items:center;gap:5px;'+(s?'border-color:#7c3aed;background:#f3eeff;color:#7c3aed':'border-color:#e0e0e0;background:#fafafa;color:#555');
+    ch.innerHTML='<span>'+(s?'✓ ':'')+a+'</span>';
+    if(s){
+      var edit=document.createElement('span'); edit.textContent='✏️'; edit.style.cssText='font-size:11px;cursor:pointer';
+      edit.onclick=function(e){e.stopPropagation();platDuzenleAc(a);};
+      ch.appendChild(edit);
+    }
+    ch.onclick=function(){SELP=a;platRender();};
+    c.appendChild(ch);
+  });
+}
+function platDuzenleAc(a){
+  if(DUZ)return;
+  var d=document.getElementById('plat-duzenle');
+  d.style.display='flex'; document.getElementById('plat-duzenle-inp').value=a;
+}
+function platDuzenleKapat(){ document.getElementById('plat-duzenle').style.display='none'; }
+function platGuncelle(){
+  var yeni=document.getElementById('plat-duzenle-inp').value.trim(); if(!yeni||!SELP)return;
+  var idx=PLAT.indexOf(SELP); if(idx>-1)PLAT[idx]=yeni; SELP=yeni;
+  platDuzenleKapat(); platRender();
+}
+function platSil(){
+  if(!SELP)return; var idx=PLAT.indexOf(SELP); if(idx>-1)PLAT.splice(idx,1); SELP=null;
+  platDuzenleKapat(); platRender();
+}
+document.getElementById('plat-inp').addEventListener('keydown',function(e){if(e.key==='Enter')platKaydet();});
+
+// Kargo kaydet
+function kgKaydet(){ var i=document.getElementById('kg-yeni'); var a=i.value.trim(); if(!a)return; var d=document.createElement('div'); d.className='popt'; d.textContent='🚚 '+a; d.onclick=function(){pSec('kg',d,a);}; document.getElementById('kg-liste').appendChild(d); pSec('kg',d,a); document.getElementById('yf-kg').classList.remove('ac'); i.value=''; }
+
+// Not
+function togNot(id){
+  if(DUZ)return; document.getElementById(id).classList.toggle('ac'); }
+
+// Kategori - seçince diğerleri gizlenir
+var SEL_KAT=null;
+// ── SATIR/SÜTUN SİSTEMİ ──
+var KAT_DURUM = {}; // {kat: {ekSutunlar:[{ad}], satirSayisi:2}}
+var SABLON_KEY = 'KAT_SABLONLAR_V3';
+
+function sablonOku(){ try{return JSON.parse(localStorage.getItem(SABLON_KEY)||'{}');}catch(e){return {};} }
+function sablonYaz(d){ try{localStorage.setItem(SABLON_KEY,JSON.stringify(d));}catch(e){} }
+
+function katDurumAl(kat){
+  if(!KAT_DURUM[kat]){
+    var sb = sablonOku();
+    if(sb[kat]){
+      KAT_DURUM[kat] = JSON.parse(JSON.stringify(sb[kat]));
+    } else {
+      // Varsayılan: 2 satır, 1 ek sütun (toplam 2 sütun: Kat N + Ek + Tutar)
+      KAT_DURUM[kat] = {ekSutunlar:[{ad:''}], satirSayisi:2, degerler:[{ek:[],tutar:''},{ek:[],tutar:''}]};
+    }
+  }
+  return KAT_DURUM[kat];
+}
+
+function tablo(kat){
+  var d = katDurumAl(kat);
+  var baslik = document.getElementById('sutun-basliklar');
+  var tabloDiv = document.getElementById('satir-tablosu');
+  baslik.innerHTML = ''; tabloDiv.innerHTML = '';
+
+  // Başlık satırı: [Kategori] [ek sütunlar...] [Tutar ₺]
+  // İlk sütun başlığı
+  var b0 = document.createElement('div');
+  b0.style.cssText = 'flex:2;font-size:10px;font-weight:700;color:#4a7c8e;padding:3px 7px';
+  b0.textContent = kat;
+  baslik.appendChild(b0);
+  // Ek sütun başlıkları
+  d.ekSutunlar.forEach(function(s,si){
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'flex:2;display:flex;gap:2px;align-items:center';
+    var inp = document.createElement('input');
+    inp.className = 'inp'; inp.value = s.ad; inp.placeholder = 'Sütun '+(si+2);
+    inp.style.cssText = 'flex:1;font-size:10px;padding:3px 7px;color:#4a7c8e;background:#edf4f7;border-color:#c8d8e8';
+    inp.oninput = (function(i){ return function(){ KAT_DURUM[kat].ekSutunlar[i].ad = this.value; }; })(si);
+    var x = document.createElement('button');
+    x.innerHTML = '<i class="ti ti-x" style="font-size:11px"></i>';
+    x.style.cssText = 'background:none;border:none;color:#ccc;cursor:pointer;padding:1px;flex-shrink:0';
+    x.onclick = (function(i){ return function(){ KAT_DURUM[kat].ekSutunlar.splice(i,1); tablo(kat); }; })(si);
+    wrap.appendChild(inp); wrap.appendChild(x);
+    baslik.appendChild(wrap);
+  });
+  // Tutar başlık
+  var bt = document.createElement('div');
+  bt.style.cssText = 'flex:1;font-size:10px;font-weight:700;color:#2e7d52;padding:3px 7px;text-align:right;flex-shrink:0';
+  bt.textContent = 'Tutar ₺';
+  baslik.appendChild(bt);
+
+  // Satır verisi
+  if(!d.degerler) d.degerler = [];
+  while(d.degerler.length < d.satirSayisi) d.degerler.push({ek:[], tutar:''});
+
+  // Satırlar
+  for(var ri=0; ri<d.satirSayisi; ri++){
+    var row = mkSatirEl(kat, ri);
+    tabloDiv.appendChild(row);
+  }
+}
+
+function mkSatirEl(kat, ri){
+  var d = KAT_DURUM[kat];
+  var veri = (d.degerler && d.degerler[ri]) ? d.degerler[ri] : {ek:[], tutar:''};
+  var row = document.createElement('div');
+  row.className = 'sr'; row.style.marginBottom = '5px'; row.dataset.ri = ri;
+
+  // İlk sütun: salt okunur "Kategori N"
+  var c0 = document.createElement('input');
+  c0.className = 'inp'; c0.style.cssText = 'flex:2;font-size:12px;background:#f8f9fa;color:#4a7c8e;font-weight:600';
+  c0.value = kat + ' ' + (ri+1); c0.readOnly = true;
+  row.appendChild(c0);
+
+  // Ek sütunlar
+  d.ekSutunlar.forEach(function(s,si){
+    var ci = document.createElement('input');
+    ci.className = 'inp'; ci.style.cssText = 'flex:2;font-size:12px';
+    ci.placeholder = s.ad || ('Sütun '+(si+2));
+    ci.value = (veri.ek && veri.ek[si]) ? veri.ek[si] : '';
+    ci.oninput = (function(r,i){ return function(){
+      if(!KAT_DURUM[kat].degerler[r]) KAT_DURUM[kat].degerler[r]={ek:[],tutar:''};
+      KAT_DURUM[kat].degerler[r].ek[i] = this.value;
+    }; })(ri,si);
+    row.appendChild(ci);
+  });
+
+  // Tutar
+  var ti = document.createElement('input');
+  ti.className = 'inp'; ti.type = 'number'; ti.placeholder = '0';
+  ti.value = veri.tutar || ''; ti.style.cssText = 'flex:1;text-align:right;font-size:12px;flex-shrink:0';
+  ti.oninput = (function(r){ return function(){
+    if(!KAT_DURUM[kat].degerler[r]) KAT_DURUM[kat].degerler[r]={ek:[],tutar:''};
+    KAT_DURUM[kat].degerler[r].tutar = parseFloat(this.value||0);
+    satirTopla();
+  }; })(ri);
+  row.appendChild(ti);
+
+  // Sil
+  var sil = document.createElement('button');
+  sil.className = 'sr-sil'; sil.innerHTML = '<i class="ti ti-x"></i>';
+  sil.onclick = (function(r){ return function(){
+    KAT_DURUM[kat].satirSayisi--;
+    KAT_DURUM[kat].degerler.splice(r,1);
+    tablo(kat); satirTopla();
+  }; })(ri);
+  row.appendChild(sil);
+  return row;
+}
+
+function srEkle(){
+  if(!SEL_KAT||SEL_KAT==='Stoklu Satış') return;
+  var d = katDurumAl(SEL_KAT);
+  d.satirSayisi++;
+  if(!d.degerler) d.degerler=[];
+  d.degerler.push({ek:[], tutar:''});
+  tablo(SEL_KAT); satirTopla();
+}
+
+function sutunEkle(){
+  if(!SEL_KAT||SEL_KAT==='Stoklu Satış') return;
+  var d = katDurumAl(SEL_KAT);
+  d.ekSutunlar.push({ad:''});
+  tablo(SEL_KAT);
+}
+
+function sablonKaydet(){
+  if(!SEL_KAT) return;
+  var sb = sablonOku();
+  sb[SEL_KAT] = JSON.parse(JSON.stringify(KAT_DURUM[SEL_KAT]));
+  sablonYaz(sb);
+  // Geri bildirim
+  var btns = document.querySelectorAll('#satirlar .sr-ekle');
+  var kaydetBtn = btns[btns.length-1];
+  if(kaydetBtn){ kaydetBtn.innerHTML='✅ Kaydedildi!'; kaydetBtn.style.borderColor='#2e7d52'; setTimeout(function(){ kaydetBtn.innerHTML='<i class="ti ti-device-floppy"></i> Kaydet'; kaydetBtn.style.borderColor=''; },1500); }
+}
+
+function srSil(b){ b.closest('.sr').remove(); }
+var KAT_LABELS={};
+function katSec(el,ad){
+  if(DUZ) return;
+  var satirlarDiv = document.getElementById('satirlar');
+  var ttrEl = document.getElementById('ttr');
+
+  // Tekrar tıklanınca iptal
+  if(SEL_KAT === ad){
+    SEL_KAT = null;
+    el.classList.remove('on');
+    document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){ k.style.display=''; });
+    satirlarDiv.classList.remove('ac');
+    ttrEl.readOnly = false;
+    ttrEl.style.color = '#2e7d52';
+    ttrEl.style.background = '';
+    ttrEl.value = '';
+    return;
+  }
+
+  SEL_KAT = ad;
+  // Diğer kategorileri gizle, sadece seçileni göster
+  document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){
+    k.classList.remove('on');
+    k.style.display = (k === el) ? '' : 'none';
+  });
+  el.classList.add('on');
+
+  if(ad === 'Stoklu Satış'){
+    satirlarDiv.classList.remove('ac');
+    ttrEl.readOnly = false;
+    ttrEl.style.color = '#2e7d52';
+    ttrEl.style.background = '';
+  } else {
+    satirlarDiv.classList.add('ac');
+    ttrEl.readOnly = true;
+    ttrEl.style.color = '#888';
+    ttrEl.style.background = '#f5f5f5';
+    tablo(ad);
+    satirTopla();
+  }
+}
+
+function safeId(s){ return s.replace(/[^a-zA-Z0-9À-ɏ]/g,'_'); }
+function katSilModal(i){
+  var a=EKSTRA_KAT[i]; if(!a) return;
+  EKSTRA_KAT.splice(i,1);
+  var el=document.getElementById('kat-item-'+safeId(a));
+  if(el) el.remove();
+  katModalRender();
+}
+function katDuzenle(i){
+  var eski=EKSTRA_KAT[i]; if(!eski) return;
+  var yeni=prompt('Yeni ad:',eski); if(!yeni||!yeni.trim()) return;
+  yeni=yeni.trim(); EKSTRA_KAT[i]=yeni;
+  var el=document.getElementById('kat-item-'+safeId(eski));
+  if(el){
+    el.querySelector('.kat-lbl').textContent=yeni;
+    el.id='kat-item-'+safeId(yeni);
+    el.dataset.ozKat=safeId(yeni);
+    (function(adC,elC){ elC.onclick=function(){katSec(elC,adC);}; })(yeni,el);
+  }
+  katModalRender();
+}
+
+// ── GİDER JS ──
+var SEL_KAT_G = null;
+var DUZ_G = false;
+var EKSTRA_KAT_G = [];
+var OZ_KEY_G = 'OZ_GIDER_V2';
+var KAT_DURUM_G = {};
+var SABLON_KEY_G = 'KAT_SABLONLAR_GIDER_V1';
+
+function sablonOkuG(){ try{return JSON.parse(localStorage.getItem(SABLON_KEY_G)||'{}');}catch(e){return {};} }
+function sablonYazG(d){ try{localStorage.setItem(SABLON_KEY_G,JSON.stringify(d));}catch(e){} }
+
+function katDurumAlG(kat){
+  if(!KAT_DURUM_G[kat]){
+    var sb=sablonOkuG();
+    KAT_DURUM_G[kat]=sb[kat]?JSON.parse(JSON.stringify(sb[kat])):{ekSutunlar:[{ad:''}],satirSayisi:2,degerler:[{ek:[],tutar:''},{ek:[],tutar:''}]};
+  }
+  return KAT_DURUM_G[kat];
+}
+
+function tabloG(kat){
+  var d=katDurumAlG(kat);
+  var baslik=document.getElementById('sutun-basliklar-g');
+  var tabloDiv=document.getElementById('satir-tablosu-g');
+  baslik.innerHTML=''; tabloDiv.innerHTML='';
+  var b0=document.createElement('div');
+  b0.style.cssText='flex:2;font-size:10px;font-weight:700;color:#c0392b;padding:3px 7px';
+  b0.textContent=kat; baslik.appendChild(b0);
+  d.ekSutunlar.forEach(function(s,si){
+    var wrap=document.createElement('div'); wrap.style.cssText='flex:2;display:flex;gap:2px;align-items:center';
+    var inp=document.createElement('input'); inp.className='inp'; inp.value=s.ad; inp.placeholder='Sütun '+(si+2);
+    inp.style.cssText='flex:1;font-size:10px;padding:3px 7px;color:#c0392b;background:#fef0ee;border-color:#f5c0b8';
+    inp.oninput=(function(i){return function(){KAT_DURUM_G[kat].ekSutunlar[i].ad=this.value;};})(si);
+    var x=document.createElement('button'); x.innerHTML='<i class="ti ti-x" style="font-size:11px"></i>';
+    x.style.cssText='background:none;border:none;color:#ccc;cursor:pointer;padding:1px;flex-shrink:0';
+    x.onclick=(function(i){return function(){KAT_DURUM_G[kat].ekSutunlar.splice(i,1);tabloG(kat);};})(si);
+    wrap.appendChild(inp); wrap.appendChild(x); baslik.appendChild(wrap);
+  });
+  var bt=document.createElement('div');
+  bt.style.cssText='flex:1;font-size:10px;font-weight:700;color:#c0392b;padding:3px 7px;text-align:right;flex-shrink:0';
+  bt.textContent='Tutar ₺'; baslik.appendChild(bt);
+  if(!d.degerler) d.degerler=[];
+  while(d.degerler.length<d.satirSayisi) d.degerler.push({ek:[],tutar:''});
+  for(var ri=0;ri<d.satirSayisi;ri++) tabloDiv.appendChild(mkSatirElG(kat,ri));
+}
+
+function mkSatirElG(kat,ri){
+  var d=KAT_DURUM_G[kat];
+  var veri=(d.degerler&&d.degerler[ri])?d.degerler[ri]:{ek:[],tutar:''};
+  var row=document.createElement('div'); row.className='sr'; row.style.marginBottom='5px'; row.dataset.ri=ri;
+  var c0=document.createElement('input'); c0.className='inp';
+  c0.style.cssText='flex:2;font-size:12px;background:#f8f9fa;color:#c0392b;font-weight:600';
+  c0.value=kat+' '+(ri+1); c0.readOnly=true; row.appendChild(c0);
+  d.ekSutunlar.forEach(function(s,si){
+    var ci=document.createElement('input'); ci.className='inp'; ci.style.cssText='flex:2;font-size:12px';
+    ci.placeholder=s.ad||('Sütun '+(si+2));
+    ci.value=(veri.ek&&veri.ek[si])?veri.ek[si]:'';
+    ci.oninput=(function(r,i){return function(){if(!KAT_DURUM_G[kat].degerler[r])KAT_DURUM_G[kat].degerler[r]={ek:[],tutar:''};KAT_DURUM_G[kat].degerler[r].ek[i]=this.value;};})(ri,si);
+    row.appendChild(ci);
+  });
+  var ti=document.createElement('input'); ti.className='inp'; ti.type='number'; ti.placeholder='0';
+  ti.value=veri.tutar||''; ti.style.cssText='flex:1;text-align:right;font-size:12px;flex-shrink:0';
+  ti.oninput=(function(r){return function(){if(!KAT_DURUM_G[kat].degerler[r])KAT_DURUM_G[kat].degerler[r]={ek:[],tutar:''};KAT_DURUM_G[kat].degerler[r].tutar=parseFloat(this.value||0);satirToplaG();};})(ri);
+  var sil=document.createElement('button'); sil.className='sr-sil'; sil.innerHTML='<i class="ti ti-x"></i>';
+  sil.onclick=(function(r){return function(){KAT_DURUM_G[kat].satirSayisi--;KAT_DURUM_G[kat].degerler.splice(r,1);tabloG(kat);satirToplaG();};})(ri);
+  row.appendChild(ti); row.appendChild(sil);
+  return row;
+}
+
+function katSecG(el,ad){
+  if(DUZ_G) return;
+  var sarDiv=document.getElementById('satirlar-g');
+  var ttrEl=document.getElementById('ttr-g');
+  if(SEL_KAT_G===ad){
+    SEL_KAT_G=null; el.classList.remove('on');
+    document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.style.display='';});
+    sarDiv.classList.remove('ac'); ttrEl.readOnly=false; ttrEl.style.color='#c0392b'; ttrEl.style.background=''; ttrEl.value='';
+    return;
+  }
+  SEL_KAT_G=ad;
+  document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.classList.remove('on');k.style.display=(k===el)?'':'none';});
+  el.classList.add('on');
+  sarDiv.classList.add('ac');
+  ttrEl.readOnly=true; ttrEl.style.color='#888'; ttrEl.style.background='#f5f5f5';
+  tabloG(ad); satirToplaG();
+}
+
+function satirToplaG(){
+  if(!SEL_KAT_G) return;
+  var top=0;
+  document.querySelectorAll('#satir-tablosu-g .sr input[type="number"]').forEach(function(inp){top+=parseFloat(inp.value||0);});
+  var el=document.getElementById('ttr-g'); el.value=top>0?top.toFixed(2):'';
+  ozGuncG();
+}
+
+function srEkleG(){
+  if(!SEL_KAT_G) return;
+  var d=katDurumAlG(SEL_KAT_G); d.satirSayisi++;
+  if(!d.degerler) d.degerler=[]; d.degerler.push({ek:[],tutar:''});
+  tabloG(SEL_KAT_G); satirToplaG();
+}
+
+function sutunEkleG(){
+  if(!SEL_KAT_G) return;
+  var d=katDurumAlG(SEL_KAT_G);
+  d.ekSutunlar.push({ad:''}); tabloG(SEL_KAT_G);
+}
+
+function sablonKaydetG(){
+  if(!SEL_KAT_G) return;
+  var sb=sablonOkuG(); sb[SEL_KAT_G]=JSON.parse(JSON.stringify(KAT_DURUM_G[SEL_KAT_G])); sablonYazG(sb);
+  var btns=document.querySelectorAll('#satirlar-g .sr-ekle');
+  var btn=btns[btns.length-1];
+  if(btn){btn.innerHTML='✅ Kaydedildi!';btn.style.borderColor='#2e7d52';setTimeout(function(){btn.innerHTML='<i class="ti ti-device-floppy"></i> Kaydet';btn.style.borderColor='';},1500);}
+}
+
+// Pill dropdown gider
+var acPG=null;
+function togPG(id){
+  var dr=document.getElementById(id+'-drop'); var btn=document.getElementById(id+'-btn'); var chev=document.getElementById(id+'-chev');
+  var ac=!dr.classList.contains('ac');
+  if(acPG&&acPG!==id){document.getElementById(acPG+'-drop').classList.remove('ac');document.getElementById(acPG+'-btn').classList.remove('ac');var cv=document.getElementById(acPG+'-chev');if(cv)cv.style.transform='';}
+  dr.classList.toggle('ac',ac); btn.classList.toggle('ac',ac); chev.style.transform=ac?'rotate(180deg)':''; acPG=ac?id:null;
+}
+function filtreG(id){var q=document.getElementById(id+'-ara').value.toLowerCase();document.querySelectorAll('#'+id+'-liste .popt').forEach(function(o){o.style.display=o.textContent.toLowerCase().includes(q)?'':'none';});}
+function pSecG(id,el,ad){document.querySelectorAll('#'+id+'-liste .popt').forEach(function(o){o.classList.remove('sel');});el.classList.add('sel');document.getElementById(id+'-txt').textContent=(id==='td'?'🏭 ':'🚚 ')+ad;document.getElementById(id+'-drop').classList.remove('ac');document.getElementById(id+'-btn').classList.remove('ac');var cv=document.getElementById(id+'-chev');if(cv)cv.style.transform='';acPG=null;}
+function togYFG(id){document.getElementById('yf-'+id).classList.toggle('ac');}
+function tdKaydet(){var inp=document.querySelector('#yf-td .inp');var ad=inp?inp.value.trim():'';if(!ad)return;var d=document.createElement('div');d.className='popt';d.textContent='🏭 '+ad;d.onclick=function(){pSecG('td',d,ad);};document.getElementById('td-liste').appendChild(d);pSecG('td',d,ad);document.getElementById('yf-td').classList.remove('ac');if(inp)inp.value='';}
+function kg2Kaydet(){var i=document.getElementById('kg2-yeni');var a=i.value.trim();if(!a)return;var d=document.createElement('div');d.className='popt';d.textContent='🚚 '+a;d.onclick=function(){pSecG('kg2',d,a);};document.getElementById('kg2-liste').appendChild(d);pSecG('kg2',d,a);document.getElementById('yf-kg2').classList.remove('ac');i.value='';}
+
+function togOpG(el,id){el.classList.toggle('on');document.getElementById('od-'+id).classList.toggle('ac');ozGuncG();}
+function ovG(id){var e=document.getElementById('oi-'+id);return e?parseFloat(e.value||0):0;}
+function ozGuncG(){var an=ovG('nakit-g')+ovG('kart-g')+ovG('havale-g');var bo=ovG('acik-g')+ovG('cek-g');var top=an+bo;var box=document.getElementById('ozet-box-g');if(!box)return;box.style.display=top>0?'block':'none';if(top>0){document.getElementById('oz-anlik-g').textContent=fr(an);document.getElementById('oz-borc-g').textContent=fr(bo);document.getElementById('oz-top-g').textContent=fr(top);}}
+
+// Gider Kategori Ekle Modal
+function katEkleModalG(){if(DUZ_G)return;katModalRenderG();document.getElementById('kat-modal-g').style.display='flex';}
+function katModalKapatG(){document.getElementById('kat-modal-g').style.display='none';}
+function katModalRenderG(){var c=document.getElementById('kat-kayitli-liste-g');c.innerHTML='';EKSTRA_KAT_G.forEach(function(a,i){var row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:7px;padding:6px 8px;background:#f8f9fa;border-radius:8px';row.innerHTML='<span style="flex:1;font-size:12px;font-weight:600">'+a+'</span><button onclick="katDuzenleG('+i+')" style="background:none;border:1px solid #ddd;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer">✏️</button><button onclick="katSilModalG('+i+')" style="background:none;border:1px solid #fcc;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;color:#e74c3c">🗑</button>';c.appendChild(row);});}
+function katYeniKaydetG(){var a=document.getElementById('kat-yeni-inp-g').value.trim();if(!a)return;EKSTRA_KAT_G.push(a);var safe=safeId(a);var grid=document.getElementById('kat-grid-g');var last=grid.lastElementChild;var el=document.createElement('div');el.className='kat-item';el.dataset.ozKatG=safe;el.id='kat-item-g-'+safe;el.style.position='relative';el.innerHTML='<div class="kat-ico kc1" style="font-size:20px">📌</div><span class="kat-lbl">'+a+'</span>';(function(adC,elC){elC.onclick=function(){if(!DUZ_G)katSecG(elC,adC);};})(a,el);grid.insertBefore(el,last);document.getElementById('kat-yeni-inp-g').value='';katModalRenderG();}
+function katSilModalG(i){var a=EKSTRA_KAT_G[i];if(!a)return;EKSTRA_KAT_G.splice(i,1);var el=document.getElementById('kat-item-g-'+safeId(a));if(el)el.remove();katModalRenderG();}
+function katDuzenleG(i){var eski=EKSTRA_KAT_G[i];if(!eski)return;var yeni=prompt('Yeni ad:',eski);if(!yeni||!yeni.trim())return;yeni=yeni.trim();EKSTRA_KAT_G[i]=yeni;var el=document.getElementById('kat-item-g-'+safeId(eski));if(el){el.querySelector('.kat-lbl').textContent=yeni;el.id='kat-item-g-'+safeId(yeni);el.dataset.ozKatG=safeId(yeni);(function(adC,elC){elC.onclick=function(){if(!DUZ_G)katSecG(elC,adC);};})(yeni,el);}katModalRenderG();}
+
+// Gider Özelleştir
+function ozAG(){try{return JSON.parse(localStorage.getItem(OZ_KEY_G)||'{}');}catch(e){return {};}}
+function togDuzG(){
+  DUZ_G=!DUZ_G;
+  var btn=document.getElementById('duz-btn-g');btn.classList.toggle('ak',DUZ_G);
+  document.getElementById('duz-lbl-g').textContent=DUZ_G?'✕ Bitir':'gizle / göster';
+  if(DUZ_G){
+    var a=ozAG();
+    document.querySelectorAll('.oz-item-g[id^="ozg-"]').forEach(function(el){if(a[el.id]==='1'){el.style.display='';el.style.opacity='0.25';}});
+    document.querySelectorAll('[data-oz-kat-g]').forEach(function(el){if(a['kat_g_'+el.dataset.ozKatG]==='1'){el.style.display='flex';el.style.opacity='0.25';}});
+    ozBtnEkleG();
+  } else {
+    document.querySelectorAll('.oz-item-btn-g').forEach(function(b){b.remove();}); ozUygulaG();
+  }
+}
+function ozUygulaG(){
+  var a=ozAG();
+  document.querySelectorAll('.oz-item-g[id^="ozg-"]').forEach(function(el){if(!DUZ_G){el.style.display=a[el.id]==='1'?'none':'';el.style.opacity='';}});
+  document.querySelectorAll('[data-oz-kat-g]').forEach(function(el){if(!DUZ_G){el.style.display=a['kat_g_'+el.dataset.ozKatG]==='1'?'none':'flex';el.style.opacity='';}});
+}
+function ozBtnEkleG(){
+  var a=ozAG();
+  document.querySelectorAll('.oz-item-g[id^="ozg-"]').forEach(function(el){
+    var ex=el.querySelector('.oz-item-btn-g');if(ex)ex.remove();
+    var g=a[el.id]==='1';var b=document.createElement('button');b.className='oz-item-btn-g';
+    b.style.cssText='background:'+(g?'#2e7d52':'#e74c3c')+';position:absolute;top:6px;right:6px;border:none;border-radius:5px;padding:2px 8px;font-size:9px;font-weight:700;color:#fff;cursor:pointer;z-index:30';
+    b.textContent=g?'👁 Göster':'✕ Gizle';var idC=el.id;
+    b.onclick=function(e){e.stopPropagation();e.preventDefault();var a2=ozAG();a2[idC]=a2[idC]==='1'?'0':'1';localStorage.setItem(OZ_KEY_G,JSON.stringify(a2));var gz=a2[idC]==='1';b.style.background=gz?'#2e7d52':'#e74c3c';b.textContent=gz?'👁 Göster':'✕ Gizle';el.style.opacity=gz?'0.25':'';el.style.display='';};
+    el.style.position='relative';el.appendChild(b);if(g){el.style.opacity='0.25';el.style.display='';}
+  });
+  document.querySelectorAll('[data-oz-kat-g]').forEach(function(el){
+    var ex=el.querySelector('.oz-item-btn-g');if(ex)ex.remove();
+    var key='kat_g_'+el.dataset.ozKatG;var g=a[key]==='1';var b=document.createElement('button');b.className='oz-item-btn-g';
+    b.style.cssText='background:'+(g?'#2e7d52':'#e74c3c')+';position:absolute;top:2px;right:2px;border:none;border-radius:4px;padding:2px 6px;font-size:9px;font-weight:700;color:#fff;cursor:pointer;z-index:30';
+    b.textContent=g?'👁':'✕';el.style.position='relative';var kC=key;
+    b.onclick=function(e){e.stopPropagation();e.preventDefault();var a2=ozAG();a2[kC]=a2[kC]==='1'?'0':'1';localStorage.setItem(OZ_KEY_G,JSON.stringify(a2));var gz=a2[kC]==='1';b.style.background=gz?'#2e7d52':'#e74c3c';b.textContent=gz?'👁':'✕';el.style.opacity=gz?'0.25':'';el.style.display='flex';};
+    el.appendChild(b);if(g){el.style.opacity='0.25';el.style.display='flex';}
+  });
+}
+
+function kaydetG(){
+  var dv=SEL_KAT_G&&KAT_DURUM_G[SEL_KAT_G]?JSON.parse(JSON.stringify(KAT_DURUM_G[SEL_KAT_G].degerler||[])):[];
+  var veri={id:Date.now().toString(),tarih:document.getElementById('tarih-txt').textContent,tutar:parseFloat(document.getElementById('ttr-g').value||0),kategori:SEL_KAT_G,nakit:ovG('nakit-g'),kart:ovG('kart-g'),havale:ovG('havale-g'),acik:ovG('acik-g'),cek:ovG('cek-g'),degerler:dv};
+  try{var m=JSON.parse(localStorage.getItem('KAYITLAR_GIDER')||'[]');m.push(veri);localStorage.setItem('KAYITLAR_GIDER',JSON.stringify(m));}catch(e){}
+  alert('✅ Kaydedildi!');
+}
+
+
+// ── STOK SİSTEMİ ──
+function togStok(){
+  var drop=document.getElementById('stok-drop');
+  var chev=document.getElementById('stok-chev');
+  var btn=document.getElementById('stok-btn');
+  var ac=!drop.classList.contains('ac');
+  drop.classList.toggle('ac',ac); chev.style.transform=ac?'rotate(180deg)':''; btn.classList.toggle('ac',ac);
+  if(ac) stokListeGunc('');
+}
+function stokFiltre(){ stokListeGunc(document.getElementById('stok-ara').value.toLowerCase()); }
+function stokListeGunc(q){
+  var liste=document.getElementById('stok-liste'); if(!liste) return;
+  liste.innerHTML='';
+  var kayitlar=[]; try{kayitlar=JSON.parse(localStorage.getItem('KAYITLAR_GIDER')||'[]');}catch(e){}
+  var stoklar=kayitlar.filter(function(k){ return k.kategori==='Stok Alışı'; });
+  if(!stoklar.length){
+    liste.innerHTML='<div style="padding:12px;text-align:center;font-size:11px;color:#aaa">Kayıtlı stok yok.<br>Gider ekranından Stok Alışı yapın.</div>';
+    return;
+  }
+  stoklar.forEach(function(k){
+    var ad='Stok';
+    if(k.degerler&&k.degerler[0]){
+      var d=k.degerler[0];
+      var c0val=document.getElementById('satir-tablosu') ? '' : '';
+      // İlk satırın ilk input değeri
+      if(d.c0) ad=d.c0;
+      else if(d.ek&&d.ek[0]) ad=d.ek[0];
+      else ad='Stok #'+(k.id||'').slice(-4);
+    } else { ad='Stok #'+(k.id||'').slice(-4); }
+    if(q&&!JSON.stringify(k).toLowerCase().includes(q)) return;
+    var item=document.createElement('div'); item.className='popt'; item.style.flexDirection='column'; item.style.alignItems='flex-start';
+    item.innerHTML='<div style="font-size:12px;font-weight:700">📦 '+ad+'</div><div style="font-size:10px;color:#4a7c8e">Alış: ₺'+(k.tutar||0).toLocaleString('tr-TR')+' • '+k.tarih+'</div>';
+    (function(kk,aa){ item.onclick=function(){ stokSec(kk,aa); }; })(k,ad);
+    liste.appendChild(item);
+  });
+}
+function stokSec(k,ad){
+  document.getElementById('stok-drop').classList.remove('ac');
+  document.getElementById('stok-chev').style.transform='';
+  document.getElementById('stok-btn').classList.remove('ac');
+  document.getElementById('stok-txt').textContent='📦 '+ad;
+  var sec=document.getElementById('stok-secilen'); sec.style.display='block';
+  document.getElementById('stok-secilen-ad').textContent=ad;
+  document.getElementById('stok-secilen-detay').textContent='Alış: ₺'+(k.tutar||0).toLocaleString('tr-TR')+' | '+k.tarih;
+  if(k.degerler&&k.degerler.length){
+    KAT_DURUM['Stoklu Satış']={ekSutunlar:(KAT_DURUM_G&&KAT_DURUM_G['Stok Alışı']?KAT_DURUM_G['Stok Alışı'].ekSutunlar:[{ad:''}]),satirSayisi:k.degerler.length,degerler:JSON.parse(JSON.stringify(k.degerler))};
+  } else {
+    KAT_DURUM['Stoklu Satış']={ekSutunlar:[{ad:''}],satirSayisi:1,degerler:[{ek:[],tutar:''}]};
+  }
+  document.getElementById('satirlar').classList.add('ac');
+  tablo('Stoklu Satış');
+  document.querySelectorAll('#satir-tablosu input[type=number]').forEach(function(i){i.value='';});
+  var ttr=document.getElementById('ttr'); ttr.readOnly=false; ttr.style.color='#2e7d52'; ttr.style.background='#f0fff4'; ttr.placeholder='Satış fiyatı girin...'; ttr.value='';
+}
+document.addEventListener('click',function(e){ var b=document.getElementById('stok-btn'); if(b&&!b.contains(e.target)){document.getElementById('stok-drop').classList.remove('ac');document.getElementById('stok-chev').style.transform='';b.classList.remove('ac');} });
+
+</script>
+
+<!-- Kategori Ekle Modal -->
+<div id="kat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;justify-content:center">
+  <div style="background:#fff;border-radius:20px 20px 0 0;padding:18px 16px 28px;width:360px;max-width:100%">
+    <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:12px;text-align:center">Kategori Yönet</div>
+    <div id="kat-kayitli-liste" style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;max-height:160px;overflow-y:auto"></div>
+    <div style="display:flex;gap:7px;margin-bottom:6px">
+      <input class="inp" id="kat-yeni-inp" placeholder="Yeni kategori adı...">
+    </div>
+    <div style="display:flex;gap:7px">
+      <button onclick="katYeniKaydet()" style="flex:1;background:#4a7c8e;border:none;border-radius:9px;padding:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">+ Ekle</button>
+      <button onclick="katModalKapat()" style="flex:1;background:#f0f2f5;border:none;border-radius:9px;padding:9px;color:#666;font-size:12px;font-weight:700;cursor:pointer">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<div id="kat-modal-g" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end;justify-content:center">
+  <div style="background:#fff;border-radius:20px 20px 0 0;padding:18px 16px 28px;width:360px;max-width:100%">
+    <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:12px;text-align:center">Gider Kategorisi Yönet</div>
+    <div id="kat-kayitli-liste-g" style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;max-height:160px;overflow-y:auto"></div>
+    <input class="inp" id="kat-yeni-inp-g" placeholder="Yeni kategori adı..." style="margin-bottom:8px">
+    <div style="display:flex;gap:7px">
+      <button onclick="katYeniKaydetG()" style="flex:1;background:#c0392b;border:none;border-radius:9px;padding:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">+ Ekle</button>
+      <button onclick="katModalKapatG()" style="flex:1;background:#f0f2f5;border:none;border-radius:9px;padding:9px;color:#666;font-size:12px;font-weight:700;cursor:pointer">Kapat</button>
+    </div>
+  </div>
+</div>
+</body></html>

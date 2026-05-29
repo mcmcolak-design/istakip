@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
+body{background:#e0e4e8;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:20px 0}
+.phone{width:360px;background:#f0f2f5;border-radius:28px;box-shadow:0 8px 32px rgba(0,0,0,.18);border:6px solid #222;overflow:hidden}
+
+/* Header */
+.hdr{background:#4a7c8e;padding:12px 16px;display:flex;align-items:center;gap:8px}
+.hdr i{color:#fff;font-size:20px;cursor:pointer}
+.hdr-t{color:#fff;font-size:15px;font-weight:700;flex:1;text-align:center}
+.hdr-sub{color:rgba(255,255,255,.7);font-size:10px;text-align:center;display:block}
+.oline{height:3px;background:#f90}
+
+/* Özet panel */
+.ozet{background:linear-gradient(135deg,#2c3e50,#4a7c8e);padding:16px 14px 18px}
+.tarih-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border-radius:20px;padding:5px 12px;color:rgba(255,255,255,.85);font-size:11px;font-weight:600;cursor:pointer;position:relative;margin-bottom:10px}
+.tarih-drop{display:none;position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#fff;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.2);z-index:50;min-width:170px;overflow:hidden}
+.tarih-drop.ac{display:block}
+.t-opt{padding:10px 16px;font-size:12px;font-weight:600;color:#333;cursor:pointer;border-bottom:.5px solid #f0f0f0}
+.t-opt:last-child{border:none}
+.t-opt:hover{background:#f5f5f5}
+.t-opt.on{color:#4a7c8e}
+.ozel-row{display:flex;gap:6px;padding:8px 10px;background:rgba(255,255,255,.12);border-radius:10px;margin-top:4px;display:none}
+.ozel-row.ac{display:flex}
+.ozel-inp{flex:1;border:none;border-radius:7px;padding:5px 7px;font-size:11px;background:rgba(255,255,255,.9);color:#333;outline:none;min-width:0}
+.net-lbl{color:rgba(255,255,255,.6);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;text-align:center}
+.net-val{font-size:28px;font-weight:800;color:#4ade80;text-align:center;margin:4px 0 12px}
+.gg-row{display:flex;gap:8px;margin-bottom:4px}
+.gg-kart{flex:1;background:rgba(255,255,255,.12);border-radius:11px;padding:10px;text-align:center}
+.gg-lbl{color:rgba(255,255,255,.65);font-size:10px;font-weight:600}
+.gg-val{font-size:17px;font-weight:800;margin-top:3px}
+.gg-val.g{color:#4ade80}.gg-val.r{color:#f87171}
+.kayit-btn{width:100%;margin-top:12px;background:#f90;border:none;border-radius:10px;padding:10px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 3px 10px rgba(249,144,0,.35)}
+
+/* Modüller */
+.modul-wrap{padding:14px 12px 24px;display:flex;flex-direction:column;gap:10px}
+.ana-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ana-btn{border:none;border-radius:14px;padding:16px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;transition:transform .1s}
+.ana-btn:active{transform:scale(.95)}
+.ana-btn .ico{font-size:26px}
+.ana-btn .txt{font-size:12px;font-weight:700;color:#fff;text-align:center;line-height:1.3}
+.ana-btn .sub{font-size:10px;color:rgba(255,255,255,.8);text-align:center}
+.btn-gg{background:linear-gradient(135deg,#2980b9,#3498db)}
+.btn-bv{background:linear-gradient(135deg,#8e44ad,#9b59b6)}
+.mods{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mod{background:#fff;border-radius:12px;padding:11px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;border:.5px solid #e8e8e8;transition:transform .1s}
+.mod:active{transform:scale(.94)}
+.m-ico{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.m-lbl{font-size:10px;font-weight:700;color:#333;text-align:center;line-height:1.3}
+.mc1{background:#dbeeff}.mc2{background:#fff0db}.mc3{background:#dbffed}
+.mc4{background:#f5dbff}.mc5{background:#fce4ec}.mc6{background:#fffadb}
+.add-m{background:#fff;border:2px dashed #f90}
+.add-ml{color:#c07000}
+</style>
+</head><body>
+<div class="phone">
+
+  <div class="hdr">
+    <i class="ti ti-arrow-left"></i>
+    <div style="flex:1;text-align:center">
+      <span class="hdr-t">🏪 İşletme 1</span>
+      <span class="hdr-sub" id="donem-lbl">Mayıs 2026</span>
+    </div>
+    <i class="ti ti-dots-vertical"></i>
+  </div>
+  <div class="oline"></div>
+
+  <div class="ozet">
+    <div style="text-align:center">
+      <div class="tarih-pill" id="tarih-pill" onclick="togDrop()">
+        <i class="ti ti-calendar" style="font-size:13px"></i>
+        <span id="tarih-txt">27 Mayıs 2026, Çarşamba</span>
+        <i class="ti ti-chevron-down" id="t-chev" style="font-size:11px;transition:transform .2s"></i>
+        <div class="tarih-drop" id="t-drop">
+          <div class="t-opt on" onclick="sec(this,'gun')">📅 Bugün</div>
+          <div class="t-opt" onclick="sec(this,'hafta')">📅 Bu Hafta</div>
+          <div class="t-opt" onclick="sec(this,'ay')">📅 Bu Ay</div>
+          <div class="t-opt" onclick="sec(this,'yil')">📅 Bu Yıl</div>
+          <div class="t-opt" onclick="sec(this,'tamami')">📋 Tüm Zamanlar</div>
+          <div class="t-opt" onclick="sec(this,'ozel')">📆 Özel Aralık...</div>
+        </div>
+      </div>
+      <div class="ozel-row" id="ozel-row">
+        <input type="date" class="ozel-inp" id="t-bas" onchange="ozelGunc()">
+        <span style="color:rgba(255,255,255,.7);align-self:center">—</span>
+        <input type="date" class="ozel-inp" id="t-bit" onchange="ozelGunc()">
+      </div>
+    </div>
+    <div class="net-lbl">Net Durum</div>
+    <div class="net-val" id="net">₺0</div>
+    <div class="gg-row">
+      <div class="gg-kart">
+        <div class="gg-lbl">Gelir</div>
+        <div class="gg-val g" id="gelir">₺0</div>
+      </div>
+      <div class="gg-kart">
+        <div class="gg-lbl">Gider</div>
+        <div class="gg-val r" id="gider">₺0</div>
+      </div>
+    </div>
+    <button class="kayit-btn" onclick="window.location.href='kayitlar_ekrani.html'">
+      <i class="ti ti-list-details" style="font-size:15px"></i>
+      Kayıtlı İşlemleri Göster
+    </button>
+  </div>
+
+  <div class="modul-wrap">
+    <div class="ana-grid">
+      <button class="ana-btn btn-gg" onclick="window.location.href='satis_ekrani.html'">
+        <span class="ico">💰🛒</span>
+        <span class="txt">Gelir / Gider</span>
+        <span class="sub">Satış & Alış Ekle</span>
+      </button>
+      <button class="ana-btn btn-bv" onclick="alert('Borç Al/Ver ekranı yakında')">
+        <span class="ico">🤝</span>
+        <span class="txt">Borç Al / Ver</span>
+        <span class="sub">Elden Borç & Alacak</span>
+      </button>
+    </div>
+    <div class="mods">
+      <div class="mod"><div class="m-ico mc1">📈</div><span class="m-lbl">Varlık / Yatırım</span></div>
+      <div class="mod"><div class="m-ico mc2">🚗</div><span class="m-lbl">Araç / Ekipman</span></div>
+      <div class="mod"><div class="m-ico mc3">📦</div><span class="m-lbl">Stok Takip</span></div>
+      <div class="mod"><div class="m-ico mc4">👥</div><span class="m-lbl">Cari Takip</span></div>
+      <div class="mod"><div class="m-ico mc5">🚚</div><span class="m-lbl">Kargo Takip</span></div>
+      <div class="mod"><div class="m-ico add-m" style="font-size:22px;color:#f90">+</div><span class="m-lbl add-ml">Modül Ekle</span></div>
+    </div>
+  </div>
+
+</div>
+<script>
+var aylar=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+var gunler=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+var fr=function(n){return '₺'+n.toLocaleString('tr-TR');};
+var demo={gelir:84500,gider:31200};
+document.getElementById('net').textContent=fr(demo.gelir-demo.gider);
+document.getElementById('gelir').textContent=fr(demo.gelir);
+document.getElementById('gider').textContent=fr(demo.gider);
+function togDrop(e){
+  var d=document.getElementById('t-drop');
+  var ac=!d.classList.contains('ac');
+  d.classList.toggle('ac',ac);
+  document.getElementById('t-chev').style.transform=ac?'rotate(180deg)':'';
+  if(e) e.stopPropagation();
+}
+document.addEventListener('click',function(){
+  document.getElementById('t-drop').classList.remove('ac');
+  document.getElementById('t-chev').style.transform='';
+});
+document.getElementById('tarih-pill').addEventListener('click',function(e){e.stopPropagation();});
+function sec(el,tip){
+  document.querySelectorAll('.t-opt').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  var d=new Date(),txt='';
+  var ozel=document.getElementById('ozel-row');
+  ozel.classList.remove('ac');
+  if(tip==='gun') txt=d.getDate()+' '+aylar[d.getMonth()]+' '+d.getFullYear()+', '+gunler[d.getDay()];
+  else if(tip==='hafta') txt='Bu Hafta';
+  else if(tip==='ay') txt=aylar[d.getMonth()]+' '+d.getFullYear();
+  else if(tip==='yil') txt=d.getFullYear()+' Yılı';
+  else if(tip==='tamami') txt='Tüm Zamanlar';
+  else if(tip==='ozel'){
+    ozel.classList.add('ac');
+    var bugun=d.toISOString().split('T')[0];
+    if(!document.getElementById('t-bas').value) document.getElementById('t-bas').value=bugun;
+    if(!document.getElementById('t-bit').value) document.getElementById('t-bit').value=bugun;
+    txt='Özel Aralık';
+    document.getElementById('t-drop').classList.remove('ac');
+    document.getElementById('t-chev').style.transform='';
+    document.getElementById('tarih-txt').textContent=txt;
+    return;
+  }
+  document.getElementById('tarih-txt').textContent=txt;
+  document.getElementById('t-drop').classList.remove('ac');
+  document.getElementById('t-chev').style.transform='';
+}
+function ozelGunc(){
+  var b=document.getElementById('t-bas').value,bt=document.getElementById('t-bit').value;
+  if(b&&bt){
+    var bd=new Date(b),btd=new Date(bt);
+    var fmt=function(dt){return dt.getDate()+' '+aylar[dt.getMonth()];};
+    document.getElementById('tarih-txt').textContent=fmt(bd)+' — '+fmt(btd);
+  }
+}
+</script>
+</body></html>

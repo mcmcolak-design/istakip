@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#e8eaed;font-family:'Segoe UI',sans-serif;min-height:100vh}
+.hdr{background:#2c3e50;padding:12px 16px;display:flex;align-items:center;gap:10px}
+.hdr-t{color:#fff;font-size:15px;font-weight:700;flex:1}
+.hdr i{color:#fff;font-size:20px;cursor:pointer;opacity:.85}
+.tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;padding:0 12px}
+.tab{padding:11px 16px;font-size:13px;font-weight:700;cursor:pointer;color:#888;border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:all .15s}
+.tab.on{color:#2c3e50;border-color:#2c3e50}
+.ozet{display:flex;gap:8px;padding:12px;overflow-x:auto;background:#f8f9fa;border-bottom:1px solid #e0e0e0}
+.oz{background:#fff;border-radius:10px;padding:10px 14px;min-width:110px;flex-shrink:0;border:.5px solid #e0e0e0;text-align:center}
+.oz-l{font-size:10px;font-weight:700;color:#888;text-transform:uppercase}
+.oz-v{font-size:17px;font-weight:800;margin-top:3px}
+.oz-v.g{color:#2e7d52}.oz-v.r{color:#c0392b}.oz-v.b{color:#2980b9}.oz-v.p{color:#8e44ad}
+.filtre{display:flex;gap:8px;padding:10px 12px;background:#fff;border-bottom:1px solid #e0e0e0;flex-wrap:wrap}
+.f-i{border:1.5px solid #e0e0e0;border-radius:8px;padding:7px 10px;font-size:12px;outline:none;background:#fafafa}
+.f-i:focus{border-color:#2c3e50}
+.tbl-wrap{overflow-x:auto;padding-bottom:20px}
+table{border-collapse:collapse;background:#fff;font-size:12px}
+thead tr{background:#2c3e50}
+thead th{padding:10px 12px;font-size:11px;font-weight:700;color:#fff;text-align:left;white-space:nowrap;border-right:1px solid rgba(255,255,255,.12)}
+thead th.sep{border-right:2px solid rgba(255,255,255,.3)}
+thead th.grp{background:#1a2530;text-align:center;font-size:11px;letter-spacing:.5px}
+thead th.sub{background:#243342;font-size:10px;padding:6px 10px;font-weight:600}
+thead th.sub.sep{border-right:2px solid rgba(255,255,255,.3)}
+tbody tr{border-bottom:1px solid #f0f0f0}
+tbody tr:hover{background:#f5f8ff}
+tbody td{padding:9px 12px;color:#333;white-space:nowrap;border-right:1px solid #f0f0f0;max-width:160px;overflow:hidden;text-overflow:ellipsis}
+tbody td.sep{border-right:2px solid #e0e0e0}
+.c-g{font-weight:800;color:#2e7d52}
+.c-r{font-weight:800;color:#c0392b}
+.c-kat{background:#f0f4f8;color:#2c3e50;font-weight:700}
+.c-nakit{color:#2e7d52;font-weight:600}
+.c-alacak{color:#c0392b;font-weight:600}
+.c-tarih{color:#888;font-size:11px}
+.del-b{background:none;border:none;cursor:pointer;color:#ddd;font-size:13px}
+.del-b:hover{color:#e74c3c}
+.bos{text-align:center;padding:30px;color:#aaa;font-style:italic}
+/* Mobil kart */
+.kart-liste{display:none;padding:10px}
+@media(max-width:640px){.tbl-wrap{display:none}.kart-liste{display:block}}
+.krt{background:#fff;border-radius:10px;padding:12px;margin-bottom:8px;border:.5px solid #e0e0e0}
+.krt-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.krt-ttr{font-size:16px;font-weight:800}
+.krt-meta{font-size:11px;color:#888}
+.krt-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:.5px solid #f5f5f5}
+.krt-lbl{color:#888;font-weight:600;flex-shrink:0}
+.krt-val{color:#333;text-align:right}
+.oz-btn{display:none;background:#e74c3c;border:none;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:700;color:#fff;cursor:pointer;white-space:nowrap}
+.oz-btn.goster{background:#2e7d52}
+.duz-aktif .oz-btn{display:inline-block}
+.duz-aktif thead th{position:relative;padding-bottom:22px}
+.duz-aktif .col-gizli{display:none}
+.duz-aktif thead .col-gizli{display:table-cell;opacity:.3}
+:not(.duz-aktif) .col-gizli{display:none}
+
+/* Tab özelleştirme */
+.tab-oz-btn{display:none;font-size:9px;background:#e74c3c;border:none;border-radius:3px;padding:1px 4px;color:#fff;cursor:pointer;margin-left:4px}
+.tab.gizli-tab{display:none}
+.duz-aktif .tab{position:relative}
+.duz-aktif .tab-oz-btn{display:inline}
+.duz-aktif .tab.gizli-tab{display:block;opacity:.3}
+/* Sütun özelleştirme */
+.col-hidden{display:none!important}
+.duz-aktif .col-hidden{display:table-cell!important;opacity:.3}
+
+</style>
+</head><body>
+<div class="hdr">
+  <i class="ti ti-arrow-left" onclick="window.location.href='isletme_ekrani.html'" style="cursor:pointer"></i>
+  <span class="hdr-t">📋 Kayıtlar</span>
+  <i class="ti ti-file-export" onclick="disaAktar()" title="CSV"></i>
+  <i class="ti ti-trash" onclick="tumunuSil()" title="Sil"></i>
+  <button id="duz-btn" onclick="togDuz()" style="background:#4a6274;border:none;border-radius:7px;padding:5px 10px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">⚙️ Sütunları Özelleştir</button>
+</div>
+<div class="tabs">
+  <div class="tab on" id="tab-satis" onclick="sekme('satis')">💰 Gelirler/Satışlar</div>
+  <div class="tab" id="tab-gider" onclick="sekme('gider')">🛒 Giderler/Alışlar</div>
+  <div class="tab" id="tab-alacak" onclick="sekme('alacak')">📋 Alacaklar</div>
+  <div class="tab" id="tab-borc" onclick="sekme('borc')">📄 Borçlar</div>
+</div>
+<div class="ozet">
+  <div class="oz"><div class="oz-l">Toplam</div><div class="oz-v g" id="oz-top">₺0</div></div>
+  <div class="oz"><div class="oz-l">İşlem</div><div class="oz-v b" id="oz-say">0</div></div>
+  <div class="oz oz-gizle-ab" style="border-left:3px solid #2e7d52"><div class="oz-l" style="color:#2e7d52">Nakit</div><div class="oz-v g" id="oz-nak">₺0</div></div>
+  <div class="oz oz-gizle-ab"><div class="oz-l" style="color:#2e7d52">POS/Kart</div><div class="oz-v g" id="oz-kart">₺0</div></div>
+  <div class="oz oz-gizle-ab"><div class="oz-l" style="color:#2e7d52">Havale/EFT</div><div class="oz-v g" id="oz-hav">₺0</div></div>
+  <div class="oz" style="border-left:3px solid #c0392b"><div class="oz-l" style="color:#c0392b">Açık Hesap</div><div class="oz-v r" id="oz-acik">₺0</div></div>
+  <div class="oz"><div class="oz-l" style="color:#c0392b">Çek/Senet</div><div class="oz-v r" id="oz-cek">₺0</div></div>
+  <div class="oz"><div class="oz-l" style="color:#c0392b">Yemek Kartı</div><div class="oz-v r" id="oz-yemek">₺0</div></div>
+  <div class="oz"><div class="oz-l" style="color:#c0392b">Online</div><div class="oz-v r" id="oz-online">₺0</div></div>
+</div>
+<div class="filtre">
+  <select class="f-i" id="f-kanal" onchange="listele()" title="Müşteri / Kanal süz">
+    <option value="">Tüm kanallar</option>
+  </select>
+  <select class="f-i" id="f-kat" onchange="listele()" title="Kategori süz">
+    <option value="">Tüm kategoriler</option>
+  </select>
+  <select class="f-i" id="tf" onchange="togOzelAralik();listele()">
+    <option value="">Tüm tarihler</option>
+    <option value="b">Bugün</option>
+    <option value="h">Bu hafta</option>
+    <option value="a">Bu ay</option>
+    <option value="y">Bu yıl</option>
+    <option value="ozel">📅 Özel Aralık...</option>
+  </select>
+  <select class="f-i" id="sir" onchange="listele()">
+    <option value="yeni">En yeni</option>
+    <option value="eski">En eski</option>
+    <option value="yuk">En yüksek</option>
+    <option value="dus">En düşük</option>
+  </select>
+  <input class="f-i" id="ara" placeholder="🔍 Ara..." oninput="listele()" style="flex:1;min-width:120px">
+</div>
+<div id="ozel-aralik" style="display:none;gap:6px;align-items:center;padding:6px 12px 10px;background:#fff;border-bottom:1px solid #e0e0e0;flex-wrap:wrap">
+  <span style="font-size:11px;font-weight:700;color:#555;white-space:nowrap">📅 Tarih Aralığı:</span>
+  <input type="date" id="t-bas" class="f-i" style="flex:1;min-width:120px" onchange="listele()">
+  <span style="font-size:12px;color:#888">—</span>
+  <input type="date" id="t-bit" class="f-i" style="flex:1;min-width:120px" onchange="listele()">
+  <button onclick="ozelTemizle()" style="background:#fee;border:1px solid #fcc;border-radius:7px;padding:5px 10px;font-size:11px;color:#e74c3c;cursor:pointer;font-weight:600;flex-shrink:0">Temizle</button>
+</div>
+<div class="tbl-wrap"><table style="min-width:700px;width:100%">
+  <thead><tr id="t-head"></tr></thead>
+  <tbody id="t-body"></tbody>
+</table></div>
+<div class="kart-liste" id="kart-liste"></div>
+<script>
+var SEK = 'satis';
+function fr(n){ return '\u20ba'+n.toLocaleString('tr-TR',{minimumFractionDigits:2}); }
+function oku(t){
+  try{
+    if(t==='alacak'){
+      // Satışlardaki alacaklı ödemeleri filtrele
+      var satis=JSON.parse(localStorage.getItem('KAYITLAR_SATIS')||'[]');
+      return satis.filter(function(k){ return (k.acik||0)+(k.cek||0)+(k.yemek||0)+(k.online||0)>0; });
+    }
+    if(t==='borc'){
+      // Giderlerdeki borçlu ödemeleri filtrele
+      var gider=JSON.parse(localStorage.getItem('KAYITLAR_GIDER')||'[]');
+      return gider.filter(function(k){ return (k.acik||0)+(k.cek||0)>0; });
+    }
+    return JSON.parse(localStorage.getItem('KAYITLAR_'+t.toUpperCase())||'[]');
+  }catch(e){ return []; }
+}
+function sekme(t){
+  SEK=t;
+  ['satis','gider','alacak','borc'].forEach(function(x){ var el=document.getElementById('tab-'+x); if(el) el.classList.toggle('on',x===t); });
+  listele();
+}
+function listele(){
+  var q=(document.getElementById('ara').value||'').toLowerCase();
+  var fKanal=document.getElementById('f-kanal').value||'';
+  var fKat=document.getElementById('f-kat').value||'';
+  var tf=document.getElementById('tf').value;
+  var sir=document.getElementById('sir').value;
+  var data=oku(SEK);
+  var now=new Date(); now.setHours(0,0,0,0);
+  var hafta=new Date(now); hafta.setDate(now.getDate()-now.getDay());
+  var ay=new Date(now.getFullYear(),now.getMonth(),1);
+  var yil=new Date(now.getFullYear(),0,1);
+  data=data.filter(function(k){
+    if(q&&JSON.stringify(k).toLowerCase().indexOf(q)<0) return false;
+    if(fKanal){
+      var musteri=k.musteri||k.tedarikci||(k.kanal?k.kanal:'Muhtelif');
+      if(musteri.toLowerCase().indexOf(fKanal.toLowerCase())<0) return false;
+    }
+    if(fKat){
+      if(!k.agacVeri||!k.agacVeri[fKat]) return false;
+    }
+    if(tf && tf!=='ozel'){
+      var d=new Date(k.tarih);
+      if(tf==='b'&&d<now) return false;
+      if(tf==='h'&&d<hafta) return false;
+      if(tf==='a'&&d<ay) return false;
+      if(tf==='y'&&d<yil) return false;
+    }
+    if(tf==='ozel'){
+      var bas=document.getElementById('t-bas').value;
+      var bit=document.getElementById('t-bit').value;
+      var d=new Date(k.tarih);
+      if(bas && d < new Date(bas)) return false;
+      if(bit && d > new Date(bit+'T23:59:59')) return false;
+    }
+    return true;
+  });
+  data.sort(function(a,b){
+    if(sir==='yeni') return new Date(b.tarih)-new Date(a.tarih);
+    if(sir==='eski') return new Date(a.tarih)-new Date(b.tarih);
+    if(sir==='yuk') return (b.tutar||0)-(a.tutar||0);
+    if(sir==='dus') return (a.tutar||0)-(b.tutar||0);
+    return 0;
+  });
+  // Özet
+  // Filtre dropdownlarını doldur
+  var tumVeri=oku(SEK);
+  var kanalSet={}, katSet={};
+  tumVeri.forEach(function(k){
+    var m=k.musteri||k.tedarikci||(k.kanal?k.kanal:'Muhtelif');
+    kanalSet[m]=1;
+    if(k.agacVeri) Object.keys(k.agacVeri).forEach(function(kat){ katSet[kat]=1; });
+  });
+  var fKanalEl=document.getElementById('f-kanal');
+  var fKatEl=document.getElementById('f-kat');
+  var selKanal=fKanalEl.value, selKat=fKatEl.value;
+  fKanalEl.innerHTML='<option value="">Tüm kanallar</option>';
+  Object.keys(kanalSet).forEach(function(k){ var o=document.createElement('option'); o.value=k; o.textContent=k; if(k===selKanal) o.selected=true; fKanalEl.appendChild(o); });
+  fKatEl.innerHTML='<option value="">Tüm kategoriler</option>';
+  Object.keys(katSet).forEach(function(k){ var o=document.createElement('option'); o.value=k; o.textContent=k; if(k===selKat) o.selected=true; fKatEl.appendChild(o); });
+
+  var top=0,nak=0,al=0;
+  data.forEach(function(k){
+    if(SEK==='alacak'){
+      // Alacaklar için toplam = sadece alacak tutarları
+      var alacakTutar=(k.acik||0)+(k.cek||0)+(k.yemek||0)+(k.online||0)+(k._kaynak==='elden-alacak'?k.tutar||0:0);
+      top+=alacakTutar;
+    } else if(SEK==='borc'){
+      var borcTutar=(k.acik||0)+(k.cek||0)+(k._kaynak==='elden-borc'?k.tutar||0:0);
+      top+=borcTutar;
+    } else {
+      top+=(k.tutar||0);
+    }
+    nak+=(k.nakit||0); al+=(k.alacak||k.borc||0);
+  });
+  var topKart=0,topHav=0,topAcik=0,topCek=0,topYemek=0,topOnline=0;
+  data.forEach(function(k){ topKart+=(k.kart||0); topHav+=(k.havale||0); topAcik+=(k.acik||0); topCek+=(k.cek||0); topYemek+=(k.yemek||0); topOnline+=(k.online||0); });
+  document.getElementById('oz-top').textContent=fr(top);
+  document.getElementById('oz-say').textContent=data.length;
+  // Alacak/Borç sekmesinde etiketleri güncelle
+  var ozTopEl=document.querySelector('#oz-top').previousElementSibling;
+  var ozSayEl=document.querySelector('#oz-say').previousElementSibling;
+  if(SEK==='alacak'){ ozTopEl.textContent='Toplam Alacak'; ozSayEl.textContent='Alacak İşlem Adeti'; }
+  else if(SEK==='borc'){ ozTopEl.textContent='Toplam Borç'; ozSayEl.textContent='Borç İşlem Adeti'; }
+  else { ozTopEl.textContent='Toplam'; ozSayEl.textContent='İşlem'; }
+  // Alacak/Borç sekmesinde ekstra bilgi
+  var secLabel=document.getElementById('sek-label');
+  if(!secLabel){ secLabel=document.createElement('div'); secLabel.id='sek-label'; secLabel.style.cssText='padding:4px 12px;font-size:11px;font-weight:700;background:#fff8ee;color:#c07000;border-bottom:1px solid #ffe0a0;'; document.querySelector('.ozet').before(secLabel); }
+  if(SEK==='alacak') secLabel.textContent='📋 Açık Hesap · Çek/Senet · Yemek Kartı · Online Hakediş · Elden Alacaklar';
+  else if(SEK==='borc') secLabel.textContent='📄 Açık Hesap · Çek/Senet · Elden Borç';
+  else secLabel.textContent='';
+  secLabel.style.display=(SEK==='alacak'||SEK==='borc')?'block':'none';
+  // Alacak/Borç sekmesinde ödeme özet kartlarını gizle
+  var ozKartlar=document.querySelectorAll('.oz-gizle-ab');
+  ozKartlar.forEach(function(el){ el.style.display=(SEK==='alacak'||SEK==='borc')?'none':''; });
+  document.getElementById('oz-nak').textContent=fr(nak);
+  document.getElementById('oz-kart').textContent=fr(topKart);
+  document.getElementById('oz-hav').textContent=fr(topHav);
+  document.getElementById('oz-acik').textContent=fr(topAcik);
+  document.getElementById('oz-cek').textContent=fr(topCek);
+  document.getElementById('oz-yemek').textContent=fr(topYemek);
+  document.getElementById('oz-online').textContent=fr(topOnline);
+  
+
+  // Sütunları topla
+  var anaKatSet={}, altSet={};
+  data.forEach(function(k){
+    if(!k.agacVeri) return;
+    Object.keys(k.agacVeri).forEach(function(kat){ anaKatSet[kat]=1; });
+    Object.keys(k.agacVeri).forEach(function(kat){
+      Object.keys(k.agacVeri[kat]).forEach(function(alt){ if(alt!=='_deger') altSet[alt]=1; });
+    });
+  });
+  var anaKatlar=Object.keys(anaKatSet);
+  var altKolonlar=Object.keys(altSet);
+
+  // Başlık
+  // İki satırlı thead - grup + sütun başlıkları
+  var thead = document.getElementById('t-head').closest('thead');
+  thead.innerHTML = '';
+
+  // Satır 1: Grup başlıkları
+
+  // Satır 2: Sütun başlıkları
+  var sr = document.createElement('tr');
+  var thIdx=0;
+  function th(txt, sep){
+    var el = document.createElement('th'); el.innerHTML = txt;
+    el.dataset.col = thIdx++;
+    el.style.cssText = 'background:#243342;font-size:10px;font-weight:700;color:#fff;padding:7px 10px;text-align:left;white-space:nowrap;position:relative;'+(sep?'border-right:2px solid rgba(255,255,255,.3)':'border-right:1px solid rgba(255,255,255,.1)');
+    sr.appendChild(el);
+  }
+  th('Müşteri / Satış Kanalı', false); th('Satış Türü', false); th('Tutar', true);
+  th('Ana Kategori', false);
+  altKolonlar.forEach(function(a,i){ th(a, i===altKolonlar.length-1); });
+  th('Nakit',false); th('POS/Kart',false); th('Havale/EFT',true);
+  th('Açık Hesap',false); th('Çek/Senet',false); th('Yemek Kartı',false); th('Online Hakediş',false);
+  if(SEK==='alacak') th('Elden Alacak',true); else th('',true);
+  th(SEK==='satis'?'Alacak':'Borç', true); th('', false);
+  thead.appendChild(sr);
+
+
+  // Gövde
+  var tbody=document.getElementById('t-body');
+  tbody.innerHTML='';
+  var kartListe=document.getElementById('kart-liste');
+  kartListe.innerHTML='';
+  if(!data.length){
+    var btr=document.createElement('tr');
+    btr.innerHTML='<td class="bos" colspan="30">Kayıt bulunamadı</td>';
+    tbody.appendChild(btr);
+    kartListe.innerHTML='<div style="text-align:center;padding:30px;color:#aaa">Kayıt bulunamadı</div>';
+    return;
+  }
+  data.forEach(function(k){
+    var tarih=k.tarih?new Date(k.tarih).toLocaleDateString('tr-TR'):'-';
+    var musteri=k.musteri||k.tedarikci||(k.kanal?'🌐 '+k.kanal:'Muhtelif');
+    var alVal=k.alacak||k.borc||0;
+    var tr=document.createElement('tr');
+    function td(txt,cls,sep){
+      var el=document.createElement('td');
+      el.textContent=txt; el.title=txt;
+      if(cls) el.className=cls+(sep?' sep':'');
+      else if(sep) el.className='sep';
+      tr.appendChild(el);
+    }
+    td(musteri,'',true); td(k.tur||'-',''); td(fr(k.tutar||0),SEK==='satis'?'c-g sep':'c-r sep');
+    var anaKatDeger = '-';
+    if(k.agacVeri){ var aktifKatlar=Object.keys(k.agacVeri).filter(function(kat){ return k.agacVeri[kat] && Object.keys(k.agacVeri[kat]).length; }); if(aktifKatlar.length) anaKatDeger=aktifKatlar.join(', '); }
+    td(anaKatDeger,'c-kat sep');
+    altKolonlar.forEach(function(alt,i){
+      var v='-';
+      if(k.agacVeri){ Object.keys(k.agacVeri).forEach(function(kat){ if(k.agacVeri[kat][alt]) v=k.agacVeri[kat][alt]; }); }
+      td(v,'', i===altKolonlar.length-1);
+    });
+    var ptdIdx=0;
+    var fixedCols=tr.children.length; // sabit sütun sayısı (müşteri, tür, tutar, anaKat, altlar)
+    function ptd(v,sep){ var el=document.createElement('td'); el.textContent=v>0?fr(v):'-'; el.className=v>0?'c-nakit'+(sep?' sep':''):(sep?'sep':''); el.dataset.payCol=ptdIdx++; tr.appendChild(el); }
+    ptd(k.nakit||0,false); ptd(k.kart||0,false); ptd(k.havale||0,true);
+    // POS/Havale = kartPos + havale (eğer ayrı kaydedildiyse, yoksa '-')
+    ptd(k.acik||0,false); ptd(k.cek||0,false); ptd(k.yemek||0,false); ptd(k.online||0,SEK!=='alacak');
+    if(SEK==='alacak') ptd(k._kaynak==='elden-alacak'?(k.tutar||0):0, true);
+    var tdx=document.createElement('td');
+    tdx.innerHTML='<button class="del-b" onclick="sil(this)" data-id="'+k.id+'"><i class="ti ti-trash"></i></button>';
+    tr.appendChild(tdx);
+    tbody.appendChild(tr);
+    // Kart
+    var krt=document.createElement('div'); krt.className='krt';
+    var h='<div class="krt-top"><div><div style="font-weight:700;font-size:13px">'+musteri+'</div><div class="krt-meta">'+tarih+' · '+(k.tur||'-')+'</div></div>';
+    h+='<div class="krt-ttr '+(SEK==='satis'?'c-g':'c-r')+'">'+fr(k.tutar||0)+'</div></div><div>';
+    if(k.agacVeri){ Object.keys(k.agacVeri).forEach(function(kat){
+      h+='<div class="krt-row" style="background:#f8f9fa"><span class="krt-lbl" style="color:#2c3e50">'+kat+'</span><span></span></div>';
+      Object.keys(k.agacVeri[kat]).forEach(function(alt){
+        var v=k.agacVeri[kat][alt];
+        if(v) h+='<div class="krt-row"><span class="krt-lbl" style="padding-left:8px">'+alt+'</span><span class="krt-val">'+v+'</span></div>';
+      });
+    }); }
+    if((k.nakit||0)>0) h+='<div class="krt-row"><span class="krt-lbl">Nakit</span><span class="krt-val c-nakit">'+fr(k.nakit)+'</span></div>';
+    if(alVal>0) h+='<div class="krt-row"><span class="krt-lbl">'+(SEK==='satis'?'Alacak':'Borç')+'</span><span class="krt-val c-alacak">'+fr(alVal)+'</span></div>';
+    h+='</div>';
+    krt.innerHTML=h;
+    kartListe.appendChild(krt);
+  });
+}
+function sil(btn){
+  var id=btn.dataset.id;
+  if(!confirm('Bu kayıt silinsin mi?')) return;
+  var data=oku(SEK).filter(function(k){ return k.id!==id; });
+  localStorage.setItem('KAYITLAR_'+SEK.toUpperCase(),JSON.stringify(data));
+  listele();
+}
+function tumunuSil(){
+  if(SEK==='alacak'||SEK==='borc'){ alert('Bu kayıtlar kaynak ekranından silinebilir.'); return; }
+  if(!confirm('Tüm kayıtlar silinsin mi?')) return;
+  localStorage.removeItem('KAYITLAR_'+SEK.toUpperCase());
+  listele();
+}
+function disaAktar(){
+  var data=oku(SEK);
+  if(!data.length){ alert('Kayıt yok'); return; }
+  var altSet={};
+  data.forEach(function(k){ if(k.agacVeri) Object.keys(k.agacVeri).forEach(function(kat){ Object.keys(k.agacVeri[kat]).forEach(function(alt){ if(alt!=='_deger') altSet[alt]=1; }); }); });
+  var altK=Object.keys(altSet);
+  var cols=['Tarih','Müşteri','Tür'].concat(altK).concat(['Tutar','Nakit','Alacak/Borç']);
+  var rows=data.map(function(k){
+    var tarih=k.tarih?new Date(k.tarih).toLocaleDateString('tr-TR'):'-';
+    var row=[tarih,k.musteri||k.tedarikci||'Muhtelif',k.tur||'-'];
+    altK.forEach(function(alt){
+      var v='-';
+      if(k.agacVeri) Object.keys(k.agacVeri).forEach(function(kat){ if(k.agacVeri[kat][alt]) v=k.agacVeri[kat][alt]; });
+      row.push(v);
+    });
+    row.push(k.tutar||0,k.nakit||0,k.alacak||k.borc||0);
+    return row.map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; }).join(',');
+  });
+  var csv='\uFEFF'+[cols.map(function(h){ return '"'+h+'"'; }).join(',')].concat(rows).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=SEK+'_kayitlari.csv'; a.click();
+}
+// Demo
+(function(){
+  try{
+    if(oku('satis').length) return;
+    var d=[
+      {id:'d1',tarih:'2026-05-23',tutar:42000,nakit:42000,kart:0,havale:0,acik:0,cek:0,yemek:0,online:0,tur:'Stoksuz Satış',kanal:'',agacVeri:{Telefon:{Marka:'Samsung',Model:'Galaxy S26',Renk:'Kırmızı','IMEI No':'352819114537001'}}},
+      {id:'d2',tarih:'2026-05-23',tutar:28900,nakit:0,kart:0,havale:0,acik:28900,cek:0,yemek:0,online:0,tur:'Stoksuz Satış',kanal:'Trendyol',agacVeri:{Telefon:{Marka:'Apple',Model:'iPhone 14',Renk:'Gece Yarısı','IMEI No':'351234567001'}}},
+      {id:'d3',tarih:'2026-05-22',tutar:3200,nakit:0,kart:3200,havale:0,acik:0,cek:0,yemek:0,online:0,tur:'Stoksuz Satış',kanal:'Getir',agacVeri:{Kulaklık:{Marka:'Sony',Model:'XM5',Renk:'Siyah'}}}
+    ];
+    localStorage.setItem('KAYITLAR_SATIS',JSON.stringify(d));
+  }catch(e){}
+})();
+listele();
+
+function togOzelAralik(){
+  var tf=document.getElementById('tf').value;
+  var div=document.getElementById('ozel-aralik');
+  div.style.display = tf==='ozel' ? 'flex' : 'none';
+  // Bugünü başlangıç olarak ayarla
+  if(tf==='ozel' && !document.getElementById('t-bas').value){
+    var bugun=new Date().toISOString().split('T')[0];
+    document.getElementById('t-bas').value=bugun;
+    document.getElementById('t-bit').value=bugun;
+  }
+}
+function ozelTemizle(){
+  document.getElementById('t-bas').value='';
+  document.getElementById('t-bit').value='';
+  document.getElementById('tf').value='';
+  document.getElementById('ozel-aralik').style.display='none';
+  listele();
+}
+
+
+// ── ÖZELLEŞTİRME (SEKME + SÜTUN) ──
+var COL_KEY='KAY_SUTUN_V2';
+var TAB_KEY='KAY_TAB_V2';
+var duzAktif=false;
+
+function togDuz(){
+  duzAktif=!duzAktif;
+  document.querySelector('body').classList.toggle('duz-aktif',duzAktif);
+  var btn=document.getElementById('duz-btn');
+  btn.style.background=duzAktif?'#fff3cd':'#4a6274';
+  btn.style.color=duzAktif?'#c07000':'#fff';
+  btn.textContent=duzAktif?'✕ Bitir':'⚙️ Özelleştir';
+  if(duzAktif){ tabOzEkle(); sutunBtnEkle(); }
+  else { document.querySelectorAll('.oz-btn,.tab-oz-btn').forEach(function(b){b.remove();}); kolUygula(); tabUygula(); }
+}
+
+// SEKME GİZLEME
+function tabAyar(){ try{return JSON.parse(localStorage.getItem(TAB_KEY)||'{}');}catch(e){return {};} }
+function tabUygula(){
+  var a=tabAyar();
+  ['satis','gider','alacak','borc'].forEach(function(t){
+    var el=document.getElementById('tab-'+t);
+    if(!el) return;
+    var gizli=a[t]==='1'&&!duzAktif;
+    el.classList.toggle('gizli-tab',gizli);
+  });
+}
+function tabOzEkle(){
+  var a=tabAyar();
+  ['satis','gider','alacak','borc'].forEach(function(t){
+    var el=document.getElementById('tab-'+t);
+    if(!el||el.querySelector('.tab-oz-btn')) return;
+    var gizli=a[t]==='1';
+    var b=document.createElement('button');
+    b.className='tab-oz-btn';
+    b.textContent=gizli?'👁':'✕';
+    b.title=gizli?'Göster':'Gizle';
+    b.onclick=function(e){ e.stopPropagation(); var a2=tabAyar(); a2[t]=a2[t]==='1'?'0':'1'; localStorage.setItem(TAB_KEY,JSON.stringify(a2)); tabUygula(); b.textContent=a2[t]==='1'?'👁':'✕'; };
+    el.appendChild(b);
+  });
+}
+
+// SÜTUN GİZLEME
+function kolAyar(){ try{return JSON.parse(localStorage.getItem(COL_KEY)||'{}');}catch(e){return {};} }
+function kolUygula(){
+  var a=kolAyar();
+  var thler=document.querySelectorAll('thead tr:last-child th');
+  thler.forEach(function(th,idx){
+    var ad=(th.dataset.colName||th.textContent.replace('✕ Gizle','').replace('👁 Göster','').trim());
+    var gizli=a[ad]==='1'&&!duzAktif;
+    th.classList.toggle('col-hidden',gizli);
+    document.querySelectorAll('#t-body tr').forEach(function(tr){
+      var tds=tr.querySelectorAll('td');
+      if(tds[idx]) tds[idx].classList.toggle('col-hidden',gizli);
+    });
+  });
+}
+function sutunBtnEkle(){
+  var a=kolAyar();
+  document.querySelectorAll('thead tr:last-child th').forEach(function(th){
+    if(th.querySelector('.oz-btn')) return;
+    var ad=(th.dataset.colName||th.textContent.trim());
+    if(!ad) return;
+    var gizli=a[ad]==='1';
+    var b=document.createElement('button');
+    b.className='oz-btn'+(gizli?' goster':'');
+    b.textContent=gizli?'👁':'✕';
+    b.style.cssText='display:inline-block;margin-left:4px;font-size:9px;padding:1px 4px;vertical-align:middle;';
+    var adC=ad;
+    b.onclick=function(e){ e.stopPropagation(); var a2=kolAyar(); a2[adC]=a2[adC]==='1'?'0':'1'; localStorage.setItem(COL_KEY,JSON.stringify(a2)); kolUygula(); b.className='oz-btn'+(a2[adC]==='1'?' goster':''); b.textContent=a2[adC]==='1'?'👁':'✕'; };
+    th.appendChild(b);
+  });
+  kolUygula();
+}
+function togKol(ad,btn){ var a=kolAyar(); a[ad]=a[ad]==='1'?'0':'1'; localStorage.setItem(COL_KEY,JSON.stringify(a)); kolUygula(); btn.className='oz-btn'+(a[ad]==='1'?' goster':''); btn.textContent=a[ad]==='1'?'👁 Göster':'✕ Gizle'; }
+window.addEventListener('load',function(){ kolUygula(); tabUygula(); });
+
+</script>
+</body></html>
