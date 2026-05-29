@@ -215,10 +215,9 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 
     <!-- Tutar -->
     <div class="card oz-item" id="oz-tutar" style="position:relative;overflow:visible">
-      <div style="font-size:10px;color:#aaa;margin-bottom:4px">Toplam Tutar</div>
       <div class="ttr-wrap">
         <span class="ttr-pre">₺</span>
-        <input class="ttr-inp" type="number" id="ttr" placeholder="0.00" oninput="ozGunc()">
+        <input class="ttr-inp" type="number" id="ttr" placeholder="Toplam Tutar" oninput="ozGunc()">
       </div>
     </div>
 
@@ -230,9 +229,8 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
     <!-- Müşteri -->
     <div class="card oz-item" id="oz-musteri" style="position:relative">
       <div class="pill-wrap">
-        <div style="font-size:10px;color:#aaa;margin-bottom:4px">👤 Müşteri / Satış Kanalı <span style="font-style:italic">(isteğe bağlı)</span></div>
       <button class="pill-btn" id="ms-btn" onclick="togP('ms')">
-          <span id="ms-txt">👤 Müşteri Seç</span>
+          <span id="ms-txt">👤 Müşteri Seç <span style="font-size:9px;color:#aaa;font-weight:400">(isteğe bağlı)</span></span>
           <i class="ti ti-chevron-down" id="ms-chev" style="font-size:14px;transition:transform .2s"></i>
         </button>
         <div class="pdrop" id="ms-drop">
@@ -267,15 +265,13 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
           </div>
         </div>
       </div>
-      <div class="not-link" onclick="togNot('ms-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
-      <div class="not-alan" id="ms-not"><textarea class="inp" rows="2" placeholder="Müşteri notu..." style="resize:none;margin-top:4px"></textarea></div>
     </div>
 
     <!-- Fatura -->
     <div class="card oz-item" id="oz-fatura" style="position:relative">
       <div style="font-size:10px;color:#aaa;margin-bottom:6px">🧾 Fatura Bilgisi <span style="font-style:italic">(isteğe bağlı)</span></div>
       <div class="frow" style="margin-bottom:6px">
-        <input class="inp" placeholder="Fatura No" style="flex:1">
+        <input class="inp" placeholder="🧾 Fatura No (isteğe bağlı)" style="flex:1">
         <input class="inp" type="date" style="flex:1">
       </div>
       <div class="dosya-ekle">
@@ -283,19 +279,15 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx,.jpg,.png" multiple onchange="dosyaEkle(this,'fatura-gelir-dosya')"><i class="ti ti-file" style="font-size:14px"></i> Belge</label>
       </div>
       <div class="dosya-onizleme" id="fatura-gelir-dosya"></div>
-      <div class="dosya-ekle">
-        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'fat-g-d')"><i class="ti ti-photo" style="font-size:13px"></i> Fotoğraf</label>
-        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'fat-g-d')"><i class="ti ti-file" style="font-size:13px"></i> Belge</label>
-      </div>
+      
       <div class="dosya-onizleme" id="fat-g-d"></div>
     </div>
 
     <!-- Kargo -->
     <div class="card oz-item" id="oz-kargo" style="position:relative">
       <div class="pill-wrap">
-        <div style="font-size:10px;color:#aaa;margin-bottom:4px">🚚 Kargo <span style="font-style:italic">(isteğe bağlı)</span></div>
-      <button class="pill-btn" id="kg-btn" onclick="togP('kg')">
-          <span id="kg-txt">🚚 Kargo Firması Seç</span>
+        <button class="pill-btn" id="kg-btn" onclick="togP('kg')">
+          <span id="kg-txt">🚚 Kargo <span style="font-size:9px;color:#aaa;font-weight:400">(isteğe bağlı)</span></span>
           <i class="ti ti-chevron-down" id="kg-chev" style="font-size:14px;transition:transform .2s"></i>
         </button>
         <div class="pdrop" id="kg-drop">
@@ -323,19 +315,13 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'kg-d')"><i class="ti ti-file" style="font-size:13px"></i> Belge</label>
       </div>
       <div class="dosya-onizleme" id="kg-d"></div>
-      <div class="not-link" onclick="togNot('kg-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
-      <div class="not-alan" id="kg-not"><textarea class="inp" rows="2" placeholder="Kargo notu..." style="resize:none;margin-top:4px"></textarea></div>
-      <div class="dosya-ekle">
-        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'kg-dosya')"><i class="ti ti-photo" style="font-size:14px"></i> Fotoğraf</label>
-        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx,.jpg,.png" multiple onchange="dosyaEkle(this,'kg-dosya')"><i class="ti ti-file" style="font-size:14px"></i> Belge</label>
-      </div>
+      
       <div class="dosya-onizleme" id="kg-dosya"></div>
     </div>
 
     <!-- Ödeme -->
     <!-- Ödeme -->
     <div class="card oz-item" id="oz-odeme" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:6px">💳 Ödeme Şekli <span style="font-style:italic">(isteğe bağlı)</span></div>
       <div class="od-grp-lbl">💵 Anlık Tahsilat</div>
       <div class="op oz-item" id="oz-nakit" onclick="togOp(this,'nakit')"><span class="op-ico">💵</span><span class="op-lbl">Nakit</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
       <div class="od-det" id="od-nakit"><input class="od-i" id="oi-nakit" type="number" placeholder="Nakit tutar ₺" oninput="ozGunc()"></div>
@@ -422,10 +408,9 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 
     <!-- Toplam Tutar -->
     <div class="card oz-item-g" id="ozg-tutar" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:4px">Toplam Tutar</div>
       <div class="ttr-wrap" style="border-color:#c0392b">
         <span class="ttr-pre" style="background:#c0392b">₺</span>
-        <input class="ttr-inp" type="number" id="ttr-g" placeholder="0.00" oninput="ozGuncG()" style="color:#c0392b">
+        <input class="ttr-inp" type="number" id="ttr-g" placeholder="Toplam Tutar" oninput="ozGuncG()" style="color:#c0392b">
       </div>
     </div>
 
@@ -438,10 +423,9 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 
     <!-- Tedarikçi Seç -->
     <div class="card oz-item-g" id="ozg-tedarikci" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:4px">🏭 Tedarikçi / Alış Kanalı <span style="font-style:italic">(isteğe bağlı)</span></div>
       <div class="pill-wrap">
         <button class="pill-btn" id="td-btn" onclick="if(!DUZ_G)togPG('td')">
-          <span id="td-txt">🏭 Tedarikçi Seç</span>
+          <span id="td-txt">🏭 Tedarikçi Seç <span style="font-size:9px;color:#aaa;font-weight:400">(isteğe bağlı)</span></span>
           <i class="ti ti-chevron-down" id="td-chev" style="font-size:14px;transition:transform .2s"></i>
         </button>
         <div class="pdrop" id="td-drop">
@@ -460,15 +444,12 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <div class="frow"><input class="inp" placeholder="İl"><input class="inp" placeholder="İlçe"></div>
         <button class="mini-btn" onclick="tdKaydet()">💾 Kaydet</button>
       </div>
-      <div class="not-link" onclick="if(!DUZ_G)togNot('td-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
-      <div class="not-alan" id="td-not"><textarea class="inp" rows="2" placeholder="Tedarikçi notu..." style="resize:none;margin-top:4px"></textarea></div>
     </div>
 
     <!-- Fatura -->
     <div class="card oz-item-g" id="ozg-fatura" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:4px">🧾 Fatura Bilgisi <span style="font-style:italic">(isteğe bağlı)</span></div>
       <div class="frow" style="margin-bottom:6px">
-        <input class="inp" placeholder="Fatura No" style="flex:1">
+        <input class="inp" placeholder="🧾 Fatura No (isteğe bağlı)" style="flex:1">
         <input class="inp" type="date" style="flex:1">
       </div>
       <div class="dosya-ekle">
@@ -476,19 +457,15 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx,.jpg,.png" onchange="dosyaEkle(this,'fatura-dosya')"><i class="ti ti-file" style="font-size:14px"></i> Belge</label>
       </div>
       <div class="dosya-onizleme" id="fatura-dosya"></div>
-      <div class="dosya-ekle">
-        <label class="dosya-btn"><input type="file" accept="image/*" multiple onchange="dosyaEkle(this,'fat-gd-d')"><i class="ti ti-photo" style="font-size:13px"></i> Fotoğraf</label>
-        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'fat-gd-d')"><i class="ti ti-file" style="font-size:13px"></i> Belge</label>
-      </div>
+      
       <div class="dosya-onizleme" id="fat-gd-d"></div>
     </div>
 
     <!-- Kargo -->
     <div class="card oz-item-g" id="ozg-kargo" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:4px">🚚 Kargo <span style="font-style:italic">(isteğe bağlı)</span></div>
       <div class="pill-wrap">
         <button class="pill-btn" id="kg2-btn" onclick="if(!DUZ_G)togPG('kg2')">
-          <span id="kg2-txt">🚚 Kargo Firması Seç</span>
+          <span id="kg2-txt">🚚 Kargo <span style="font-size:9px;color:#aaa;font-weight:400">(isteğe bağlı)</span></span>
           <i class="ti ti-chevron-down" id="kg2-chev" style="font-size:14px;transition:transform .2s"></i>
         </button>
         <div class="pdrop" id="kg2-drop">
@@ -515,19 +492,13 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
         <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" multiple onchange="dosyaEkle(this,'kg2-d')"><i class="ti ti-file" style="font-size:13px"></i> Belge</label>
       </div>
       <div class="dosya-onizleme" id="kg2-d"></div>
-      <div class="not-link" onclick="if(!DUZ_G)togNot('kg2-not')"><i class="ti ti-message-circle" style="font-size:13px"></i> Not ekle</div>
-      <div class="not-alan" id="kg2-not"><textarea class="inp" rows="2" placeholder="Kargo notu..." style="resize:none;margin-top:4px"></textarea></div>
-      <div class="dosya-ekle">
-        <label class="dosya-btn"><input type="file" accept="image/*" onchange="dosyaEkle(this,'kg2-dosya')"><i class="ti ti-photo" style="font-size:14px"></i> Fotoğraf</label>
-        <label class="dosya-btn"><input type="file" accept=".pdf,.doc,.docx" onchange="dosyaEkle(this,'kg2-dosya')"><i class="ti ti-file" style="font-size:14px"></i> Belge</label>
-      </div>
+      
       <div class="dosya-onizleme" id="kg2-dosya"></div>
     </div>
 
     <!-- Ödeme -->
     <!-- Ödeme -->
     <div class="card oz-item-g" id="ozg-odeme" style="position:relative">
-      <div style="font-size:10px;color:#aaa;margin-bottom:6px">💳 Ödeme Şekli <span style="font-style:italic">(isteğe bağlı)</span></div>
       <div class="od-grp-lbl">💵 Anlık Ödeme</div>
       <div class="op oz-item-g" id="ozg-nakit" onclick="if(!DUZ_G)togOpG(this,'nakit-g')"><span class="op-ico">💵</span><span class="op-lbl">Nakit</span><i class="ti ti-chevron-down" style="font-size:13px;color:#ccc"></i></div>
       <div class="od-det" id="od-nakit-g"><input class="od-i" id="oi-nakit-g" type="number" placeholder="Nakit tutar ₺" oninput="ozGuncG()"></div>
@@ -895,7 +866,7 @@ function sablonKaydet(){
   // Geri bildirim
   var btns = document.querySelectorAll('#satirlar .sr-ekle');
   var kaydetBtn = btns[btns.length-1];
-  if(kaydetBtn){ kaydetBtn.innerHTML='✅ Kaydedildi!'; kaydetBtn.style.borderColor='#2e7d52'; setTimeout(function(){ kaydetBtn.innerHTML='<i class="ti ti-device-floppy"></i> Kaydet'; kaydetBtn.style.borderColor=''; },1500); }
+  if(kaydetBtn){kaydetBtn.textContent='✅ Kaydedildi!';kaydetBtn.style.color='#2e7d52';setTimeout(function(){kaydetBtn.innerHTML='<i class="ti ti-device-floppy"></i> Kaydet';kaydetBtn.style.color='';},2000);}
 }
 
 function srSil(b){ b.closest('.sr').remove(); }
@@ -924,12 +895,14 @@ function katSec(el,ad){
   });
   el.classList.add('on');
 
-  if(ad === 'Stoklu Satış'){
+  if(ad==='Stoklu Satış'){
     satirlarDiv.classList.remove('ac');
-    ttrEl.readOnly = false;
-    ttrEl.style.color = '#2e7d52';
-    ttrEl.style.background = '';
-  } else {
+    var sa=document.getElementById('stok-sec-alan');if(sa){sa.style.display='flex';stokAc();}
+    ttrEl.readOnly=false;ttrEl.style.color='#2e7d52';ttrEl.style.background='';
+    return;
+  }
+  var sa2=document.getElementById('stok-sec-alan');if(sa2)sa2.style.display='none';
+  else{
     satirlarDiv.classList.add('ac');
     ttrEl.readOnly = true;
     ttrEl.style.color = '#888';
