@@ -94,6 +94,9 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 .scrl{display:flex!important;flex-direction:column!important;width:100%!important}
 #icerik-gelir,#icerik-gider{flex-direction:column!important;width:100%!important}
 .card,.oz-ust,.sav-btn{width:100%!important;min-width:0!important}
+
+.kat-geri-btn{width:100%;padding:6px 10px;background:#f0f2f5;border:1.5px solid #e0e0e0;border-radius:8px;font-size:11px;font-weight:700;color:#555;cursor:pointer;display:none;align-items:center;gap:6px;margin-bottom:8px}
+.kat-geri-btn.goster{display:flex}
 </style>
 </head><body>
 <div class="phone">
@@ -186,6 +189,9 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 
     <!-- Kategori -->
     <div class="card oz-item" id="oz-kategori" style="position:relative">
+      <button class="kat-geri-btn" id="kat-geri-g" onclick="katGeri()">
+        <i class="ti ti-arrow-left" style="font-size:14px"></i> Kategorilere Dön
+      </button>
       <div class="kat-grid" id="kat-grid">
         <div class="kat-item" onclick="katSec(this,'Satış')" data-oz-kat="Satış"><div class="kat-ico kc1">💰</div><span class="kat-lbl">Satış</span></div>
         <div class="kat-item" onclick="katSec(this,'Stoklu Satış')" data-oz-kat="Stoklu_Satış"><div class="kat-ico kc2">📦</div><span class="kat-lbl">Stoklu Satış</span></div>
@@ -387,6 +393,9 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 
     <!-- Kategori Gider -->
     <div class="card oz-item-g" id="ozg-kategori" style="position:relative">
+      <button class="kat-geri-btn" id="kat-geri-g2" onclick="katGeriG()">
+        <i class="ti ti-arrow-left" style="font-size:14px"></i> Kategorilere Dön
+      </button>
       <div class="kat-grid" id="kat-grid-g">
         <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Stok Alışı')" data-oz-kat-g="Stok_Alisi"><div class="kat-ico kc2">📦</div><span class="kat-lbl">Stok Alışı</span></div>
         <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Hizmet Alımı')" data-oz-kat-g="Hizmet_Alimi"><div class="kat-ico kc3">🔧</div><span class="kat-lbl">Hizmet Alımı</span></div>
@@ -606,6 +615,22 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
   </div>
 </div>
 <script>
+// Stok kayıtlarını temizle (test için)
+function clearStok(){
+  localStorage.removeItem('KAYITLAR_GIDER');
+  localStorage.removeItem('KAYITLAR_SATIS');
+  console.log('Stok ve kayıtlar temizlendi');
+}
+// Otomatik temizle - eski bozuk verileri sil
+(function(){
+  try{
+    var gider=JSON.parse(localStorage.getItem('KAYITLAR_GIDER')||'[]');
+    // Geçersiz kayıtları filtrele
+    var temiz=gider.filter(function(k){return k&&k.id&&k.tarih;});
+    if(temiz.length!==gider.length) localStorage.setItem('KAYITLAR_GIDER',JSON.stringify(temiz));
+  }catch(e){ localStorage.removeItem('KAYITLAR_GIDER'); }
+})();
+
 var OZ_KEY='OZ_SATIS_V5'; var DUZ=false;
 
 var OZ_KEY = 'OZ_SATIS_V5';
@@ -868,41 +893,40 @@ function srSil(b){ b.closest('.sr').remove(); }
 var KAT_LABELS={};
 function katSec(el,ad){
   if(DUZ) return;
-  var satirlarDiv = document.getElementById('satirlar');
-  var ttrEl = document.getElementById('ttr');
+  var satirlarDiv=document.getElementById('satirlar');
+  var ttrEl=document.getElementById('ttr');
+  var geriBtn=document.getElementById('kat-geri-g');
 
-  // Tekrar tıklanınca iptal
-  if(SEL_KAT === ad){
-    SEL_KAT=null; el.classList.remove('on');
-    document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){k.style.display='';});
+  if(SEL_KAT===ad){
+    SEL_KAT=null;
+    if(geriBtn) geriBtn.classList.remove('goster');
+    document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){k.style.display='';k.classList.remove('on');});
     satirlarDiv.classList.remove('ac');
     var sa=document.getElementById('stok-sec-alan'); if(sa) sa.style.display='none';
     ttrEl.readOnly=false; ttrEl.style.color='#2e7d52'; ttrEl.style.background=''; ttrEl.value=''; ttrEl.placeholder='0.00';
+    SEPET=[];
     return;
   }
-
-  SEL_KAT = ad;
-  // Diğer kategorileri gizle, sadece seçileni göster
+  SEL_KAT=ad;
+  if(geriBtn) geriBtn.classList.add('goster');
   document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){
     k.classList.remove('on');
-    k.style.display = (k === el) ? '' : 'none';
+    k.style.display=(k===el)?'':'none';
   });
   el.classList.add('on');
-
-  if(ad === 'Stoklu Satış'){
+  if(ad==='Stoklu Satış'){
     satirlarDiv.classList.remove('ac');
-    var sa=document.getElementById('stok-sec-alan');
-    if(sa){sa.style.display='flex'; stokAc();}
+    var sa2=document.getElementById('stok-sec-alan');
+    if(sa2){sa2.style.display='flex'; stokAc();}
     ttrEl.readOnly=false; ttrEl.style.color='#2e7d52'; ttrEl.style.background='';
     ttrEl.placeholder='Toplam otomatik hesaplanır...';
-    return;
+  } else {
+    var sa3=document.getElementById('stok-sec-alan'); if(sa3) sa3.style.display='none';
+    satirlarDiv.classList.add('ac');
+    ttrEl.readOnly=true; ttrEl.style.color='#888'; ttrEl.style.background='#f5f5f5';
+    tablo(ad);
+    satirTopla();
   }
-  SEL_KAT_G=ad;
-  document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.classList.remove('on');k.style.display=(k===el)?'':'none';});
-  el.classList.add('on');
-  sarDiv.classList.add('ac');
-  ttrEl.readOnly=true; ttrEl.style.color='#888'; ttrEl.style.background='#f5f5f5';
-  tabloG(ad); satirToplaG();
 }
 
 function satirToplaG(){
@@ -1183,18 +1207,28 @@ function katSecG(el,ad){
   if(DUZ_G) return;
   var sarDiv=document.getElementById('satirlar-g');
   var ttrEl=document.getElementById('ttr-g');
+  var geriBtn=document.getElementById('kat-geri-g2');
+
   if(SEL_KAT_G===ad){
-    SEL_KAT_G=null; el.classList.remove('on');
-    document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.style.display='';});
-    sarDiv.classList.remove('ac'); ttrEl.readOnly=false; ttrEl.style.color='#c0392b'; ttrEl.style.background=''; ttrEl.value='';
+    SEL_KAT_G=null;
+    if(geriBtn) geriBtn.classList.remove('goster');
+    document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.style.display='';k.classList.remove('on');});
+    sarDiv.classList.remove('ac');
+    ttrEl.readOnly=false; ttrEl.style.color='#c0392b'; ttrEl.style.background=''; ttrEl.value=''; ttrEl.placeholder='0.00';
     return;
   }
+
   SEL_KAT_G=ad;
-  document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.classList.remove('on');k.style.display=(k===el)?'':'none';});
+  if(geriBtn) geriBtn.classList.add('goster');
+  document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){
+    k.classList.remove('on');
+    k.style.display=(k===el)?'':'none';
+  });
   el.classList.add('on');
   sarDiv.classList.add('ac');
   ttrEl.readOnly=true; ttrEl.style.color='#888'; ttrEl.style.background='#f5f5f5';
-  tabloG(ad); satirToplaG();
+  tabloG(ad);
+  satirToplaG();
 }
 
 function satirToplaG(){
@@ -1299,6 +1333,24 @@ function kaydetG(){
   alert('✅ Kaydedildi!');
 }
 
+
+
+function katGeri(){
+  SEL_KAT=null;
+  document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){k.style.display='';k.classList.remove('on');});
+  document.getElementById('satirlar').classList.remove('ac');
+  var sa=document.getElementById('stok-sec-alan'); if(sa) sa.style.display='none';
+  var ttr=document.getElementById('ttr'); if(ttr){ttr.readOnly=false;ttr.style.color='#2e7d52';ttr.style.background='';ttr.value='';ttr.placeholder='0.00';}
+  var btn=document.getElementById('kat-geri-g'); if(btn) btn.classList.remove('goster');
+  SEPET=[];
+}
+function katGeriG(){
+  SEL_KAT_G=null;
+  document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.style.display='';k.classList.remove('on');});
+  document.getElementById('satirlar-g').classList.remove('ac');
+  var ttr=document.getElementById('ttr-g'); if(ttr){ttr.readOnly=false;ttr.style.color='#c0392b';ttr.style.background='';ttr.value='';ttr.placeholder='0.00';}
+  var btn=document.getElementById('kat-geri-g2'); if(btn) btn.classList.remove('goster');
+}
 
 </script>
 
