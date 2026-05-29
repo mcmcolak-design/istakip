@@ -860,6 +860,7 @@ function katSec(el,ad){
     el.classList.remove('on');
     document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){ k.style.display=''; });
     satirlarDiv.classList.remove('ac');
+    var sa=document.getElementById('stok-sec-alan'); if(sa) sa.style.display='none';
     ttrEl.readOnly = false;
     ttrEl.style.color = '#2e7d52';
     ttrEl.style.background = '';
@@ -877,10 +878,13 @@ function katSec(el,ad){
 
   if(ad === 'Stoklu Satış'){
     satirlarDiv.classList.remove('ac');
-    ttrEl.readOnly = false;
-    ttrEl.style.color = '#2e7d52';
-    ttrEl.style.background = '';
+    var stokAlan=document.getElementById('stok-sec-alan');
+    if(stokAlan){ stokAlan.style.display='block'; stokListeGunc(''); }
+    ttrEl.readOnly=false; ttrEl.style.color='#2e7d52'; ttrEl.style.background='';
+    ttrEl.placeholder='Satış fiyatı girin...';
   } else {
+    var stokAlan2=document.getElementById('stok-sec-alan');
+    if(stokAlan2) stokAlan2.style.display='none';
     satirlarDiv.classList.add('ac');
     ttrEl.readOnly = true;
     ttrEl.style.color = '#888';
