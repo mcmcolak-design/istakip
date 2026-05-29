@@ -781,7 +781,7 @@ function mkSatirEl(kat, ri){
   // İlk sütun: salt okunur "Kategori N"
   var c0 = document.createElement('input');
   c0.className = 'inp'; c0.style.cssText = 'flex:2;font-size:12px;background:#f8f9fa;color:#4a7c8e;font-weight:600';
-  c0.value = kat + ' ' + (ri+1); c0.readOnly = true;
+  c0.value = kat + ' ' + (ri+1);
   row.appendChild(c0);
 
   // Ek sütunlar
@@ -963,7 +963,7 @@ function mkSatirElG(kat,ri){
   var row=document.createElement('div'); row.className='sr'; row.style.marginBottom='5px'; row.dataset.ri=ri;
   var c0=document.createElement('input'); c0.className='inp';
   c0.style.cssText='flex:2;font-size:12px;background:#f8f9fa;color:#c0392b;font-weight:600';
-  c0.value=kat+' '+(ri+1); c0.readOnly=true; row.appendChild(c0);
+  c0.value=kat+' '+(ri+1); row.appendChild(c0);
   d.ekSutunlar.forEach(function(s,si){
     var ci=document.createElement('input'); ci.className='inp'; ci.style.cssText='flex:2;font-size:12px';
     ci.placeholder=s.ad||('Sütun '+(si+2));
@@ -1114,25 +1114,51 @@ function stokFiltre(){ stokListeGunc(document.getElementById('stok-ara').value.t
 function stokListeGunc(q){
   var liste=document.getElementById('stok-liste'); if(!liste) return;
   liste.innerHTML='';
-  var kayitlar=[]; try{kayitlar=JSON.parse(localStorage.getItem('KAYITLAR_GIDER')||'[]');}catch(e){}
+  var kayitlar=[];
+  try{ kayitlar=JSON.parse(localStorage.getItem('KAYITLAR_GIDER')||'[]'); }catch(e){}
+  
   var stoklar=kayitlar.filter(function(k){ return k.kategori==='Stok Alışı'; });
+  
   if(!stoklar.length){
-    liste.innerHTML='<div style="padding:12px;text-align:center;font-size:11px;color:#aaa">Kayıtlı stok yok.<br>Gider ekranından Stok Alışı yapın.</div>';
+    liste.innerHTML='<div style="padding:14px;text-align:center;font-size:11px;color:#aaa">Kayıtlı stok yok.<br><br>Gider ekranı → Stok Alışı → Kaydet yapın.</div>';
     return;
   }
+  
   stoklar.forEach(function(k){
-    var ad='Stok';
-    if(k.degerler&&k.degerler[0]){
-      var d=k.degerler[0];
-      var c0val=document.getElementById('satir-tablosu') ? '' : '';
-      // İlk satırın ilk input değeri
-      if(d.c0) ad=d.c0;
-      else if(d.ek&&d.ek[0]) ad=d.ek[0];
-      else ad='Stok #'+(k.id||'').slice(-4);
-    } else { ad='Stok #'+(k.id||'').slice(-4); }
-    if(q&&!JSON.stringify(k).toLowerCase().includes(q)) return;
-    var item=document.createElement('div'); item.className='popt'; item.style.flexDirection='column'; item.style.alignItems='flex-start';
-    item.innerHTML='<div style="font-size:12px;font-weight:700">📦 '+ad+'</div><div style="font-size:10px;color:#4a7c8e">Alış: ₺'+(k.tutar||0).toLocaleString('tr-TR')+' • '+k.tarih+'</div>';
+    // Ürün adını bul - birden fazla kaynaktan dene
+    var ad = '';
+    // 1. degerler array'inden
+    if(k.degerler && k.degerler[0]){
+      var d0=k.degerler[0];
+      if(d0.ek && d0.ek[0]) ad=d0.ek[0];
+    }
+    // 2. KAT_DURUM_G'dan (canlı tablo verisi)
+    if(!ad && window.KAT_DURUM_G && KAT_DURUM_G['Stok Alışı'] && KAT_DURUM_G['Stok Alışı'].degerler){
+      var gd=KAT_DURUM_G['Stok Alışı'].degerler[0];
+      if(gd && gd.ek && gd.ek[0]) ad=gd.ek[0];
+    }
+    if(!ad) ad='Stok — '+k.tarih;
+    
+    if(q && !JSON.stringify(k).toLowerCase().includes(q)) return;
+    
+    var item=document.createElement('div');
+    item.className='popt';
+    item.style.cssText='flex-direction:column;align-items:flex-start;gap:3px';
+    
+    var detay='';
+    if(k.degerler){
+      k.degerler.slice(0,4).forEach(function(d){
+        if(!d) return;
+        var parts=[];
+        if(d.ek) parts=parts.concat(d.ek.filter(Boolean));
+        if(parts.length) detay+=(detay?'  •  ':'')+parts.join(' - ');
+      });
+    }
+    
+    item.innerHTML='<div style="font-size:12px;font-weight:700;color:#2c3e50">📦 '+ad+'</div>'
+      +(detay?'<div style="font-size:10px;color:#666">'+detay+'</div>':'')
+      +'<div style="font-size:10px;color:#4a7c8e;font-weight:600">₺'+(k.tutar||0).toLocaleString('tr-TR')+' alış  •  '+k.tarih+'</div>';
+    
     (function(kk,aa){ item.onclick=function(){ stokSec(kk,aa); }; })(k,ad);
     liste.appendChild(item);
   });
