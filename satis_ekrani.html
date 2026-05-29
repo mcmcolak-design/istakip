@@ -1006,7 +1006,7 @@ function stokListeGunc(q){
   var kayitlar=[]; try{kayitlar=JSON.parse(localStorage.getItem('KAYITLAR_GIDER')||'[]');}catch(e){}
   var stoklar=kayitlar.filter(function(k){return k.kategori==='Stok Alışı';});
   if(!stoklar.length){
-    liste.innerHTML='<div style="padding:12px;text-align:center;font-size:11px;color:#aaa">Stok yok. Gider → Stok Alışı yapın.</div>';
+    liste.innerHTML='<div style="padding:12px;text-align:center;font-size:11px;color:#aaa">Stok yok.<br>Gider → Stok Alışı yapın.</div>';
     return;
   }
   var bulunan=0;
@@ -1014,20 +1014,37 @@ function stokListeGunc(q){
     if(!kayit.degerler||!kayit.degerler.length) return;
     kayit.degerler.forEach(function(satir,si){
       if(!satir) return;
-      // Tüm değerleri birleştir
-      var tum=[];
-      var ad=satir.c0||(kayit.kategori+' '+(si+1));
-      tum.push(ad);
-      if(satir.ek) satir.ek.filter(Boolean).forEach(function(v){tum.push(v);});
-      var tumStr=tum.join(' ').toLowerCase();
-      if(q&&tumStr.indexOf(q)<0) return;
-      var sepetteVar=SEPET.some(function(s){return s.kayitId===kayit.id&&s.si===si;});
+      // Ürün adı = c0 (kullanıcının yazdığı)
+      var ad = satir.c0 || (kayit.kategori+' '+(si+1));
+      // Ek sütun değerleri
+      var ekler = (satir.ek||[]).filter(Boolean);
+      // Tüm değerleri birleştir - arama için
+      var araStr = [ad].concat(ekler).join(' ').toLowerCase();
+      if(q && araStr.indexOf(q) < 0) return;
+      
+      var sepetteVar = SEPET.some(function(s){return s.kayitId===kayit.id&&s.si===si;});
       var item=document.createElement('div');
-      item.style.cssText='display:flex;align-items:center;gap:6px;padding:7px 9px;background:'+(sepetteVar?'#edf4f7':'#f8f9fa')+';border-radius:8px;border:1.5px solid '+(sepetteVar?'#4a7c8e':'#e0e0e0')+';cursor:pointer';
-      var ekStr=(satir.ek||[]).filter(Boolean).join(' · ');
-      item.innerHTML='<div style="flex:1"><div style="font-size:12px;font-weight:700">'+ad+'</div>'+(ekStr?'<div style="font-size:10px;color:#666">'+ekStr+'</div>':'')+'<div style="font-size:10px;color:#4a7c8e">Alış: ₺'+(satir.tutar||0).toLocaleString('tr-TR')+'</div></div>'+(sepetteVar?'<span style="color:#4a7c8e;font-size:11px;font-weight:700">✓</span>':'<button style="background:#2e7d52;border:none;border-radius:6px;padding:4px 9px;color:#fff;font-size:11px;font-weight:700;cursor:pointer">Seç</button>');
+      item.style.cssText='display:flex;align-items:center;gap:6px;padding:8px 10px;background:'+(sepetteVar?'#edf4f7':'#f8f9fa')+';border-radius:9px;border:1.5px solid '+(sepetteVar?'#4a7c8e':'#e0e0e0');
+      
+      var ekStr = ekler.join(' · ');
+      item.innerHTML=
+        '<div style="flex:1;min-width:0">'
+        +'<div style="font-size:12px;font-weight:700;color:#2c3e50">'+ad+'</div>'
+        +(ekStr?'<div style="font-size:10px;color:#666;margin-top:2px">'+ekStr+'</div>':'')
+        +'<div style="font-size:10px;color:#4a7c8e;margin-top:2px;font-weight:600">Alış: ₺'+(satir.tutar||0).toLocaleString('tr-TR')+'</div>'
+        +'</div>'
+        +(sepetteVar
+          ?'<span style="color:#4a7c8e;font-size:12px;font-weight:700;flex-shrink:0">✓ Eklendi</span>'
+          :'<button style="background:#2e7d52;border:none;border-radius:7px;padding:5px 10px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0">Seç</button>'
+        );
+      
       if(!sepetteVar){
-        (function(k2,s2,a2,e2,t2){item.querySelector('button').onclick=function(e){e.stopPropagation();stokSatiraEkle(k2,s2,a2,e2,t2);};})(kayit,si,ad,ekStr,satir.tutar||0);
+        (function(k2,s2,a2,e2,t2){
+          item.querySelector('button').onclick=function(ev){
+            ev.stopPropagation();
+            stokSatiraEkle(k2,s2,a2,e2,t2);
+          };
+        })(kayit,si,ad,ekStr,satir.tutar||0);
       }
       liste.appendChild(item);
       bulunan++;
