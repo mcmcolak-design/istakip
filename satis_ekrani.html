@@ -95,8 +95,6 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 #icerik-gelir,#icerik-gider{flex-direction:column!important;width:100%!important}
 .card,.oz-ust,.sav-btn{width:100%!important;min-width:0!important}
 
-.kat-geri-btn{width:100%;padding:6px 10px;background:#f0f2f5;border:1.5px solid #e0e0e0;border-radius:8px;font-size:11px;font-weight:700;color:#555;cursor:pointer;display:none;align-items:center;gap:6px;margin-bottom:8px}
-.kat-geri-btn.goster{display:flex}
 </style>
 </head><body>
 <div class="phone">
@@ -189,10 +187,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 
     <!-- Kategori -->
     <div class="card oz-item" id="oz-kategori" style="position:relative">
-      <button class="kat-geri-btn" id="kat-geri-g" onclick="katGeri()">
-        <i class="ti ti-arrow-left" style="font-size:14px"></i> Kategorilere Dön
-      </button>
-      <div class="kat-grid" id="kat-grid">
+<div class="kat-grid" id="kat-grid">
         <div class="kat-item" onclick="katSec(this,'Satış')" data-oz-kat="Satış"><div class="kat-ico kc1">💰</div><span class="kat-lbl">Satış</span></div>
         <div class="kat-item" onclick="katSec(this,'Stoklu Satış')" data-oz-kat="Stoklu_Satış"><div class="kat-ico kc2">📦</div><span class="kat-lbl">Stoklu Satış</span></div>
         <div class="kat-item" onclick="katSec(this,'E-Ticaret')" data-oz-kat="E-Ticaret"><div class="kat-ico kc3">🛍️</div><span class="kat-lbl">E-Ticaret</span></div>
@@ -230,6 +225,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
           </div>
           <input class="inp" placeholder="🔍 Ürün ara... (ad, renk, model, seri no)" id="stok-ara" oninput="stokFiltre()" style="margin-bottom:8px">
           <div id="stok-liste" style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:5px"></div>
+          <button onclick="stokTemizleOnay()" style="margin-top:8px;background:none;border:none;color:#e74c3c;font-size:11px;font-weight:600;cursor:pointer;text-align:center;width:100%">🗑 Tüm Stok Kayıtlarını Sil</button>
         </div>
       </div>
       <div class="satirlar" id="satirlar">
@@ -393,10 +389,7 @@ body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
 
     <!-- Kategori Gider -->
     <div class="card oz-item-g" id="ozg-kategori" style="position:relative">
-      <button class="kat-geri-btn" id="kat-geri-g2" onclick="katGeriG()">
-        <i class="ti ti-arrow-left" style="font-size:14px"></i> Kategorilere Dön
-      </button>
-      <div class="kat-grid" id="kat-grid-g">
+<div class="kat-grid" id="kat-grid-g">
         <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Stok Alışı')" data-oz-kat-g="Stok_Alisi"><div class="kat-ico kc2">📦</div><span class="kat-lbl">Stok Alışı</span></div>
         <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Hizmet Alımı')" data-oz-kat-g="Hizmet_Alimi"><div class="kat-ico kc3">🔧</div><span class="kat-lbl">Hizmet Alımı</span></div>
         <div class="kat-item" onclick="if(!DUZ_G)katSecG(this,'Kira')" data-oz-kat-g="Kira"><div class="kat-ico kc4">🏠</div><span class="kat-lbl">Kira</span></div>
@@ -1335,21 +1328,13 @@ function kaydetG(){
 
 
 
-function katGeri(){
-  SEL_KAT=null;
-  document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){k.style.display='';k.classList.remove('on');});
-  document.getElementById('satirlar').classList.remove('ac');
-  var sa=document.getElementById('stok-sec-alan'); if(sa) sa.style.display='none';
-  var ttr=document.getElementById('ttr'); if(ttr){ttr.readOnly=false;ttr.style.color='#2e7d52';ttr.style.background='';ttr.value='';ttr.placeholder='0.00';}
-  var btn=document.getElementById('kat-geri-g'); if(btn) btn.classList.remove('goster');
-  SEPET=[];
-}
-function katGeriG(){
-  SEL_KAT_G=null;
-  document.querySelectorAll('#kat-grid-g .kat-item').forEach(function(k){k.style.display='';k.classList.remove('on');});
-  document.getElementById('satirlar-g').classList.remove('ac');
-  var ttr=document.getElementById('ttr-g'); if(ttr){ttr.readOnly=false;ttr.style.color='#c0392b';ttr.style.background='';ttr.value='';ttr.placeholder='0.00';}
-  var btn=document.getElementById('kat-geri-g2'); if(btn) btn.classList.remove('goster');
+
+function stokTemizleOnay(){
+  if(!confirm("Tüm stok (gider) kayıtları silinsin mi?")) return;
+  localStorage.removeItem('KAYITLAR_GIDER');
+  var modal=document.getElementById('stok-modal');
+  if(modal) modal.style.display='none';
+  alert("✅ Stok kayıtları temizlendi!");
 }
 
 </script>
