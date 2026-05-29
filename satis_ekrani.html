@@ -875,7 +875,12 @@ function katSec(el,ad){
   }
 
   SEL_KAT=ad;
-  KAT_DURUM[ad]={ekSutunlar:[{ad:''}],satirSayisi:2,degerler:[{c0:'',ek:[],tutar:''},{c0:'',ek:[],tutar:''}]};
+  STOK_SECIM=[];
+  if(ad==='Stoklu Satış'){
+    KAT_DURUM[ad]={ekSutunlar:[{ad:''}],satirSayisi:0,degerler:[]};
+  } else {
+    KAT_DURUM[ad]={ekSutunlar:[{ad:''}],satirSayisi:2,degerler:[{c0:'',ek:[],tutar:''},{c0:'',ek:[],tutar:''}]};
+  }
   document.querySelectorAll('#kat-grid .kat-item').forEach(function(k){
     k.classList.remove('on');
     k.style.display=(k===el)?'':'none';
@@ -1175,6 +1180,7 @@ function dosyaEkle(input,cid){
 }
 
 var SEPET=[];
+var STOK_SECIM=[];
 function stokAc(){SEPET=[];stokSepetGunc();var a=document.getElementById('stok-ara');if(a)a.value='';stokListeGunc('');}
 function togStokModal(){
   var m=document.getElementById('stok-modal');if(!m)return;
@@ -1194,44 +1200,63 @@ function stokListeGunc(q){
   var bulunan=0;
   stk.forEach(function(kayit){
     if(!kayit.degerler||!kayit.degerler.length) return;
-    // Her kayıt bir kart - tüm satırları listeler
     var satirlar=kayit.degerler.filter(Boolean);
-    // Arama - tüm satırlarda ara
-    var tumMetin=satirlar.map(function(d){
-      return [d.c0||''].concat(d.ek||[]).join(' ');
-    }).join(' ').toLowerCase();
+    var tumMetin=satirlar.map(function(d){return [d.c0||''].concat(d.ek||[]).join(' ');}).join(' ').toLowerCase();
     if(q&&tumMetin.indexOf(q)<0) return;
 
+    // Grup kartı - tarih başlığı + her satır ayrı seçilebilir
     var card=document.createElement('div');
-    card.style.cssText='border:1.5px solid #e0e0e0;border-radius:9px;overflow:hidden;margin-bottom:4px';
+    card.style.cssText='border:1.5px solid #e0e0e0;border-radius:9px;overflow:hidden;margin-bottom:6px';
 
-    // Başlık
+    // Tarih başlığı
     var hdr=document.createElement('div');
-    hdr.style.cssText='padding:7px 10px;background:#f8f9fa;display:flex;justify-content:space-between;align-items:center';
-    var tarih=document.createElement('span');
-    tarih.style.cssText='font-size:10px;color:#888';
-    tarih.textContent=kayit.tarih||'';
-    var sayi=document.createElement('span');
-    sayi.style.cssText='font-size:10px;font-weight:700;color:#4a7c8e';
-    sayi.textContent=satirlar.length+' ürün';
-    hdr.appendChild(tarih); hdr.appendChild(sayi);
+    hdr.style.cssText='padding:5px 10px;background:#f0f4f8;display:flex;justify-content:space-between;align-items:center;border-bottom:.5px solid #e0e0e0';
+    var tarihSpan=document.createElement('span');
+    tarihSpan.style.cssText='font-size:10px;color:#4a7c8e;font-weight:700';
+    tarihSpan.textContent='📅 '+(kayit.tarih||'');
+    var sayiSpan=document.createElement('span');
+    sayiSpan.style.cssText='font-size:10px;color:#888';
+    sayiSpan.textContent=satirlar.length+' ürün';
+    hdr.appendChild(tarihSpan); hdr.appendChild(sayiSpan);
     card.appendChild(hdr);
 
-    // Satırları listele
-    satirlar.forEach(function(d){
-      var row=document.createElement('div');
-      row.style.cssText='padding:6px 10px;border-top:.5px solid #f0f0f0;font-size:12px;color:#333;font-weight:600';
+    // Her satır ayrı seçilebilir
+    satirlar.forEach(function(d,si){
       var parts=[d.c0||''].concat((d.ek||[]).filter(Boolean));
-      row.textContent=parts.join(' · ');
+      var urunAdi=parts.join(' · ');
+      if(q&&urunAdi.toLowerCase().indexOf(q)<0&&!tumMetin.includes(q)) {/* göster */}
+
+      var row=document.createElement('div');
+      row.style.cssText='display:flex;align-items:center;gap:6px;padding:7px 10px;border-bottom:.5px solid #f5f5f5';
+
+      var lbl=document.createElement('div');
+      lbl.style.cssText='flex:1;font-size:12px;font-weight:700;color:#333';
+      lbl.textContent=urunAdi;
+
+      var btn=document.createElement('button');
+      btn.textContent='Seç';
+      btn.style.cssText='background:#2e7d52;border:none;border-radius:7px;padding:4px 12px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0';
+
+      // Seçildi mi?
+      var secildi=STOK_SECIM.some(function(s){return s.kayitId===kayit.id&&s.si===si;});
+      if(secildi){
+        btn.textContent='✓';
+        btn.style.background='#4a7c8e';
+      }
+
+      (function(k2,s2,urun,deger){
+        btn.onclick=function(){
+          if(!STOK_SECIM.some(function(s){return s.kayitId===k2.id&&s.si===s2;})){
+            stokSatirSec(k2,s2,urun,deger);
+            btn.textContent='✓'; btn.style.background='#4a7c8e';
+          }
+        };
+      })(kayit,si,urunAdi,d);
+
+      row.appendChild(lbl); row.appendChild(btn);
       card.appendChild(row);
     });
 
-    // Seç butonu
-    var btn=document.createElement('button');
-    btn.style.cssText='width:100%;padding:8px;background:#2e7d52;border:none;color:#fff;font-size:12px;font-weight:700;cursor:pointer;border-top:.5px solid #ddd';
-    btn.textContent='Bu Stoku Sat';
-    (function(k2){btn.onclick=function(){stokSatiraEkle(k2,0,'',0);};})(kayit);
-    card.appendChild(btn);
     liste.appendChild(card);
     bulunan++;
   });
@@ -1327,6 +1352,7 @@ function sifirlaGelir(){
   var ms=document.getElementById('ms-txt');
   if(ms)ms.innerHTML='👤 Müşteri Seç <span style="font-size:9px;color:#aaa;font-weight:400">(isteğe bağlı)</span>';
   SEPET=[];
+  STOK_SECIM=[];
   var sep=document.getElementById('stok-sepet');if(sep)sep.style.display='none';
   var spl=document.getElementById('stok-sepet-liste');if(spl)spl.innerHTML='';
   var tt=document.getElementById('stok-toplam');if(tt)tt.textContent='₺0';
@@ -1354,6 +1380,30 @@ function sifirlaGider(){
   document.querySelectorAll('#icerik-gider input[type=number]').forEach(function(i){if(i.id!=='ttr-g')i.value='';});
   var td=document.getElementById('td-txt');
   if(td) td.innerHTML='🏭 Tedarikçi Seç <span style="font-size:9px;color:#aaa;font-weight:400">(isteğe bağlı)</span>';
+}
+
+
+function stokSatirSec(kayit,si,ad,deger){
+  STOK_SECIM.push({kayitId:kayit.id,si:si,ad:ad,deger:deger});
+  var ekSutunlar=[{ad:''}];
+  if(deger.ek&&deger.ek.length){
+    ekSutunlar=deger.ek.map(function(_,i){return {ad:'Sütun '+(i+2)};});
+  }
+  if(!KAT_DURUM['Stoklu Satış']){
+    KAT_DURUM['Stoklu Satış']={ekSutunlar:ekSutunlar,satirSayisi:0,degerler:[]};
+  }
+  if(KAT_DURUM['Stoklu Satış'].degerler.length===0){
+    KAT_DURUM['Stoklu Satış'].ekSutunlar=ekSutunlar;
+  }
+  KAT_DURUM['Stoklu Satış'].degerler.push({c0:deger.c0||ad,ek:(deger.ek||[]).slice(),tutar:''});
+  KAT_DURUM['Stoklu Satış'].satirSayisi=KAT_DURUM['Stoklu Satış'].degerler.length;
+  tablo('Stoklu Satış');
+  satirTopla();
+}
+
+function stokSatiraEkle(kayit,si,ad,satisF){
+  var satir=kayit.degerler&&kayit.degerler[si]?kayit.degerler[si]:{};
+  stokSatirSec(kayit,si,ad,satir);
 }
 
 </script>
