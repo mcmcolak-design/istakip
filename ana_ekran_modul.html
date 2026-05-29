@@ -1,34 +1,46 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
-body{background:#e0e4e8;display:flex;justify-content:center;align-items:flex-start;gap:20px;padding:24px;flex-wrap:wrap;min-height:100vh}
-.phone{width:280px;background:#f0f2f5;border-radius:28px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.18);border:6px solid #222;flex-shrink:0}
-.hdr{background:#4a7c8e;padding:11px 14px;display:flex;align-items:center;gap:8px}
-.hdr i{color:#fff;font-size:19px;cursor:pointer}
-.hdr-t{color:#fff;font-size:14px;font-weight:700;flex:1;text-align:center}
+body{background:#e0e4e8;min-height:100vh;display:block;padding:20px 0}
+.phone{width:360px;max-width:100%;background:#f0f2f5;border-radius:28px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.18);border:6px solid #222;margin:0 auto}
+.hdr{background:#4a7c8e;padding:11px 14px;display:flex;align-items:center;justify-content:space-between}
+.hdr i{color:#fff;font-size:20px}
+.hdr-t{color:#fff;font-size:16px;font-weight:700;letter-spacing:1.5px}
 .oline{height:3px;background:#f90}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:14px 11px 72px}
-.cat{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:transform .1s}
+.notif{background:#f90;margin:10px 10px 0;border-radius:8px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.notif span{color:#fff;font-size:11px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 12px 80px}
+.cat{display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;transition:transform .1s}
 .cat:active{transform:scale(.92)}
-.ico{width:62px;height:62px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px}
+.ico{width:68px;height:68px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px}
 .lbl{font-size:10px;font-weight:700;color:#2c3a42;text-align:center;line-height:1.3}
 .c1{background:#dbeeff}.c2{background:#fff0db}.c3{background:#dbffed}
 .c4{background:#f5dbff}.c5{background:#ffdbe0}.c6{background:#dbf5ff}
-.c7{background:#fffadb}.c8{background:#e8f5e9}.c9{background:#fce4ec}
-.add-ico{background:#fff;border:2px dashed #f90}
+.add-ico{background:#fff;border:2.5px dashed #f90}
 .add-lbl{color:#c07000}
-.bnav{background:#4a7c8e;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 22px}
-.bnav i{color:#fff;font-size:20px}
-.pill{background:#f90;border-radius:22px;padding:7px 18px;margin-top:-12px;box-shadow:0 3px 8px rgba(255,153,0,.4)}
-.pill i{color:#fff;font-size:18px;display:block}
-.cat-name{background:#fff3e0;border-bottom:1px solid #ffe0b2;padding:7px 14px;font-size:11px;font-weight:700;color:#c07000;display:flex;align-items:center;gap:6px}
-.arrow{display:flex;align-items:center;font-size:32px;color:#4a7c8e;font-weight:700;flex-shrink:0}
+.bnav{background:#4a7c8e;height:58px;display:flex;align-items:center;justify-content:space-around;padding:0 8px}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;flex:1;padding:6px 0}
+.nav-item i{color:rgba(255,255,255,.6);font-size:20px}
+.nav-item span{color:rgba(255,255,255,.5);font-size:9px;font-weight:600}
+.nav-item.on i,.nav-item.on span{color:#f90}
+.nav-center{background:#f90;border-radius:50%;width:46px;height:46px;display:flex;align-items:center;justify-content:center;margin-top:-18px;box-shadow:0 4px 12px rgba(249,144,0,.5)}
+.nav-center i{color:#fff;font-size:22px}
+.modal-bg{background:rgba(0,0,0,.5);padding:16px 0 0;display:none}
+.modal-bg.on{display:block}
+.modal{background:#fff;border-radius:20px 20px 0 0;padding:18px 14px 20px}
+.modal-title{font-size:13px;font-weight:700;color:#333;text-align:center;margin-bottom:12px}
+.m-inp{width:100%;border:1.5px solid #ddd;border-radius:8px;padding:8px 11px;font-size:12px;margin-bottom:10px;outline:none;color:#333}
+.emo-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;justify-content:center}
+.eo{font-size:20px;padding:5px 6px;border-radius:7px;cursor:pointer;border:2px solid transparent}
+.eo.sel{border-color:#f90;background:#fff8ee}
+.mrow{display:flex;gap:8px}
+.mbtn{flex:1;border:none;border-radius:8px;padding:9px;font-size:12px;font-weight:700;cursor:pointer}
+.mbtn.ok{background:#4a7c8e;color:#fff}
+.mbtn.no{background:#f0f2f5;color:#666}
 </style>
 </head><body>
-
-<!-- Ana Ekran -->
 <div class="phone">
   <div class="hdr">
     <i class="ti ti-menu-2"></i>
@@ -36,73 +48,63 @@ body{background:#e0e4e8;display:flex;justify-content:center;align-items:flex-sta
     <i class="ti ti-dots-vertical"></i>
   </div>
   <div class="oline"></div>
-  <div class="grid">
-    <div class="cat" onclick="goster('kendim')"><div class="ico c1">👤</div><span class="lbl">Özel / Kendim</span></div>
-    <div class="cat" onclick="goster('isletme1')"><div class="ico c2">🏪</div><span class="lbl">İşletme 1</span></div>
-    <div class="cat" onclick="goster('isletme2')"><div class="ico c3">🏬</div><span class="lbl">İşletme 2</span></div>
-    <div class="cat" onclick="goster('depo')"><div class="ico c4">🏭</div><span class="lbl">Depo</span></div>
-    <div class="cat" onclick="goster('fabrika')"><div class="ico c5">⚙️</div><span class="lbl">Fabrika</span></div>
-    <div class="cat" onclick="goster('ev')"><div class="ico c6">🏠</div><span class="lbl">Ev / Aile</span></div>
-    <div class="cat"><div class="ico add-ico" style="font-size:28px;color:#f90">+</div><span class="lbl add-lbl">Kategori Ekle</span></div>
-  </div>
-  <div class="bnav">
-    <i class="ti ti-layout-grid"></i>
-    <div class="pill"><i class="ti ti-search"></i></div>
-    <i class="ti ti-settings"></i>
-  </div>
-</div>
-
-<div class="arrow">→</div>
-
-<!-- Alt Modül Ekranı -->
-<div class="phone">
-  <div class="hdr">
-    <i class="ti ti-arrow-left" onclick="geri()"></i>
-    <span class="hdr-t" id="alt-baslik">🏪 İşletme 1</span>
-    <i class="ti ti-dots-vertical"></i>
-  </div>
-  <div class="oline"></div>
-  <div class="cat-name">
-    <i class="ti ti-layout-grid" style="font-size:13px"></i>
-    <span id="alt-etiket">İşletme 1 — Modüller</span>
+  <div class="notif" id="nf" onclick="this.style.display='none'">
+    <span>3 – Bekleyen hatırlatmanız var</span>
+    <i class="ti ti-x" style="color:#fff;font-size:14px"></i>
   </div>
   <div class="grid">
-    <div class="cat"><div class="ico c1">💰</div><span class="lbl">Gelir / Satış Ekle</span></div>
-    <div class="cat"><div class="ico c2">🛒</div><span class="lbl">Gider / Alış Ekle</span></div>
-    <div class="cat"><div class="ico c5">💸</div><span class="lbl">Elden Borç Ekle</span></div>
-    <div class="cat"><div class="ico c3">🤝</div><span class="lbl">Elden Alacak Ekle</span></div>
-    <div class="cat"><div class="ico c4">📈</div><span class="lbl">Varlık / Yatırım</span></div>
-    <div class="cat"><div class="ico c6">🚗</div><span class="lbl">Araç / Ekipman</span></div>
-    <div class="cat"><div class="ico c7">📦</div><span class="lbl">Stok Takip</span></div>
-    <div class="cat"><div class="ico c8">👥</div><span class="lbl">Cari Takip</span></div>
-    <div class="cat"><div class="ico c9">🚚</div><span class="lbl">Kargo Takip</span></div>
-    <div class="cat"><div class="ico add-ico" style="font-size:24px;color:#f90">+</div><span class="lbl add-lbl">Modül Ekle</span></div>
+    <div class="cat" onclick="git('satis_ekrani.html')"><div class="ico c1">👤</div><span class="lbl">Özel / Kendim</span></div>
+    <div class="cat" onclick="git('satis_ekrani.html')"><div class="ico c2">🏪</div><span class="lbl">İşletme 1</span></div>
+    <div class="cat" onclick="git('satis_ekrani.html')"><div class="ico c3">🏬</div><span class="lbl">İşletme 2</span></div>
+    <div class="cat" onclick="git('satis_ekrani.html')"><div class="ico c4">🏭</div><span class="lbl">Depo</span></div>
+    <div class="cat" onclick="git('satis_ekrani.html')"><div class="ico c5">⚙️</div><span class="lbl">Fabrika</span></div>
+    <div class="cat" onclick="git('satis_ekrani.html')"><div class="ico c6">🏠</div><span class="lbl">Ev / Aile</span></div>
+    <div class="cat" onclick="openM()">
+      <div class="ico add-ico" style="font-size:28px;color:#f90">+</div>
+      <span class="lbl add-lbl">Kategori Ekle</span>
+    </div>
   </div>
   <div class="bnav">
-    <i class="ti ti-layout-grid"></i>
-    <div class="pill"><i class="ti ti-search"></i></div>
-    <i class="ti ti-settings"></i>
+    <div class="nav-item on"><i class="ti ti-home"></i><span>Ana</span></div>
+    <div class="nav-item"><i class="ti ti-chart-bar"></i><span>Rapor</span></div>
+    <div class="nav-center"><i class="ti ti-plus"></i></div>
+    <div class="nav-item" onclick="window.location.href='kayitlar_ekrani.html'"><i class="ti ti-list"></i><span>Kayıtlar</span></div>
+    <div class="nav-item"><i class="ti ti-settings"></i><span>Ayarlar</span></div>
+  </div>
+  <div class="modal-bg" id="mb">
+    <div class="modal">
+      <div class="modal-title">Yeni Kategori</div>
+      <input class="m-inp" id="ci" placeholder="Kategori adı...">
+      <div class="emo-row" id="er">
+        <span class="eo" onclick="se(this)">🏢</span><span class="eo" onclick="se(this)">🚗</span>
+        <span class="eo" onclick="se(this)">💼</span><span class="eo" onclick="se(this)">🌿</span>
+        <span class="eo" onclick="se(this)">🛒</span><span class="eo" onclick="se(this)">🎯</span>
+        <span class="eo" onclick="se(this)">📦</span><span class="eo" onclick="se(this)">🏗️</span>
+        <span class="eo" onclick="se(this)">💊</span><span class="eo" onclick="se(this)">🔧</span>
+        <span class="eo" onclick="se(this)">🏦</span><span class="eo" onclick="se(this)">🌾</span>
+      </div>
+      <div class="mrow">
+        <button class="mbtn no" onclick="closeM()">Vazgeç</button>
+        <button class="mbtn ok" onclick="addC()">Ekle</button>
+      </div>
+    </div>
   </div>
 </div>
-
 <script>
-var k={
-  kendim:{ad:'Özel / Kendim',ikon:'👤'},
-  isletme1:{ad:'İşletme 1',ikon:'🏪'},
-  isletme2:{ad:'İşletme 2',ikon:'🏬'},
-  depo:{ad:'Depo',ikon:'🏭'},
-  fabrika:{ad:'Fabrika',ikon:'⚙️'},
-  ev:{ad:'Ev / Aile',ikon:'🏠'}
-};
-function goster(id){
-  window.location.href='isletme_ekrani.html';
-  var c=k[id];
-  document.getElementById('alt-baslik').textContent=c.ikon+' '+c.ad;
-  document.getElementById('alt-etiket').textContent=c.ad+' — Modüller';
-}
-function geri(){
-  document.getElementById('alt-baslik').textContent='Alt Kategoriler';
-  document.getElementById('alt-etiket').textContent='Modüller';
+var emo='🏢',ci2=0;
+var cols=['c1','c2','c3','c4','c5','c6'];
+function git(url){ window.location.href=url; }
+function se(el){ document.querySelectorAll('.eo').forEach(function(e){e.classList.remove('sel');}); el.classList.add('sel'); emo=el.textContent; }
+function openM(){ document.getElementById('mb').classList.add('on'); }
+function closeM(){ document.getElementById('mb').classList.remove('on'); document.getElementById('ci').value=''; document.querySelectorAll('.eo').forEach(function(e){e.classList.remove('sel');}); emo='🏢'; }
+function addC(){
+  var n=document.getElementById('ci').value.trim(); if(!n) return;
+  var g=document.getElementById('grid'); if(!g) return;
+  var last=g.lastElementChild;
+  var d=document.createElement('div'); d.className='cat';
+  d.innerHTML='<div class="ico '+cols[ci2%6]+'">'+emo+'</div><span class="lbl">'+n+'</span>';
+  d.onclick=function(){ git('satis_ekrani.html'); };
+  ci2++; g.insertBefore(d,last); closeM();
 }
 </script>
 </body></html>

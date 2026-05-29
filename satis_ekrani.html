@@ -3,8 +3,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif}
-body{background:#e0e4e8;display:flex;justify-content:center;padding:12px 0;min-height:100vh}
-.phone{width:360px;max-width:100vw;background:#f0f2f5;border-radius:24px;box-shadow:0 6px 24px rgba(0,0,0,.15);border:5px solid #222;overflow:hidden}
+body{background:#e0e4e8;min-height:100vh;display:block;padding:12px 0}
+.phone{width:360px;max-width:100%;background:#f0f2f5;border-radius:24px;box-shadow:0 6px 24px rgba(0,0,0,.15);border:5px solid #222;overflow:hidden;margin:0 auto}
 .hdr{background:#4a7c8e;padding:9px 12px;display:flex;align-items:center;gap:7px}
 .hdr i{color:#fff;font-size:18px;cursor:pointer}
 .hdr-t{color:#fff;font-size:13px;font-weight:700;flex:1;text-align:center}
@@ -90,6 +90,17 @@ body{background:#e0e4e8;display:flex;justify-content:center;padding:12px 0;min-h
 .oz-ust{width:100%;padding:7px 10px;border-radius:9px;border:1.5px solid #c8d8e8;background:#edf4f7;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;color:#4a7c8e}
 .oz-ust.ak{background:#fff3cd;border-color:#f90;color:#c07000}
 .oz-item-btn{position:absolute;border:none;border-radius:4px;padding:2px 6px;font-size:9px;font-weight:700;color:#fff;cursor:pointer}
+
+/* Yatay layout zorla dikey yap */
+.scrl, #icerik-gelir, #icerik-gider {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+}
+.card, .oz-ust, .sav-btn {
+  width: 100% !important;
+  min-width: 0 !important;
+}
 </style>
 </head><body>
 <div class="phone">
